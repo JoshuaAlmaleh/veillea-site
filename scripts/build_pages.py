@@ -166,7 +166,8 @@ def batch2():
             out = ROOT / (sl.lstrip("/") + ".html")
             out.parent.mkdir(parents=True, exist_ok=True)
             md = md_path(src)
-            cr = file_crumbs(src) if src.startswith("batch3/") else [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)]
+            cr = (hub_crumbs(kind, lg, file_crumbs(src)[-1][0], url) if kind in ("sector", "region")
+                  else file_crumbs(src) if src.startswith("batch3/") else [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)]
             print(lg, landing(lg, md, out, url, alts, "sector", cr))
             t = out.read_text(encoding="utf-8")
             t = t.replace('<a href="/fr/" class', f'<a href="{fs}" class', 1).replace('<a href="/en/" class', f'<a href="{es}" class', 1)
@@ -245,6 +246,13 @@ def hubs():
             target = ROOT / path.strip("/") / "index.html"
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(out, encoding="utf-8")
+
+
+def hub_crumbs(kind, lang, name, url):
+    """Home › Secteurs/Sectors (or Régions/Regions) hub › page, for every sector and region page."""
+    hub = HUBS[kind][0 if lang == "fr" else 1]
+    label = {("sector", "fr"): "Secteurs", ("sector", "en"): "Sectors", ("region", "fr"): "Régions", ("region", "en"): "Regions"}[kind, lang]
+    return [("Accueil" if lang == "fr" else "Home", f"{SITE}/{lang}/"), (label, SITE + hub), (name, url)]
 
 
 def hub_links(lang):
@@ -411,7 +419,7 @@ def sectors():
         alts = hreflang(fr_url, en_url)
         for lg, src, sl, url in (("fr", frs, frslug, fr_url), ("en", ens, enslug, en_url)):
             md = SEO / "sectors" / f"{src}.md"
-            print(lg, landing(lg, md, ROOT / lg / f"{sl}.html", url, alts, "sector", [("Veillea", f"{SITE}/{lg}/"), (crumb_name(md), url)]))
+            print(lg, landing(lg, md, ROOT / lg / f"{sl}.html", url, alts, "sector", hub_crumbs(SECTOR_KIND[key], lg, crumb_name(md), url)))
         for f in (ROOT / "fr" / f"{frslug}.html", ROOT / "en" / f"{enslug}.html"):  # FR/EN switch -> counterpart page
             t = f.read_text(encoding="utf-8")
             t = t.replace('<a href="/fr/" class', f'<a href="/fr/{frslug}" class', 1).replace('<a href="/en/" class', f'<a href="/en/{enslug}" class', 1)
