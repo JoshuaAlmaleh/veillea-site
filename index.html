@@ -2,7 +2,18 @@
 <title>Veillea — Veille d'appels d'offres publics / Public tender monitoring</title>
 <meta name="description" content="Veillea: bilingual public tender monitoring for Canadian SMBs. SEAO + CanadaBuys today.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css"></head><body>
+<link rel="stylesheet" href="style.css"><script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Veillea","url":"https://veillea.ca/",
+"applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":["fr-CA","en-CA"],
+"description":"Veille bilingue d'appels d'offres publics canadiens (SEAO, CanadaBuys) pour les PME. Bilingual Canadian public tender monitoring for SMBs.",
+"offers":[
+{"@type":"Offer","name":"Gratuit / Free","price":"0","priceCurrency":"CAD","url":"https://veillea.ca/#pricing"},
+{"@type":"Offer","name":"Solo","price":"29","priceCurrency":"CAD","url":"https://veillea.ca/#pricing","priceSpecification":[{"@type":"UnitPriceSpecification","price":"29","priceCurrency":"CAD","unitCode":"MON","valueAddedTaxIncluded":false},{"@type":"UnitPriceSpecification","price":"290","priceCurrency":"CAD","unitCode":"ANN","valueAddedTaxIncluded":false}]},
+{"@type":"Offer","name":"Équipe / Team","price":"69","priceCurrency":"CAD","url":"https://veillea.ca/#pricing","priceSpecification":[{"@type":"UnitPriceSpecification","price":"69","priceCurrency":"CAD","unitCode":"MON","valueAddedTaxIncluded":false},{"@type":"UnitPriceSpecification","price":"690","priceCurrency":"CAD","unitCode":"ANN","valueAddedTaxIncluded":false}]},
+{"@type":"Offer","name":"Entreprise / Enterprise","price":"199","priceCurrency":"CAD","url":"https://veillea.ca/#pricing","priceSpecification":[{"@type":"UnitPriceSpecification","price":"199","priceCurrency":"CAD","unitCode":"MON","valueAddedTaxIncluded":false,"description":"From / à partir de"},{"@type":"UnitPriceSpecification","price":"1990","priceCurrency":"CAD","unitCode":"ANN","valueAddedTaxIncluded":false}]}
+]}
+</script>
+</head><body>
 <header><div class="wrap nav"><a class="brand" href="#"><span class="seal">V</span>Veillea</a>
 <nav class="links"><a href="#how" data-i="nav_how"></a><a href="#sources" data-i="nav_src"></a><a href="#features" data-i="nav_feat"></a><a href="#pricing" data-i="nav_price"></a><a href="#faq">FAQ</a></nav>
 <div class="lang"><button data-l="fr">FR</button><button data-l="en">EN</button></div><a class="btn" href="#demo" data-i="cta_trial"></a></div></header>
@@ -34,10 +45,9 @@
 <div class="grid g4"><div class="card"><h3 data-i="w1h"></h3><p data-i="w1p"></p></div><div class="card"><h3 data-i="w2h"></h3><p data-i="w2p"></p></div><div class="card"><h3 data-i="w3h"></h3><p data-i="w3p"></p></div><div class="card"><h3 data-i="w4h"></h3><p data-i="w4p"></p></div></div></div></section>
 
 <section id="pricing"><div class="wrap"><div class="eyebrow" data-i="pr_eye"></div><h2 data-i="pr_h"></h2><p class="sub" data-i="pr_p"></p>
-<div class="grid g3">
-<div class="card price"><h3>Solo</h3><div class="amt">29&nbsp;$<span data-i="mo"></span></div><ul data-i="pr1"></ul><a class="btn ghost" href="#demo" data-i="cta_trial"></a></div>
-<div class="card price pop"><h3 data-i="team"></h3><div class="amt">79&nbsp;$<span data-i="mo"></span></div><ul data-i="pr2"></ul><a class="btn" href="#demo" data-i="cta_trial"></a></div>
-<div class="card price"><h3 data-i="ent"></h3><div class="amt" data-i="quote"></div><ul data-i="pr3"></ul><a class="btn ghost" href="#demo" data-i="cta_contact"></a></div></div>
+<div class="ivt" role="group" aria-label="Billing interval"><button data-iv="m" data-i="iv_m"></button><button data-iv="y"><span data-i="iv_y"></span> <em data-i="iv_save"></em></button></div>
+<div class="grid g4 plans" id="plans"></div>
+<h3 class="cmph" data-i="cmp_h"></h3><div class="cmpwrap"><table class="cmp" id="cmp"></table></div>
 <p class="note" data-i="pr_note"></p></div></section>
 
 <section id="faq" class="alt"><div class="wrap" style="max-width:820px"><h2 data-i="faq_h"></h2><div id="faqlist"></div></div></section>

@@ -1,0 +1,142 @@
+{
+  "currency": "CAD",
+  "taxes": "extra",
+  "trial_days": 14,
+  "annual_discount": "2 months free",
+  "live_sources": [
+    "seao",
+    "canadabuys"
+  ],
+  "order": [
+    "free",
+    "solo",
+    "team",
+    "enterprise"
+  ],
+  "plans": [
+    {
+      "key": "free",
+      "name_fr": "Gratuit",
+      "name_en": "Free",
+      "tagline_fr": "Pour essayer la veille SEAO",
+      "tagline_en": "Try SEAO monitoring",
+      "monthly_cad": 0,
+      "annual_cad": 0,
+      "max_profiles": 1,
+      "max_users": 1,
+      "sources": [
+        "seao"
+      ],
+      "frequencies": [
+        "weekly"
+      ],
+      "summaries": false,
+      "history_days": 7,
+      "csv_export": false,
+      "api_access": false,
+      "trial": false,
+      "quote": false,
+      "support_fr": "Centre d'aide",
+      "support_en": "Help centre",
+      "best_frequency": "weekly"
+    },
+    {
+      "key": "solo",
+      "name_fr": "Solo",
+      "name_en": "Solo",
+      "tagline_fr": "Pour l'entrepreneur ou le travailleur autonome",
+      "tagline_en": "For owner-operators",
+      "monthly_cad": 29,
+      "annual_cad": 290,
+      "max_profiles": 3,
+      "max_users": 1,
+      "sources": [
+        "seao",
+        "canadabuys",
+        "merx",
+        "bidsandtenders",
+        "mtl_municipal",
+        "ontario"
+      ],
+      "frequencies": [
+        "weekly",
+        "daily"
+      ],
+      "summaries": true,
+      "history_days": 90,
+      "csv_export": true,
+      "api_access": false,
+      "trial": true,
+      "quote": false,
+      "support_fr": "Soutien par courriel",
+      "support_en": "Email support",
+      "best_frequency": "daily"
+    },
+    {
+      "key": "team",
+      "name_fr": "Équipe",
+      "name_en": "Team",
+      "tagline_fr": "Pour les PME qui soumissionnent régulièrement",
+      "tagline_en": "For SMBs that bid regularly",
+      "monthly_cad": 69,
+      "annual_cad": 690,
+      "max_profiles": 15,
+      "max_users": 5,
+      "sources": [
+        "seao",
+        "canadabuys",
+        "merx",
+        "bidsandtenders",
+        "mtl_municipal",
+        "ontario"
+      ],
+      "frequencies": [
+        "weekly",
+        "daily",
+        "realtime"
+      ],
+      "summaries": true,
+      "history_days": 365,
+      "csv_export": true,
+      "api_access": false,
+      "trial": true,
+      "quote": false,
+      "support_fr": "Soutien prioritaire par courriel",
+      "support_en": "Priority email support",
+      "best_frequency": "realtime"
+    },
+    {
+      "key": "enterprise",
+      "name_fr": "Entreprise",
+      "name_en": "Enterprise",
+      "tagline_fr": "Plusieurs équipes, intégrations, besoins sur mesure",
+      "tagline_en": "Multiple teams, integrations, custom needs",
+      "monthly_cad": 199,
+      "annual_cad": 1990,
+      "max_profiles": null,
+      "max_users": null,
+      "sources": [
+        "seao",
+        "canadabuys",
+        "merx",
+        "bidsandtenders",
+        "mtl_municipal",
+        "ontario"
+      ],
+      "frequencies": [
+        "weekly",
+        "daily",
+        "realtime"
+      ],
+      "summaries": true,
+      "history_days": null,
+      "csv_export": true,
+      "api_access": true,
+      "trial": true,
+      "quote": true,
+      "support_fr": "Accompagnement à la configuration + soutien prioritaire",
+      "support_en": "Guided onboarding + priority support",
+      "best_frequency": "realtime"
+    }
+  ]
+}
