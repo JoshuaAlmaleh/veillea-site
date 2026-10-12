@@ -44,3 +44,5 @@ footer{background:var(--ox);color:#c9aeb2;padding:48px 0;font-size:14px}footer .
 .prose table.cmp{width:100%;border-collapse:collapse;background:var(--card);font-size:14.5px}.prose table.cmp th,.prose table.cmp td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}.prose table.cmp thead th{background:var(--ox);color:#fff}
 .nf{text-align:left;max-width:640px}.nf hr{border:0;border-top:1px solid var(--line);margin:36px 0}
 .shots{margin:40px 0}.shots figure{margin:0 0 28px}.shots figcaption{font-size:13px;color:var(--ink2);margin-top:8px}
+.crumbs{font:13px var(--mono);color:var(--muted);margin:0 0 18px}.crumbs a{color:var(--ink2);text-decoration:none}.crumbs a:hover{color:var(--cu2)}
+.dates{font:13px var(--mono);color:var(--muted);margin:-.2em 0 1.2em}
