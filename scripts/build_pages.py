@@ -23,6 +23,31 @@ L = {
 }
 
 
+# App screenshots: img/<name>.png is French, img/<name>-en.png is English (taken with the app UI in that language).
+# Static pages reference the file for their own language directly in the HTML (no JS swap needed).
+SHOTS = {  # name: (fr alt, en alt)
+    "01_dashboard": ("Tableau de bord Veillea : avis ouverts, échéances de la semaine et nouveaux matches",
+                     "Veillea dashboard: open notices, deadlines this week and new matches"),
+    "08_profile_matches": ("Correspondances classées par score pour un profil, avec résumés FR/EN",
+                           "Matches ranked by score for a profile, with EN/FR summaries"),
+    "04_tender_detail_seao": ("Fiche d'un avis SEAO avec résumé bilingue et score du profil",
+                              "SEAO notice detail with bilingual summary and profile score"),
+    "02_tender_list": ("Liste des avis ouverts avec badges d'échéance", "Open notice list with deadline badges"),
+}
+SHOT_SETS = {"home": ["01_dashboard", "08_profile_matches", "04_tender_detail_seao"], "sector": ["08_profile_matches", "02_tender_list"]}
+
+
+def shot_src(name, lang):
+    return f"/img/{name}{'-en' if lang == 'en' else ''}.png"
+
+
+def shots_html(lang, which="home"):
+    head_ = "Aperçu du produit" if lang == "fr" else "Product screenshots"
+    figs = "".join(f'<figure><img class="shot" src="{shot_src(n, lang)}" alt="{html.escape(SHOTS[n][0 if lang == "fr" else 1])}" loading="lazy">'
+                   f'<figcaption>{html.escape(SHOTS[n][0 if lang == "fr" else 1])}</figcaption></figure>' for n in SHOT_SETS[which])
+    return f'<section class="shots" id="screenshots"><h2>{head_}</h2>{figs}</section>'
+
+
 def signup(lang, plan="free", interval="monthly"):
     return f"{APP_URL}/signup?plan={plan}&amp;interval={interval}&amp;lang={lang}"
 
@@ -67,7 +92,7 @@ def head(lang, title, desc, canonical, extra="", alts=None):
             f'<meta name="twitter:card" content="summary">{FONTS}<link rel="stylesheet" href="/style.css">{ICONS}{extra}</head><body>')
 
 
-def landing(lang, src_path=None, out_path=None, canonical=None, alts=None):
+def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots="home"):
     src = Path(src_path or SEO / f"landing-{lang}.md").read_text(encoding="utf-8")
     src = re.sub(r"\A(\s*<!--.*?-->\s*)+", "", src, flags=re.S)  # strip the source/notes comments at the top
     title = re.search(r"\*\*Title tag[^*]*\*\*\s*(.+)", src).group(1).strip()
@@ -84,6 +109,9 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None):
     # anchors for the plan table and FAQ section
     h = re.sub(r"<h2>([^<]*(?:forfaits|plans|Pricing)[^<]*)</h2>", r'<h2 id="pricing-plans">\1</h2>', h, count=1, flags=re.I)
     h = re.sub(r"<h2>(Questions fréquentes|Frequently asked questions|FAQ[^<]*)</h2>", r'<h2 id="faq">\1</h2>', h, count=1, flags=re.I)
+    # product screenshots in the page's own language, just before the pricing section (or at the end)
+    block = shots_html(lang, shots)
+    h = h.replace('<h2 id="pricing-plans">', block + '<h2 id="pricing-plans">', 1) if 'id="pricing-plans"' in h else h + block
     canonical = canonical or f"{SITE}/{lang}/"
     out = head(lang, title, desc, canonical, f'<script type="application/ld+json">{jsonld}</script>', alts)
     out += header(lang) + f'<main class="landing"><div class="wrap prose">{h}</div></main>' + footer(lang) + "</body></html>\n"
@@ -98,8 +126,8 @@ def sectors():
     for key, frs, frslug, ens, enslug, *_ in SECTORS:
         fr_url, en_url = f"{SITE}/fr/{frslug}", f"{SITE}/en/{enslug}"
         alts = hreflang(fr_url, en_url)
-        print("fr", landing("fr", SEO / "sectors" / f"{frs}.md", ROOT / "fr" / f"{frslug}.html", fr_url, alts))
-        print("en", landing("en", SEO / "sectors" / f"{ens}.md", ROOT / "en" / f"{enslug}.html", en_url, alts))
+        print("fr", landing("fr", SEO / "sectors" / f"{frs}.md", ROOT / "fr" / f"{frslug}.html", fr_url, alts, "sector"))
+        print("en", landing("en", SEO / "sectors" / f"{ens}.md", ROOT / "en" / f"{enslug}.html", en_url, alts, "sector"))
         for f in (ROOT / "fr" / f"{frslug}.html", ROOT / "en" / f"{enslug}.html"):  # FR/EN switch -> counterpart page
             t = f.read_text(encoding="utf-8")
             t = t.replace('<a href="/fr/" class', f'<a href="/fr/{frslug}" class', 1).replace('<a href="/en/" class', f'<a href="/en/{enslug}" class', 1)
@@ -146,6 +174,9 @@ def prerender_root():
     s = re.sub(r'<a ([^>]*?)href="[^"]*"([^>]*?)data-app="(\w+)"(?: data-plan="(\w+)")?',
                lambda m: f'<a {m.group(1)}href="{APP_URL}/login?lang=fr"{m.group(2)}data-app="login"' if m.group(3) == "login"
                else f'<a {m.group(1)}href="{signup("fr", m.group(4) or "team")}"{m.group(2)}data-app="signup" data-plan="{m.group(4) or "team"}"', s)
+    # screenshots: French file + French alt in the static HTML (i18n.js swaps to -en.png and the EN alt)
+    s = re.sub(r'(<img [^>]*\bdata-shot="(\w+)"[^>]*\bdata-alt="(\w+)"[^>]*>)',
+               lambda m: re.sub(r'(?<=\s)alt="[^"]*"', f'alt="{html.escape(fr[m.group(3)])}"', re.sub(r'(?<=\s)src="[^"]*"', f'src="img/{m.group(2)}.png"', m.group(1))), s)
     if 'rel="canonical"' not in s:
         s = s.replace("<title>", f'<link rel="canonical" href="{SITE}/">{HREFLANG}<title>', 1)
     p.write_text(s, encoding="utf-8")
