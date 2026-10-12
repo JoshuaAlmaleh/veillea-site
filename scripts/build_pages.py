@@ -66,7 +66,8 @@ def footer(lang):
     return (f'<footer><div class="wrap grid g3"><div><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a><p>{d["tag"]}</p></div>'
             f'<div><p><b>{"Secteurs" if lang=="fr" else "Sectors"}</b><br>' + " · ".join(
                 f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{"Ressources" if lang=="fr" else "Resources"}</b><br>' + " · ".join(
-                f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + f'</p><p>{d["ind"]}</p></div>'
+                f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + '<br>' + " · ".join(
+                f'<a href="{u}">{t}</a>' for u, t in hub_links(lang)) + f'</p><p>{d["ind"]}</p></div>'
             f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></div></footer>')
 
 
@@ -91,8 +92,47 @@ BATCH2 = [  # (fr source, en source, kind)
 ]
 
 
+# Batch 3 (tender-seo/batch3): sectors, regions, guides. Each file also declares its breadcrumb ("**Fil d'Ariane / Breadcrumb :**").
+BATCH3 = [(f"batch3/{f}", f"batch3/{e}", k) for f, e, k in [
+    ("deneigement-fr", "deneigement-en", "sector"),
+    ("entretien-menager-fr", "entretien-menager-en", "sector"),
+    ("fournitures-equipement-fr", "fournitures-equipement-en", "sector"),
+    ("genie-architecture-fr", "genie-architecture-en", "sector"),
+    ("securite-gardiennage-fr", "securite-gardiennage-en", "sector"),
+    ("services-professionnels-fr", "services-professionnels-en", "sector"),
+    ("transport-fr", "transport-en", "sector"),
+    ("region-quebec-fr", "region-quebec-en", "region"),
+    ("region-laval-fr", "region-laval-en", "region"),
+    ("region-gatineau-fr", "region-gatineau-en", "region"),
+    ("region-longueuil-fr", "region-longueuil-en", "region"),
+    ("region-sherbrooke-fr", "region-sherbrooke-en", "region"),
+    ("region-trois-rivieres-fr", "region-trois-rivieres-en", "region"),
+    ("guide-lire-avis-seao-fr", "guide-read-seao-notice-en", "guide"),
+    ("guide-modes-fr", "guide-modes-en", "guide"),
+    ("guide-neq-rbq-fr", "guide-neq-rbq-en", "guide"),
+    ("guide-autorisation-amp-fr", "guide-amp-authorization-en", "guide"),
+    ("guide-gagner-appel-offres-fr", "guide-how-to-win-tender-en", "guide"),
+]]
+PAGES = BATCH2 + BATCH3
+
+
+def md_path(name):  # "batch3/x" or a bare batch2 name
+    return SEO / f"{name if '/' in name else 'batch2/' + name}.md"
+
+
+def file_crumbs(name):
+    """[(label, absolute url)] from the file's breadcrumb line; the last item is the page itself."""
+    src = md_path(name).read_text(encoding="utf-8")
+    line = re.search(r"\*\*Fil d'Ariane[^*]*\*\*\s*(.+)", src).group(1).strip()
+    out = []
+    for part in [x.strip() for x in line.split(">")]:
+        m = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", part)
+        out.append((m.group(1), SITE + m.group(2)) if m else (part, SITE + b2_slug(name)))
+    return out
+
+
 def b2_slug(name):
-    return re.search(r"\*\*Slug\s*:\*\*\s*`([^`]+)`", (SEO / "batch2" / f"{name}.md").read_text(encoding="utf-8")).group(1)
+    return re.search(r"\*\*Slug\s*:\*\*\s*`([^`]+)`", md_path(name).read_text(encoding="utf-8")).group(1)
 
 
 def crumb_name(md):
@@ -101,7 +141,7 @@ def crumb_name(md):
 
 
 def b2_h1(name):
-    return re.search(r"^# (.+)$", (SEO / "batch2" / f"{name}.md").read_text(encoding="utf-8"), re.M).group(1).strip()
+    return re.search(r"^# (.+)$", md_path(name).read_text(encoding="utf-8"), re.M).group(1).strip()
 
 
 RES_LABELS = {  # short footer labels
@@ -118,55 +158,98 @@ def resources(lang):
 
 
 def batch2():
-    for frs, ens, kind in BATCH2:
+    for frs, ens, kind in PAGES:
         fs, es = b2_slug(frs), b2_slug(ens)
         fr_url, en_url = SITE + fs, SITE + es
         alts = hreflang(fr_url, en_url)
         for lg, src, sl, url in (("fr", frs, fs, fr_url), ("en", ens, es, en_url)):
             out = ROOT / (sl.lstrip("/") + ".html")
             out.parent.mkdir(parents=True, exist_ok=True)
-            md = SEO / "batch2" / f"{src}.md"
-            cr = [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)]
+            md = md_path(src)
+            cr = file_crumbs(src) if src.startswith("batch3/") else [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)]
             print(lg, landing(lg, md, out, url, alts, "sector", cr))
             t = out.read_text(encoding="utf-8")
             t = t.replace('<a href="/fr/" class', f'<a href="{fs}" class', 1).replace('<a href="/en/" class', f'<a href="{es}" class', 1)
             out.write_text(t, encoding="utf-8")
 
 
-HUB = {"fr": ("Guides : appels d'offres publics au Québec | Veillea",
-              "Guides pratiques sur le SEAO, AchatsCanada et les seuils d'appels d'offres au Québec : comment trouver les avis, soumissionner et quoi surveiller.",
-              "Guides pour soumissionner aux appels d'offres publics",
-              "Des guides pratiques, mis à jour, pour comprendre le SEAO, AchatsCanada et les règles des marchés publics au Québec."),
-       "en": ("Guides: Québec & Canada Public Tenders | Veillea",
-              "Practical guides to SEAO, CanadaBuys and Québec tender thresholds: how to find notices, how to bid, and what to watch for, in plain English.",
-              "Guides to bidding on public tenders",
-              "Practical, up-to-date guides to SEAO, CanadaBuys and Québec public procurement rules, in plain English.")}
+HUBS = {  # key: (fr path, en path, fr (title, desc, h1, intro), en (...))
+    "guide": ("/fr/guide/", "/en/guide/",
+              ("Guides : appels d'offres publics au Québec | Veillea",
+               "Guides pratiques sur le SEAO, AchatsCanada et les seuils d'appels d'offres au Québec : comment trouver les avis, soumissionner et quoi surveiller.",
+               "Guides pour soumissionner aux appels d'offres publics",
+               "Des guides pratiques, mis à jour, pour comprendre le SEAO, AchatsCanada et les règles des marchés publics au Québec."),
+              ("Guides: Québec & Canada Public Tenders | Veillea",
+               "Practical guides to SEAO, CanadaBuys and Québec tender thresholds: how to find notices, how to bid, and what to watch for, in plain English.",
+               "Guides to bidding on public tenders",
+               "Practical, up-to-date guides to SEAO, CanadaBuys and Québec public procurement rules, in plain English.")),
+    "sector": ("/fr/secteurs/", "/en/sectors/",
+               ("Appels d'offres par secteur au Québec | Veillea",
+                "Appels d'offres publics au Québec par secteur : construction, TI, entretien ménager, déneigement, génie, transport et plus, via le SEAO et AchatsCanada.",
+                "Appels d'offres par secteur",
+                "Veillea surveille le SEAO et AchatsCanada et classe chaque avis selon votre secteur. Choisissez le vôtre pour voir les acheteurs, les types de contrats et les conseils propres à votre domaine."),
+               ("Quebec Public Tenders by Sector | Veillea",
+                "Québec public tenders by sector: construction, IT, cleaning, snow removal, engineering, transportation and more, from SEAO and CanadaBuys, in English.",
+                "Public tenders by sector",
+                "Veillea monitors SEAO and CanadaBuys and ranks every notice for your line of business. Pick your sector to see the buyers, contract types and tips that apply to it.")),
+    "region": ("/fr/regions/", "/en/regions/",
+               ("Appels d'offres par région au Québec | Veillea",
+                "Appels d'offres publics par région : Montréal, Québec, Laval, Gatineau, Longueuil, Sherbrooke et Trois-Rivières. Veille SEAO et AchatsCanada, dès 0 $.",
+                "Appels d'offres par région",
+                "Les villes et organismes publics de chaque région publient leurs appels d'offres au SEAO. Choisissez votre région pour voir les principaux acheteurs et comment Veillea les surveille."),
+               ("Quebec Public Tenders by Region | Veillea",
+                "Public tenders by Québec region: Montréal, Québec City, Laval, Gatineau, Longueuil, Sherbrooke and Trois-Rivières. SEAO and CanadaBuys, from $0.",
+                "Public tenders by region",
+                "Cities and public bodies in every Québec region post their tenders on SEAO. Pick your region to see the main buyers and how Veillea tracks them, in English.")),
+}
+# the original 8 sector pages: Montréal is a region; construction, IT and Hydro-Québec (energy buyer) go under sectors
+SECTOR_KIND = {"construction": "sector", "hydro": "sector", "it": "sector", "montreal": "region"}
 
 
-def guide_hubs():
-    alts = hreflang(f"{SITE}/fr/guide/", f"{SITE}/en/guide/")
-    for i, lg in enumerate(("fr", "en")):
-        title, desc, h1, intro = HUB[lg]
-        url = f"{SITE}/{lg}/guide/"
-        items = []
-        for x in BATCH2:
-            if x[2] != "guide":
-                continue
-            src = (SEO / "batch2" / f"{x[i]}.md").read_text(encoding="utf-8")
-            d = re.search(r"\*\*Meta description[^*]*\*\*\s*(.+)", src).group(1).strip()
-            items.append((b2_slug(x[i]), b2_h1(x[i]), d))
-        lst = {"@context": "https://schema.org", "@type": "CollectionPage", "name": h1, "url": url, "inLanguage": f"{lg}-CA",
-               "isPartOf": {"@id": f"{SITE}/#website"}, "publisher": {"@id": ORG_ID},
-               "mainEntity": {"@type": "ItemList", "itemListElement": [
-                   {"@type": "ListItem", "position": k, "url": SITE + u, "name": t} for k, (u, t, _) in enumerate(items, 1)]}}
-        crumbs = [("Veillea", f"{SITE}/{lg}/"), ("Guides", url)]
-        body = (crumbs_html(lg, crumbs) + f"<h1>{html.escape(h1)}</h1><p>{html.escape(intro)}</p>"
-                + "".join(f'<h2><a href="{u}">{html.escape(t)}</a></h2><p>{html.escape(d)}</p>' for u, t, d in items))
-        out = head(lg, title, desc, url, ld(lst) + ld(crumbs_ld(crumbs)), alts)
-        out += header(lg) + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lg) + "</body></html>\n"
-        out = out.replace('<a href="/fr/" class', '<a href="/fr/guide/" class', 1).replace('<a href="/en/" class', '<a href="/en/guide/" class', 1)
-        assert "<!--" not in out
-        (ROOT / lg / "guide" / "index.html").write_text(out, encoding="utf-8")
+def meta_desc(md):
+    return re.search(r"\*\*Meta description[^*]*\*\*\s*(.+)", Path(md).read_text(encoding="utf-8")).group(1).strip()
+
+
+def hub_items(key, lang):
+    """[(path, name, description)] for one hub, in display order (original pages first)."""
+    i = 0 if lang == "fr" else 1
+    items = []
+    for k, frs, frslug, ens, enslug, frl, enl in SECTORS:
+        if SECTOR_KIND[k] == key:
+            md = SEO / "sectors" / f"{frs if lang == 'fr' else ens}.md"
+            items.append((f"/{lang}/{frslug if lang == 'fr' else enslug}", frl if lang == "fr" else enl, meta_desc(md)))
+    for x in PAGES:
+        if x[2] == key:
+            n = x[i]
+            name = file_crumbs(n)[-1][0] if n.startswith("batch3/") and key != "guide" else b2_h1(n)
+            items.append((b2_slug(n), name, meta_desc(md_path(n))))
+    return items
+
+
+def hubs():
+    for key, (fp, ep, frt, ent) in HUBS.items():
+        alts = hreflang(SITE + fp, SITE + ep)
+        for lg, path, (title, desc, h1, intro) in (("fr", fp, frt), ("en", ep, ent)):
+            url, items = SITE + path, hub_items(key, lg)
+            lst = {"@context": "https://schema.org", "@type": "CollectionPage", "name": h1, "url": url, "inLanguage": f"{lg}-CA",
+                   "isPartOf": {"@id": f"{SITE}/#website"}, "publisher": {"@id": ORG_ID},
+                   "mainEntity": {"@type": "ItemList", "itemListElement": [
+                       {"@type": "ListItem", "position": k, "url": SITE + u, "name": t} for k, (u, t, _) in enumerate(items, 1)]}}
+            crumbs = [("Veillea", f"{SITE}/{lg}/"), (h1 if key != "guide" else "Guides", url)]
+            body = (crumbs_html(lg, crumbs) + f"<h1>{html.escape(h1)}</h1><p>{html.escape(intro)}</p>"
+                    + "".join(f'<h2><a href="{u}">{html.escape(t)}</a></h2><p>{html.escape(d)}</p>' for u, t, d in items))
+            out = head(lg, title, desc, url, ld(lst) + ld(crumbs_ld(crumbs)), alts)
+            out += header(lg) + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lg) + "</body></html>\n"
+            out = out.replace('<a href="/fr/" class', f'<a href="{fp}" class', 1).replace('<a href="/en/" class', f'<a href="{ep}" class', 1)
+            assert "<!--" not in out
+            target = ROOT / path.strip("/") / "index.html"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(out, encoding="utf-8")
+
+
+def hub_links(lang):
+    lab = {"fr": ("Tous les secteurs", "Toutes les régions", "Tous les guides"), "en": ("All sectors", "All regions", "All guides")}[lang]
+    return [(HUBS[k][0 if lang == "fr" else 1], l) for k, l in zip(("sector", "region", "guide"), lab)]
 
 
 def hreflang(fr_url, en_url):
@@ -276,6 +359,8 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots
     data = json.loads(jsonld)  # validate
     canonical = canonical or f"{SITE}/{lang}/"
     og_type, og_extra, dates = "website", "", ""
+    if crumbs and "@graph" in data:  # breadcrumbs are generated from the file's breadcrumb line (single source)
+        data["@graph"] = [n for n in data["@graph"] if n.get("@type") != "BreadcrumbList"]
     for n in data.get("@graph", [data]):
         if n.get("@type") == "Article":  # guides: image, author url, publisher logo (via #org), full timestamps
             n["datePublished"], n["dateModified"] = iso_dt(n["datePublished"]), iso_dt(n.get("dateModified", n["datePublished"]))
@@ -295,6 +380,8 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots
     if src_path is None:  # /fr/ and /en/ home pages
         blocks += ld(software_ld(lang))
     body = src.split("\n---\n", 1)[1].rsplit("\n---\n", 1)[0]
+    if crumbs:  # the markdown breadcrumb line is replaced by the generated <nav class="crumbs">
+        body = re.sub(r"^\[[^\]]+\]\(/(?:fr|en)/\) >.*\n", "", body, count=1, flags=re.M)
     d = L[lang]
     cta = (f'<p class="ctas"><a class="btn" href="{signup(lang, "free")}">{d["free"]}</a> '
            f'<a class="btn ghost" href="{signup(lang, "team")}">{d["trial"]}</a></p><p class="small">')
@@ -352,13 +439,14 @@ def sitemap():
                     (("fr-CA", f"{SITE}/fr/{frslug}"), ("en-CA", f"{SITE}/en/{enslug}"), ("x-default", f"{SITE}/")))
         urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.8</priority></url>"
                         for u in (f"{SITE}/fr/{frslug}", f"{SITE}/en/{enslug}"))
-    for frs, ens, kind in BATCH2:
+    for frs, ens, kind in PAGES:
         fu, eu = SITE + b2_slug(frs), SITE + b2_slug(ens)
         a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in (("fr-CA", fu), ("en-CA", eu), ("x-default", f"{SITE}/")))
         urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.7</priority></url>" for u in (fu, eu))
-    a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in
-                (("fr-CA", f"{SITE}/fr/guide/"), ("en-CA", f"{SITE}/en/guide/"), ("x-default", f"{SITE}/")))
-    urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.6</priority></url>" for u in (f"{SITE}/fr/guide/", f"{SITE}/en/guide/"))
+    for fp, ep, *_ in HUBS.values():
+        a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in
+                    (("fr-CA", SITE + fp), ("en-CA", SITE + ep), ("x-default", f"{SITE}/")))
+        urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.6</priority></url>" for u in (SITE + fp, SITE + ep))
     urls += f"<url><loc>{SITE}/</loc>{alt}<changefreq>weekly</changefreq><priority>0.8</priority></url>"
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
                                       f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n', encoding="utf-8")
@@ -383,7 +471,9 @@ def prerender_root():
                lambda m: re.sub(r'(?<=\s)alt="[^"]*"', f'alt="{html.escape(fr[m.group(3)])}"', re.sub(r'(?<=\s)src="[^"]*"', f'src="img/{m.group(2)}.png"', m.group(1))), s)
     # Resources links (FR + EN) in the root footer, after the sectors paragraph; regenerated on every build
     res = ('<p class="resources"><b>Ressources</b> : ' + " · ".join(f'<a href="{u}">{t}</a>' for u, t in resources("fr"))
-           + '<br><b lang="en">Resources</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in resources("en")) + "</p>")
+           + '<br><b lang="en">Resources</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in resources("en"))
+           + '<br><b>Explorer</b> : ' + " · ".join(f'<a href="{u}">{t}</a>' for u, t in hub_links("fr"))
+           + '<br><b lang="en">Browse</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in hub_links("en")) + "</p>")
     s = re.sub(r'<p class="resources">.*?</p>', "", s, flags=re.S)
     s = re.sub(r'(<p class="sectors">.*?</p>)', lambda m: m.group(1) + res, s, count=1, flags=re.S)
     # head of / (x-default landing): lang, title, description, canonical + hreflang, OG/Twitter, JSON-LD. Idempotent rewrite.
@@ -408,4 +498,4 @@ def prerender_root():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); guide_hubs(); page_404(); sitemap(); prerender_root(); print("ok")
+    sectors(); batch2(); hubs(); page_404(); sitemap(); prerender_root(); print("ok")
