@@ -65,7 +65,8 @@ def footer(lang):
     d = L[lang]
     return (f'<footer><div class="wrap grid g3"><div><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a><p>{d["tag"]}</p></div>'
             f'<div><p><b>{"Secteurs" if lang=="fr" else "Sectors"}</b><br>' + " · ".join(
-                f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p>{d["ind"]}</p></div>'
+                f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{"Ressources" if lang=="fr" else "Resources"}</b><br>' + " · ".join(
+                f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + f'</p><p>{d["ind"]}</p></div>'
             f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></div></footer>')
 
 
@@ -75,6 +76,54 @@ SECTORS = [  # (key, fr source, fr slug, en source, en slug, fr label, en label)
     ("montreal", "montreal-fr", "appels-offres-montreal", "montreal-en", "montreal-tenders", "Montréal", "Montréal"),
     ("it", "informatique-fr", "appels-offres-informatique-quebec", "it-en", "it-tenders-quebec", "Informatique / TI", "IT & software"),
 ]
+
+
+# Batch 2 (tender-seo/batch2): comparison pages and guides. Each source file declares its slug ("**Slug :** `/fr/...`").
+BATCH2 = [  # (fr source, en source, kind)
+    ("meilleurs-outils-veille-appels-offres-fr", "best-tender-alert-services-canada-en", "roundup"),
+    ("alternative-alertes-seao-fr", "seao-alerts-alternative-en", "compare"),
+    ("alternative-merx-fr", "merx-alternative-en", "compare"),
+    ("alternative-seaoalerte-fr", "seaoalerte-alternative-en", "compare"),
+    ("alternative-tenderscan-fr", "tenderscan-alternative-en", "compare"),
+    ("guide-comment-fonctionne-seao-fr", "guide-how-seao-works-en", "guide"),
+    ("guide-seuils-appels-offres-quebec-fr", "guide-quebec-tender-thresholds-en", "guide"),
+    ("guide-soumissionner-achatscanada-fr", "guide-how-to-bid-canadabuys-en", "guide"),
+]
+
+
+def b2_slug(name):
+    return re.search(r"\*\*Slug\s*:\*\*\s*`([^`]+)`", (SEO / "batch2" / f"{name}.md").read_text(encoding="utf-8")).group(1)
+
+
+def b2_h1(name):
+    return re.search(r"^# (.+)$", (SEO / "batch2" / f"{name}.md").read_text(encoding="utf-8"), re.M).group(1).strip()
+
+
+RES_LABELS = {  # short footer labels
+    "meilleurs-outils-veille-appels-offres-fr": "Comparatif des outils de veille", "best-tender-alert-services-canada-en": "Tender alert services compared",
+    "guide-comment-fonctionne-seao-fr": "Guide du SEAO", "guide-how-seao-works-en": "How SEAO works",
+    "guide-seuils-appels-offres-quebec-fr": "Seuils 2026-2027", "guide-quebec-tender-thresholds-en": "Québec thresholds 2026-2027",
+    "guide-soumissionner-achatscanada-fr": "Soumissionner sur AchatsCanada", "guide-how-to-bid-canadabuys-en": "Bidding on CanadaBuys",
+}
+
+
+def resources(lang):
+    i = 0 if lang == "fr" else 1
+    return [(b2_slug(x[i]), RES_LABELS[x[i]]) for x in BATCH2 if x[2] in ("roundup", "guide")]
+
+
+def batch2():
+    for frs, ens, kind in BATCH2:
+        fs, es = b2_slug(frs), b2_slug(ens)
+        fr_url, en_url = SITE + fs, SITE + es
+        alts = hreflang(fr_url, en_url)
+        for lg, src, sl, url in (("fr", frs, fs, fr_url), ("en", ens, es, en_url)):
+            out = ROOT / (sl.lstrip("/") + ".html")
+            out.parent.mkdir(parents=True, exist_ok=True)
+            print(lg, landing(lg, SEO / "batch2" / f"{src}.md", out, url, alts, "sector"))
+            t = out.read_text(encoding="utf-8")
+            t = t.replace('<a href="/fr/" class', f'<a href="{fs}" class', 1).replace('<a href="/en/" class', f'<a href="{es}" class', 1)
+            out.write_text(t, encoding="utf-8")
 
 
 def hreflang(fr_url, en_url):
@@ -103,7 +152,7 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots
     d = L[lang]
     cta = (f'<p class="ctas"><a class="btn" href="{signup(lang, "free")}">{d["free"]}</a> '
            f'<a class="btn ghost" href="{signup(lang, "team")}">{d["trial"]}</a></p><p class="small">')
-    body = re.sub(r"^\*\*\[([^\]]+)\]\*\*\s*·\s*(.+)$", lambda m: cta + m.group(2) + "</p>", body, flags=re.M)
+    body = re.sub(r"^\*\*\[([^\]]+)\](?:\([^)]*\))?\*\*\s*·\s*(.+)$", lambda m: cta + m.group(2) + "</p>", body, flags=re.M)
     h = markdown.markdown(body, extensions=["tables"], output_format="html")
     h = re.sub(r"<table>", '<div class="cmpwrap"><table class="cmp">', h).replace("</table>", "</table></div>")
     # anchors for the plan table and FAQ section
@@ -155,6 +204,10 @@ def sitemap():
                     (("fr-CA", f"{SITE}/fr/{frslug}"), ("en-CA", f"{SITE}/en/{enslug}"), ("x-default", f"{SITE}/fr/{frslug}")))
         urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.8</priority></url>"
                         for u in (f"{SITE}/fr/{frslug}", f"{SITE}/en/{enslug}"))
+    for frs, ens, kind in BATCH2:
+        fu, eu = SITE + b2_slug(frs), SITE + b2_slug(ens)
+        a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in (("fr-CA", fu), ("en-CA", eu), ("x-default", fu)))
+        urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.7</priority></url>" for u in (fu, eu))
     urls += f"<url><loc>{SITE}/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>"
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
                                       f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n', encoding="utf-8")
@@ -177,6 +230,11 @@ def prerender_root():
     # screenshots: French file + French alt in the static HTML (i18n.js swaps to -en.png and the EN alt)
     s = re.sub(r'(<img [^>]*\bdata-shot="(\w+)"[^>]*\bdata-alt="(\w+)"[^>]*>)',
                lambda m: re.sub(r'(?<=\s)alt="[^"]*"', f'alt="{html.escape(fr[m.group(3)])}"', re.sub(r'(?<=\s)src="[^"]*"', f'src="img/{m.group(2)}.png"', m.group(1))), s)
+    # Resources links (FR + EN) in the root footer, after the sectors paragraph; regenerated on every build
+    res = ('<p class="resources"><b>Ressources</b> : ' + " · ".join(f'<a href="{u}">{t}</a>' for u, t in resources("fr"))
+           + '<br><b lang="en">Resources</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in resources("en")) + "</p>")
+    s = re.sub(r'<p class="resources">.*?</p>', "", s, flags=re.S)
+    s = re.sub(r'(<p class="sectors">.*?</p>)', lambda m: m.group(1) + res, s, count=1, flags=re.S)
     if 'rel="canonical"' not in s:
         s = s.replace("<title>", f'<link rel="canonical" href="{SITE}/">{HREFLANG}<title>', 1)
     p.write_text(s, encoding="utf-8")
@@ -185,4 +243,4 @@ def prerender_root():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); page_404(); sitemap(); prerender_root(); print("ok")
+    sectors(); batch2(); page_404(); sitemap(); prerender_root(); print("ok")
