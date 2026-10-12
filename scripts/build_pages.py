@@ -167,7 +167,7 @@ def batch2():
             out.parent.mkdir(parents=True, exist_ok=True)
             md = md_path(src)
             cr = (hub_crumbs(kind, lg, file_crumbs(src)[-1][0], url) if kind in ("sector", "region")
-                  else file_crumbs(src) if src.startswith("batch3/") else [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)]
+                  else file_crumbs(src) if src.startswith("batch3/") else [("Veillea", f"{SITE}/{lg}/")] + ([("Guides", f"{SITE}/{lg}/guide/")] if kind == "guide" else []) + [(crumb_name(md), url)])
             print(lg, landing(lg, md, out, url, alts, "sector", cr))
             t = out.read_text(encoding="utf-8")
             t = t.replace('<a href="/fr/" class', f'<a href="{fs}" class', 1).replace('<a href="/en/" class', f'<a href="{es}" class', 1)
