@@ -73,7 +73,7 @@ document.querySelectorAll(".ivt button").forEach(b=>b.onclick=()=>{IV=b.dataset.
 function setLang(l){CUR=l;const d=T[l];document.documentElement.lang=l;
 document.querySelectorAll("[data-i]").forEach(e=>{const v=d[e.dataset.i];if(v!==undefined)e.innerHTML=v});
 /* App screenshots: img/<name>.png = FR (default), img/<name>-en.png = EN */
-document.querySelectorAll("img[data-shot]").forEach(i=>{i.src=`img/${i.dataset.shot}${l==="en"?"-en":""}.png`;if(d[i.dataset.alt])i.alt=d[i.dataset.alt]});
+document.querySelectorAll("img[data-shot]").forEach(i=>{i.src=`img/${i.dataset.shot}${l==="en"?"-en":""}.png?v=2`;if(d[i.dataset.alt])i.alt=d[i.dataset.alt]});
 renderPricing(d);document.getElementById("faqlist").innerHTML=d.faq.map(q=>`<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join("");
 document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));try{localStorage.lang=l}catch(e){}}
 document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
