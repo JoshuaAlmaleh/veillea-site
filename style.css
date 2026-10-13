@@ -57,7 +57,7 @@ footer{background:var(--ox);color:#c9aeb2;padding:48px 0;font-size:14px}footer .
 /* Wide layout: content spans the page; text blocks keep a readable measure */
 .wrap{max-width:1600px;padding:0 clamp(20px,4.5vw,80px)}
 .nav{gap:32px}
-.hero{padding-top:72px}.hero h1{max-width:20ch;font-size:clamp(34px,4.4vw,64px)}.hero p.lead{max-width:62ch}
+.hero{padding-top:72px}.hero h1{max-width:30ch;font-size:clamp(34px,4vw,60px)}.hero p.lead{max-width:62ch}
 .hero .shot{margin-top:56px}
 .sub{max-width:70ch}.feat .txt p,.card p,details p{max-width:70ch}
 .feat{gap:clamp(40px,5vw,96px)}
