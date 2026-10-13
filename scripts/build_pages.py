@@ -342,7 +342,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w3">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w4">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),

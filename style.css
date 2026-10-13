@@ -61,8 +61,9 @@ footer{background:var(--ox);color:#c9aeb2;padding:48px 0;font-size:14px}footer .
 .hero .shot{margin-top:56px}
 .sub{max-width:70ch}.feat .txt p,.card p,details p{max-width:70ch}
 .feat{gap:clamp(40px,5vw,96px)}
-@media(min-width:1400px){.grid{gap:28px}.feat{grid-template-columns:1fr 1.7fr}.feat.rev{grid-template-columns:1.7fr 1fr}#sources .g3{grid-template-columns:repeat(3,1fr)}#faq .wrap>details,#faqlist{max-width:1100px}}
+@media(min-width:1400px){.grid{gap:28px}.feat{grid-template-columns:1fr 1.7fr}.feat.rev{grid-template-columns:1.7fr 1fr}#sources .g3{grid-template-columns:repeat(3,1fr)}}
 .prose{max-width:none}.prose>p,.prose>ul,.prose>ol,.prose>h1,.prose>h2,.prose>h3,.prose>blockquote,.prose>details,.prose .crumbs{max-width:72ch}
 .prose .cmpwrap{max-width:1200px}
 @media(min-width:1100px){.shots{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}.shots figure{margin:0}}
 .shots>h2{grid-column:1/-1}
+#faqlist{max-width:none}#faq details p{max-width:110ch}
