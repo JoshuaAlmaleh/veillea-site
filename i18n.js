@@ -89,7 +89,7 @@ const g={ca:[],us:[],other:[]};rows.forEach(s=>{const c=SRC_C[s.id]||"other";g[c
 const has=live.length>0,f=v=>has&&ok(v)?nf.format(v):"—";
 box.querySelector("#trk-all").textContent=has?nf.format(tot.all):"—";
 ["ca","us","other"].forEach(c=>{const col=box.querySelector('.trk-col[data-c="'+c+'"]'),ct=box.querySelector('.trk-cty[data-c="'+c+'"] b');if(ct)ct.textContent=has?nf.format(tot[c]):"—";if(!col)return;col.hidden=!g[c].length;
-g[c].sort((a,b)=>(b.open_total||0)-(a.open_total||0));col.querySelector("tbody").innerHTML=g[c].map(s=>{const n=s.new_24h;return `<tr><th scope="row"><b>${esc(SRC_N[s.id]||s.name||s.id)}</b><small>${esc(d["sd_"+s.id]||"")}</small></th><td>${f(s.open_total)}</td><td class="${has&&ok(n)&&n>0?"pos":""}">${has&&ok(n)?(n>0?"+":"")+nf.format(n):"—"}</td></tr>`}).join("")});
+g[c].sort((a,b)=>(b.open_total||0)-(a.open_total||0));col.querySelector("tbody").innerHTML=g[c].map(s=>{const n=s.new_24h;return `<tr><th scope="row"><b>${esc(SRC_N[s.id]||s.name||s.id)}</b><small>${esc(d["sd_"+s.id]||"")}</small></th><td>${f(s.open_total)}</td><td class="${has&&ok(n)&&n>0?"trk-pos":""}">${has&&ok(n)?(n>0?"+":"")+nf.format(n):"—"}</td></tr>`}).join("")});
 box.querySelector(".trk-up").textContent=has&&last?d.trk_upd+" "+ago(last):"";
 const na=box.querySelector(".trk-na");na.hidden=has||!(TRKF||TRK);box.classList.toggle("trk-off",!has)}
 fetch("https://app.veillea.ca/api/public/stats",{headers:{Accept:"application/json"}}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{TRK=j;trkRender()}).catch(()=>{TRKF=true;trkRender()});
