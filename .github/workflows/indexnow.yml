@@ -1,0 +1,52 @@
+name: IndexNow
+# After GitHub Pages has deployed a push to main (or a weekly-tenders commit, which GITHUB_TOKEN pushes can't trigger directly),
+# submit the URLs whose built HTML changed.
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ["Weekly open-tender pages"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: "Submit the whole sitemap"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  pages: read
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+jobs:
+  submit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 50
+      - name: Wait for Pages to deploy this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(git rev-parse HEAD)
+          for i in $(seq 60); do
+            s=$(gh api repos/${{ github.repository }}/pages/builds/latest --jq '.status+" "+.commit' || true)
+            echo "$s"; [ "$s" = "built $sha" ] && exit 0
+            case "$s" in errored*"$sha") exit 1;; esac
+            sleep 15
+          done
+          echo "Pages not deployed for $sha after 15 min"; exit 1
+      - name: Submit to IndexNow
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.all }}" = "true" ]; then
+            python scripts/indexnow.py --all
+          elif [ "${{ github.event_name }}" = "push" ] && [ -n "${{ github.event.before }}" ] && git cat-file -e "${{ github.event.before }}" 2>/dev/null; then
+            python scripts/indexnow.py --since "${{ github.event.before }}"
+          else
+            python scripts/indexnow.py --since HEAD~1
+          fi

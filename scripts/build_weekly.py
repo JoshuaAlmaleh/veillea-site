@@ -187,17 +187,27 @@ def footer():
     return re.search(r"<footer>.*?</footer>", t, re.S).group(0)
 
 
+MOIS = "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split()
+
+
+def week_label(updated):
+    """Monday of the week of the data refresh (Montréal time), e.g. '12 octobre 2026'. Deterministic for a given refresh."""
+    d = updated.astimezone(TZ).date()
+    m = d - timedelta(days=d.weekday())
+    return f"{'1er' if m.day == 1 else m.day} {MOIS[m.month - 1]} {m.year}"
+
+
 def page(tr, items, updated, data_end):
     url = f"{B.SITE}{HUB}{tr['slug']}"
     n = len(items)
-    title = f"Appels d'offres en {tr['name']} ouverts cette semaine | Veillea"
-    if len(title) > 60:
-        title = f"Appels d'offres {tr['name']} ouverts | Veillea"
-    desc = (f"Appels d'offres SEAO ouverts en {tr['name']} cette semaine : titre, organisme, région, dates de publication "
-            f"et de clôture, lien vers l'avis officiel. Mis à jour chaque semaine.")
-    if len(desc) > 160:
-        desc = f"Appels d'offres SEAO ouverts en {tr['name']} : organisme, région, dates et lien vers l'avis officiel. Mis à jour chaque semaine."
-    assert len(title) <= 60 and 110 <= len(desc) <= 160, (tr["slug"], len(title), len(desc))
+    wk = week_label(updated)
+    title = next(t for t in (f"Appels d'offres {tr['name']}, semaine du {wk} | Veillea", f"Appels d'offres {tr['name']}, semaine du {wk}",
+                             f"AO {tr['name']}, semaine du {wk}") if len(t) <= 60)
+    desc = next(d for d in (
+        f"Appels d'offres SEAO en {tr['name']} ouverts la semaine du {wk} : organisme, ville, dates de clôture et lien vers l'avis officiel.",
+        f"Appels d'offres SEAO en {tr['name']}, semaine du {wk} : organisme, ville, clôture et lien vers l'avis officiel.",
+        f"SEAO, {tr['name']}, semaine du {wk} : appels d'offres ouverts, organismes, dates de clôture.") if len(d) <= 160)
+    assert len(title) <= 60 and 70 <= len(desc) <= 160, (tr["slug"], len(title), len(desc))
     crumbs = [("Accueil", f"{B.SITE}/fr/"), ("Appels d'offres cette semaine", B.SITE + HUB), (tr["label"], url)]
     lds = B.ld(B.crumbs_ld(crumbs))
     if items:
@@ -219,7 +229,7 @@ def page(tr, items, updated, data_end):
            f'les nouveaux appels d\'offres en {tr["name"]} selon vos mots-clés et vos régions. Essai gratuit de 14 jours, sans carte de crédit.</p></div>'
            f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a>'
            f'<a class="btn ghost" href="{B.APP_URL}/signup?plan=free&amp;interval=monthly&amp;lang=fr">Alerte hebdo gratuite</a></p></div>')
-    body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres ouverts en {tr["name"]} cette semaine</h1>'
+    body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres {tr["name"]} — semaine du {wk}</h1>'
             f'<p class="wk-meta">Mis à jour le {fr_date(updated)} · Données ouvertes SEAO jusqu\'au {fr_date(datetime.combine(data_end, datetime.min.time(), TZ))} · '
             f'<b>{n}</b> appel{"s" if n != 1 else ""} d\'offres ouvert{"s" if n != 1 else ""}</p>'
             f'<p>Liste des appels d\'offres publics du SEAO (Québec) encore ouverts dans la catégorie {tr["name"]}, triés par date de clôture. '
@@ -235,14 +245,17 @@ def page(tr, items, updated, data_end):
 
 def hub(counts, updated):
     url = B.SITE + HUB
-    title = "Appels d'offres ouverts cette semaine, par métier | Veillea"
-    desc = ("Appels d'offres SEAO ouverts cette semaine par métier : entretien ménager, toiture, déneigement, construction, "
-            "informatique, etc. Mis à jour chaque lundi.")
+    wk = week_label(updated)
+    title = f"Appels d'offres par métier, semaine du {wk} | Veillea"
+    if len(title) > 60:
+        title = f"Appels d'offres par métier, semaine du {wk}"
+    desc = (f"Appels d'offres SEAO ouverts la semaine du {wk}, par métier : entretien ménager, toiture, déneigement, construction, "
+            "informatique, etc.")
     assert len(title) <= 60 and len(desc) <= 160, (len(title), len(desc))
     crumbs = [("Accueil", f"{B.SITE}/fr/"), ("Appels d'offres cette semaine", url)]
     out = B.head("fr", title, desc, url, B.ld(B.crumbs_ld(crumbs)), f'<link rel="alternate" hreflang="fr-CA" href="{url}">')
     cards = "".join(f'<a class="card wk-card" href="{HUB}{t["slug"]}"><b>{counts[t["slug"]]}</b><span>{t["label"]}</span></a>' for t in TRADES)
-    body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres ouverts cette semaine</h1><p class="wk-meta">Mis à jour le {fr_date(updated)}</p>'
+    body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres ouverts — semaine du {wk}</h1><p class="wk-meta">Mis à jour le {fr_date(updated)}</p>'
             '<p>Les appels d\'offres publics du SEAO encore ouverts, classés par métier. Chaque page liste le titre, l\'organisme, la ville, '
             'les dates de publication et de clôture, avec un lien vers l\'avis officiel.</p>'
             f'<div class="wk-grid">{cards}</div>'
@@ -269,7 +282,7 @@ def main():
         (outdir / f"{t['slug']}.html").write_text(page(t, items, now, data_end), encoding="utf-8")
     counts = {t["slug"]: len(by[t["slug"]]) for t in TRADES}
     (outdir / "index.html").write_text(hub(counts, now), encoding="utf-8")
-    MANIFEST.write_text(json.dumps({"hub": HUB, "pages": [{"slug": t["slug"], "label": t["label"], "sector": t["sector"], "count": counts[t["slug"]]}
+    MANIFEST.write_text(json.dumps({"hub": HUB, "updated": now.astimezone(TZ).date().isoformat(), "week": week_label(now), "pages": [{"slug": t["slug"], "label": t["label"], "sector": t["sector"], "count": counts[t["slug"]]}
                                                        for t in TRADES]}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     if B.SEO.exists():  # the URL set is fixed (TRADES), so the committed sitemap stays valid when sources are absent
         B.sitemap()

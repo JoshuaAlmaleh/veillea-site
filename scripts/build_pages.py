@@ -1,7 +1,9 @@
 """Build static, pre-rendered pages: /fr/, /en/ (from tender-seo landing markdown), 404.html, sitemap.xml,
 robots.txt, and pre-fill the root index.html with static French text (i18n.js still switches languages).
 Run:  python scripts/build_pages.py [--seo-dir ../tender-seo]   (needs `pip install markdown`, node)"""
-import html, json, re, subprocess, sys
+import html, json, os, re, subprocess, sys
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
 import markdown
 
@@ -497,6 +499,22 @@ def page_404():
     (ROOT / "404.html").write_text(out, encoding="utf-8")
 
 
+def lastmod(url):
+    """Weekly pages: date of the SEAO data refresh (manifest). Other pages: git last-commit date (ET) of the built file;
+    if the file differs from HEAD (about to be committed), the date it was last written. Deterministic for a given tree."""
+    path = url[len(SITE):]
+    if WEEKLY and path.startswith(WEEKLY["hub"]) and WEEKLY.get("updated"):
+        return WEEKLY["updated"]
+    rel = "index.html" if path == "/" else path.strip("/") + ("/index.html" if path.endswith("/") else ".html")
+    git = ["git", "-C", str(ROOT)]
+    if subprocess.run(git + ["diff", "--quiet", "HEAD", "--", rel]).returncode == 0:
+        out = subprocess.run(git + ["log", "-1", "--format=%cd", "--date=format-local:%Y-%m-%d", "--", rel],
+                             capture_output=True, text=True, env={**os.environ, "TZ": "America/Toronto"}).stdout.strip()
+        if out:
+            return out
+    return datetime.fromtimestamp((ROOT / rel).stat().st_mtime, ZoneInfo("America/Toronto")).date().isoformat()
+
+
 def sitemap():
     alt = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}/{p}{"/" if p else ""}"/>' for h, p in (("fr-CA", "fr"), ("en-CA", "en"), ("x-default", "")))
     urls = "".join(f"<url><loc>{SITE}/{p}/</loc>{alt}<changefreq>weekly</changefreq><priority>{pr}</priority></url>"
@@ -521,6 +539,7 @@ def sitemap():
         for u in [WEEKLY["hub"]] + [WEEKLY["hub"] + p["slug"] for p in WEEKLY["pages"]]:
             urls += f'<url><loc>{SITE}{u}</loc><xhtml:link rel="alternate" hreflang="fr-CA" href="{SITE}{u}"/><changefreq>weekly</changefreq><priority>0.6</priority></url>'
     urls += f"<url><loc>{SITE}/</loc>{alt}<changefreq>weekly</changefreq><priority>0.8</priority></url>"
+    urls = re.sub(r"<loc>([^<]+)</loc>", lambda m: f"<loc>{m.group(1)}</loc><lastmod>{lastmod(m.group(1))}</lastmod>", urls)
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
                                       f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n', encoding="utf-8")
     (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
