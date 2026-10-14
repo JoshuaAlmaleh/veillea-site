@@ -1,0 +1,65 @@
+{
+ "hub": "/fr/appels-offres-cette-semaine/",
+ "pages": [
+  {
+   "slug": "entretien-menager",
+   "label": "Entretien ménager",
+   "sector": "appels-offres-entretien-menager",
+   "count": 31
+  },
+  {
+   "slug": "toiture",
+   "label": "Toiture",
+   "sector": null,
+   "count": 20
+  },
+  {
+   "slug": "deneigement",
+   "label": "Déneigement",
+   "sector": "appels-offres-deneigement",
+   "count": 35
+  },
+  {
+   "slug": "construction",
+   "label": "Construction",
+   "sector": "appels-offres-construction-quebec",
+   "count": 332
+  },
+  {
+   "slug": "informatique",
+   "label": "Informatique / TI",
+   "sector": "appels-offres-informatique-quebec",
+   "count": 55
+  },
+  {
+   "slug": "securite-gardiennage",
+   "label": "Sécurité / gardiennage",
+   "sector": "appels-offres-securite-gardiennage",
+   "count": 12
+  },
+  {
+   "slug": "transport",
+   "label": "Transport",
+   "sector": "appels-offres-transport",
+   "count": 24
+  },
+  {
+   "slug": "genie-architecture",
+   "label": "Génie / architecture",
+   "sector": "appels-offres-genie-architecture",
+   "count": 116
+  },
+  {
+   "slug": "services-professionnels",
+   "label": "Services professionnels",
+   "sector": "appels-offres-services-professionnels",
+   "count": 85
+  },
+  {
+   "slug": "fournitures",
+   "label": "Fournitures / équipement",
+   "sector": "appels-offres-fournitures-equipement",
+   "count": 334
+  }
+ ]
+}

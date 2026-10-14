@@ -257,7 +257,66 @@ def hub_crumbs(kind, lang, name, url):
 
 def hub_links(lang):
     lab = {"fr": ("Tous les secteurs", "Toutes les régions", "Tous les guides"), "en": ("All sectors", "All regions", "All guides")}[lang]
-    return [(HUBS[k][0 if lang == "fr" else 1], l) for k, l in zip(("sector", "region", "guide"), lab)]
+    out = [(HUBS[k][0 if lang == "fr" else 1], l) for k, l in zip(("sector", "region", "guide"), lab)]
+    out.append(B4["fr" if lang == "fr" else "en"][1:3])
+    if lang == "fr" and WEEKLY:
+        out.append((WEEKLY["hub"], "Appels d'offres cette semaine"))
+    return out
+
+
+# Batch 4 (tender-seo/batch4): "tender scanner" pair. lang: (source, url path, footer label)
+B4 = {"fr": ("batch4/scanner-appels-offres-fr", "/fr/scanner-appels-offres", "Scanner d'appels d'offres"),
+      "en": ("batch4/tender-scanner-en", "/en/tender-scanner", "Tender scanner")}
+# Weekly open-tender pages (FR only), written by scripts/build_weekly.py; the manifest keeps this build reproducible.
+_WM = ROOT / "scripts" / "weekly_manifest.json"
+WEEKLY = json.loads(_WM.read_text(encoding="utf-8")) if _WM.exists() else None
+
+
+def faq_ld(src, lang):
+    sec = re.search(r"^## (?:Frequently asked questions|Questions fréquentes)\s*$(.*?)(?=^## )", src, re.M | re.S).group(1)
+    qa = re.findall(r"^### (.+?)\s*\n(.+?)(?=^### |\Z)", sec, re.M | re.S)
+    clean = lambda x: re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", re.sub(r"\*\*?", "", x)).strip()
+    assert len(qa) >= 3, "FAQ not found"
+    return {"@type": "FAQPage", "inLanguage": f"{lang}-CA", "mainEntity": [
+        {"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(" ".join(a.split()))}} for q, a in qa]}
+
+
+def batch4():
+    import tempfile
+    fr_url, en_url = SITE + B4["fr"][1], SITE + B4["en"][1]
+    alts = hreflang(fr_url, en_url)
+    for lg in ("fr", "en"):
+        name, path, _ = B4[lg]
+        src = md_path(name).read_text(encoding="utf-8")
+        sw = software_ld(lg)
+        sw.pop("@context")
+        sw["url"] = SITE + path
+        data = {"@context": "https://schema.org", "@graph": [faq_ld(src, lg), sw]}
+        with tempfile.TemporaryDirectory() as td:  # JSON-LD built here (from the file's notes), appended after the closing ---
+            tmp = Path(td) / "page.md"
+            tmp.write_text(src + '\n\n<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + "</script>\n", encoding="utf-8")
+            out = ROOT / (path.lstrip("/") + ".html")
+            print(lg, landing(lg, tmp, out, SITE + path, alts, "sector", file_crumbs(name)))
+        t = out.read_text(encoding="utf-8")
+        t = t.replace('<a href="/fr/" class', f'<a href="{B4["fr"][1]}" class', 1).replace('<a href="/en/" class', f'<a href="{B4["en"][1]}" class', 1)
+        out.write_text(t, encoding="utf-8")
+
+
+def weekly_links():
+    """Link each FR sector page to its weekly open-tender page (idempotent: sector pages are regenerated first)."""
+    if not WEEKLY:
+        return
+    for p in WEEKLY["pages"]:
+        if not p["sector"]:
+            continue
+        f = ROOT / "fr" / f"{p['sector']}.html"
+        t = f.read_text(encoding="utf-8")
+        link = (f'<p class="wk-link"><a href="{WEEKLY["hub"]}{p["slug"]}">Voir les appels d\'offres ouverts cette semaine en '
+                f'{html.escape(p["label"].lower())} →</a></p>')
+        t = re.sub(r'<p class="wk-link">.*?</p>', "", t, flags=re.S)
+        t = t.replace("</nav><h1>", "</nav>", 1) if False else t
+        t = re.sub(r"(</h1>)", r"\1" + link.replace("\\", "\\\\"), t, count=1)
+        f.write_text(t, encoding="utf-8")
 
 
 def hreflang(fr_url, en_url):
@@ -342,7 +401,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w6">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w7">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -455,6 +514,12 @@ def sitemap():
         a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in
                     (("fr-CA", SITE + fp), ("en-CA", SITE + ep), ("x-default", f"{SITE}/")))
         urls += "".join(f"<url><loc>{u}</loc>{a}<changefreq>monthly</changefreq><priority>0.6</priority></url>" for u in (SITE + fp, SITE + ep))
+    a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{u}"/>' for h, u in
+                (("fr-CA", SITE + B4["fr"][1]), ("en-CA", SITE + B4["en"][1]), ("x-default", f"{SITE}/")))
+    urls += "".join(f"<url><loc>{SITE + B4[l][1]}</loc>{a}<changefreq>monthly</changefreq><priority>0.8</priority></url>" for l in ("fr", "en"))
+    if WEEKLY:
+        for u in [WEEKLY["hub"]] + [WEEKLY["hub"] + p["slug"] for p in WEEKLY["pages"]]:
+            urls += f'<url><loc>{SITE}{u}</loc><xhtml:link rel="alternate" hreflang="fr-CA" href="{SITE}{u}"/><changefreq>weekly</changefreq><priority>0.6</priority></url>'
     urls += f"<url><loc>{SITE}/</loc>{alt}<changefreq>weekly</changefreq><priority>0.8</priority></url>"
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
                                       f'xmlns:xhtml="http://www.w3.org/1999/xhtml">{urls}</urlset>\n', encoding="utf-8")
@@ -506,4 +571,4 @@ def prerender_root():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); hubs(); page_404(); sitemap(); prerender_root(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); page_404(); sitemap(); prerender_root(); print("ok")
