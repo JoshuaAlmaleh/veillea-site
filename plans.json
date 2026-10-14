@@ -1,6 +1,5 @@
 {
   "currency": "CAD",
-  "taxes": "extra",
   "trial_days": 14,
   "annual_discount": "2 months free",
   "live_sources": [
