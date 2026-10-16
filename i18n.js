@@ -70,7 +70,7 @@ const price=`<tr><td>${IV==="m"?d.iv_m:d.iv_y}</td>${PLANS.map(p=>`<td>${money(I
 document.getElementById("cmp").innerHTML=`<thead><tr><th></th>${h}</tr></thead><tbody>${price}${d.cmp_rows.map(r=>`<tr>${r.map((c,i)=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
 document.querySelectorAll(".ivt button").forEach(b=>b.classList.toggle("on",b.dataset.iv===IV));wireApp();}
 document.querySelectorAll(".ivt button").forEach(b=>b.onclick=()=>{IV=b.dataset.iv;renderPricing(T[CUR])});
-function setLang(l){CUR=l;const d=T[l];document.documentElement.lang=l;
+function setLang(l){CUR=l;document.querySelectorAll("[data-href-"+l+"]").forEach(e=>e.href=e.getAttribute("data-href-"+l));const d=T[l];document.documentElement.lang=l;
 document.querySelectorAll("[data-i]").forEach(e=>{const v=d[e.dataset.i];if(v!==undefined)e.innerHTML=v});
 /* App screenshots: img/<name>.png = FR (default), img/<name>-en.png = EN */
 document.querySelectorAll("img[data-shot]").forEach(i=>{i.src=`img/${i.dataset.shot}${l==="en"?"-en":""}.png?v=2`;if(d[i.dataset.alt])i.alt=d[i.dataset.alt]});
