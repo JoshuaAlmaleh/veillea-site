@@ -40,7 +40,7 @@ Les forfaits et leurs limites sont décrits sur la page des tarifs. Les prix act
 | Équipe | 69 $/mois ou 690 $/an |
 | Entreprise | à partir de 199 $/mois ou 1 990 $/an |
 
-Les prix sont en dollars canadiens. Veillea ne perçoit pas de taxes de vente (TPS/TVQ) pour le moment. Si cela change, nous vous en aviserons avant d'ajouter des taxes. [QUESTION POUR JOSHUA : la page des tarifs de l'application indique encore « taxes en sus ». Elle doit concorder avec ce texte.]
+Les prix sont en dollars canadiens, taxes applicables en sus (TPS, TVQ ou TVH, ou taxe de vente américaine, selon le cas), affichées au paiement.
 
 Nous pouvons modifier les prix moyennant un préavis d'au moins 30 jours par courriel. Un nouveau prix s'applique à partir de votre prochain renouvellement.
 
@@ -50,20 +50,19 @@ Les forfaits payants comprennent un seul essai gratuit de 14 jours par espace de
 
 ## 6. Facturation
 
-Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. En cas d'échec de paiement, le compte peut revenir au forfait Gratuit.
+Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue et n'est pas régularisé, l'accès payant prend fin.
 
 ## 7. Annulation et remboursements
 
-Vous pouvez annuler en tout temps à partir de la page de facturation (portail client Stripe). L'annulation prend effet à la fin de la période payée. Vous gardez l'accès à votre forfait jusque-là, puis le compte revient au forfait Gratuit. Vos profils sont conservés.
+**Annulation.** Vous pouvez annuler en tout temps à partir de la page de facturation (portail client Stripe). L'annulation prend effet à la fin de la période déjà payée : vous gardez l'accès jusque-là. L'accès prend ensuite fin et les données de votre compte sont supprimées, comme le décrit la Politique de confidentialité. Pour fermer votre compte plus tôt, écrivez à bonjour@veillea.ca.
 
-[QUESTION POUR JOSHUA : politique de remboursement. Options :
-- aucun remboursement pour une période entamée;
-- un remboursement au prorata pour les forfaits annuels;
-- un remboursement dans les X jours.
+**Remboursements.** Les frais déjà payés ne sont pas remboursés automatiquement, sauf dans le cas prévu ci-dessous ou par la loi.
 
-Il faut aussi vérifier cette section au regard de la Loi sur la protection du consommateur, pour tout client qui serait un consommateur.]
+**Crédit de service en cas de panne.** Si le Service est indisponible plus de 24 heures consécutives, les clients d'un forfait payant reçoivent un crédit de service :
+- forfait mensuel : le mois suivant gratuit;
+- forfait annuel : une prolongation d'un mois de la période en cours.
 
-Pour fermer complètement votre compte et faire supprimer vos données, écrivez à bonjour@veillea.ca (voir la Politique de confidentialité).
+Pour l'obtenir, écrivez à bonjour@veillea.ca dans les [QUESTION POUR JOSHUA : X] jours suivant la panne, en indiquant la date et l'heure approximative. Ne comptent pas les pannes des sources officielles (par exemple le SEAO ou SAM.gov hors service), l'entretien planifié annoncé à l'avance et les événements hors de notre contrôle raisonnable. [QUESTION POUR JOSHUA : confirmer ces exclusions et un éventuel plafond, p. ex. un crédit par mois.] Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.
 
 ## 8. Utilisation acceptable
 
@@ -82,7 +81,7 @@ Le Service, son logiciel, sa conception, ses résumés et le nom Veillea apparti
 
 ## 10. Disponibilité
 
-Nous visons un Service fiable, sans garantir une disponibilité ininterrompue. Nous pouvons modifier des fonctions, y compris les sources couvertes. Si nous cessons d'offrir le Service, nous donnerons un préavis raisonnable et rembourserons toute période payée d'avance non utilisée. [QUESTION POUR JOSHUA : confirmer cet engagement.]
+Nous visons un Service fiable, sans garantir une disponibilité ininterrompue (voir le crédit de service à l'article 7). Nous pouvons modifier des fonctions, y compris les sources couvertes. Si nous cessons d'offrir le Service, nous donnerons un préavis raisonnable et rembourserons toute période payée d'avance non utilisée. [QUESTION POUR JOSHUA : confirmer cet engagement.]
 
 ## 11. Limitation de responsabilité
 
@@ -98,7 +97,7 @@ Nous pouvons modifier ces conditions. Tout changement important sera annoncé pa
 
 ## 14. Droit applicable
 
-Ces conditions sont régies par les lois du Québec et les lois du Canada qui s'y appliquent. Les tribunaux du district judiciaire de [QUESTION POUR JOSHUA : Montréal? Terrebonne/Vaudreuil, qui couvre Hudson?] (Québec) sont compétents. Cette clause ne prive pas un consommateur de la protection des tribunaux de son lieu de résidence ni des règles impératives de protection du consommateur.
+Ces conditions sont régies par les lois du Québec et les lois du Canada qui s'y appliquent. Les tribunaux du district judiciaire de Beauharnois (palais de justice de Salaberry-de-Valleyfield), au Québec, sont compétents. Cette clause ne prive pas un consommateur de la protection des tribunaux de son lieu de résidence ni des règles impératives de protection du consommateur.
 
 ## 15. Langue
 

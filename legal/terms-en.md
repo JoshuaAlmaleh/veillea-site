@@ -31,7 +31,7 @@ The plans and their limits are described on the pricing page. Current prices are
 | Team | $69/month or $690/year |
 | Enterprise | from $199/month or $1,990/year |
 
-Prices are in Canadian dollars. Veillea does not currently charge sales taxes (GST/QST). If that changes, we will give you notice before taxes are added. [QUESTION FOR JOSHUA: the pricing page in the application still says "taxes extra". It must match this.]
+Prices are in Canadian dollars, plus applicable taxes (GST, QST or HST, or U.S. sales tax, as applicable), shown at checkout.
 
 We may change prices with at least 30 days' notice by email. A new price applies from your next renewal.
 
@@ -41,15 +41,19 @@ The paid plans include one 14-day free trial per workspace, with no credit card 
 
 ## 6. Billing
 
-Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails, the account may return to the Free plan.
+Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails and is not resolved, paid access ends.
 
 ## 7. Cancellation and refunds
 
-You can cancel at any time from the billing page (Stripe customer portal). The cancellation takes effect at the end of the paid period. You keep access to your plan until then, and the account then returns to the Free plan. Your profiles are kept.
+**Cancellation.** You can cancel at any time from the billing page (Stripe customer portal). Cancellation takes effect at the end of the period already paid: you keep access until then. Access then ends and your account data is deleted, as described in the Privacy Policy. To close your account sooner, write to bonjour@veillea.ca.
 
-[QUESTION FOR JOSHUA: refund policy. Options: no refund for a period already started; prorated refund for annual plans; or a refund within X days. This section must also be checked against Quebec's Consumer Protection Act for any customer who is a consumer.]
+**Refunds.** Fees already paid are not refunded automatically, except as provided below or by law.
 
-To close your account entirely and have your data deleted, write to bonjour@veillea.ca (see the Privacy Policy).
+**Service credit for outages.** If the Service is unavailable for more than 24 consecutive hours, customers on a paid plan receive a service credit:
+- monthly plan: the next month free;
+- annual plan: a one-month extension of the current term.
+
+To claim it, write to bonjour@veillea.ca within [QUESTION FOR JOSHUA: X] days of the outage, with the date and approximate time. Outages caused by the official sources (for example SEAO or SAM.gov being down), planned maintenance announced in advance, or events beyond our reasonable control do not count. [QUESTION FOR JOSHUA: confirm these exclusions and whether credits are capped, e.g. one per month.] The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
 
 ## 8. Acceptable use
 
@@ -68,7 +72,7 @@ The Service, its software, design, summaries and the Veillea name belong to Veil
 
 ## 10. Availability
 
-We aim for a reliable Service but do not guarantee uninterrupted availability. We may modify features, including the sources covered. If we discontinue the Service, we will give reasonable notice and refund any prepaid period not used. [QUESTION FOR JOSHUA: confirm this commitment.]
+We aim for a reliable Service but do not guarantee uninterrupted availability (see the service credit in section 7). We may modify features, including the sources covered. If we discontinue the Service, we will give reasonable notice and refund any prepaid period not used. [QUESTION FOR JOSHUA: confirm this commitment.]
 
 ## 11. Limitation of liability
 
@@ -84,7 +88,7 @@ We may change these terms. Significant changes will be announced by email at lea
 
 ## 14. Governing law
 
-These terms are governed by the laws of Quebec and the applicable laws of Canada. The courts of the judicial district of [QUESTION FOR JOSHUA: Montréal? Terrebonne/Vaudreuil, which covers Hudson?], Quebec, have jurisdiction. This does not deprive a consumer of the protection of the courts of their place of residence or of mandatory consumer protection rules.
+These terms are governed by the laws of Quebec and the applicable laws of Canada. The courts of the judicial district of Beauharnois (Salaberry-de-Valleyfield courthouse), Quebec, have jurisdiction. This does not deprive a consumer of the protection of the courts of their place of residence or of mandatory consumer protection rules.
 
 ## 15. Language
 

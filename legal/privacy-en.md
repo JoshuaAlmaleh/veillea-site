@@ -75,9 +75,11 @@ Before such a transfer we assess the protection it will receive, as required by 
 
 ## 7. Retention
 
-We keep account information for as long as your account exists. [QUESTION FOR JOSHUA: the application has no self-serve account deletion and no automatic purge. Decide on a deletion process (for example deletion within 30 days of a written request) and retention periods for closed accounts, logs, and alert history.]
+We keep your personal information while your account is active. It is deleted:
+- when your account is closed (on request to bonjour@veillea.ca), or
+- when your paid access ends after a cancellation. You keep access until the end of the period already paid; your account, profiles and other personal information are then deleted. [QUESTION FOR JOSHUA: deletion delay after that date (e.g. within 30 days, including backups)?]
 
-Billing records are kept as long as tax and accounting laws require (generally 6 years). When a paid subscription ends, the account returns to the Free plan, and your profiles and data are kept until you ask us to delete them.
+Exceptions: payment and billing records are kept by Stripe, and any invoice and accounting records Veillea must keep are retained, for as long as tax and accounting laws require (generally 6 years). [QUESTION FOR JOSHUA: retention period for technical logs and for Free accounts that are inactive?]
 
 ## 8. Your rights
 

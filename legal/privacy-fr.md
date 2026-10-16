@@ -96,9 +96,11 @@ Avant une telle communication, nous évaluons la protection dont les renseigneme
 
 ## 7. Conservation
 
-Nous conservons les renseignements du compte tant que celui-ci existe. [QUESTION POUR JOSHUA : l'application n'offre pas de suppression de compte libre-service, ni de purge automatique. Il faut décider du processus de suppression (par exemple une suppression dans les 30 jours d'une demande écrite) et des durées de conservation pour les comptes fermés, les journaux et l'historique des alertes.]
+Nous conservons vos renseignements personnels tant que votre compte est actif. Ils sont supprimés :
+- à la fermeture de votre compte (sur demande à bonjour@veillea.ca), ou
+- à la fin de votre accès payant après une annulation. Vous gardez l'accès jusqu'à la fin de la période déjà payée; votre compte, vos profils et vos autres renseignements personnels sont ensuite supprimés. [QUESTION POUR JOSHUA : délai de suppression après cette date (p. ex. dans les 30 jours, sauvegardes comprises)?]
 
-Les dossiers de facturation sont conservés aussi longtemps que l'exigent les lois fiscales et comptables, en général 6 ans. À la fin d'un abonnement payant, le compte revient au forfait Gratuit. Vos profils et vos données sont conservés jusqu'à ce que vous demandiez leur suppression.
+Exceptions : les dossiers de paiement et de facturation sont conservés par Stripe, et les factures et registres comptables que Veillea doit garder sont conservés aussi longtemps que l'exigent les lois fiscales et comptables (en général 6 ans). [QUESTION POUR JOSHUA : durée de conservation des journaux techniques et des comptes Gratuits inactifs?]
 
 ## 8. Vos droits
 
