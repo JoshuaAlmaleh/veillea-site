@@ -50,19 +50,26 @@ Les forfaits payants comprennent un seul essai gratuit de 14 jours par espace de
 
 ## 6. Facturation
 
-Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue et n'est pas régularisé, l'accès payant prend fin.
+Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue et n'est pas régularisé, l'abonnement prend fin et le compte est fermé comme le prévoit l'article 7. [QUESTION POUR JOSHUA : confirmer, et le délai de grâce à prévoir dans Stripe pour les paiements échoués.]
 
 ## 7. Annulation et remboursements
 
-**Annulation.** Vous pouvez annuler en tout temps à partir de la page de facturation (portail client Stripe). L'annulation prend effet à la fin de la période déjà payée : vous gardez l'accès jusque-là. L'accès prend ensuite fin et les données de votre compte sont supprimées, comme le décrit la Politique de confidentialité. Pour fermer votre compte plus tôt, écrivez à bonjour@veillea.ca.
+**L'annulation ferme le compte.** Vous pouvez annuler en tout temps à partir de la page de facturation (portail client Stripe). L'annulation d'un forfait payant ferme le compte : vous gardez l'accès jusqu'à la fin de la période déjà payée, et les données de votre compte sont supprimées 7 jours plus tard, comme le décrit la Politique de confidentialité. Le compte ne passe pas au forfait Gratuit. Le forfait Gratuit est réservé aux utilisateurs qui n'ont jamais eu d'abonnement payant.
+
+**Suppression du compte.** Vous pouvez aussi supprimer vous-même votre compte à partir des paramètres du compte. Pour un compte payant, la suppression fonctionne de la même façon : l'abonnement est annulé à la fin de la période déjà payée, et les données sont supprimées 7 jours plus tard. Un compte Gratuit est supprimé dans un délai de 7 jours.
 
 **Remboursements.** Les frais déjà payés ne sont pas remboursés automatiquement, sauf dans le cas prévu ci-dessous ou par la loi.
 
-**Crédit de service en cas de panne.** Si le Service est indisponible plus de 24 heures consécutives, les clients d'un forfait payant reçoivent un crédit de service :
+**Crédit de service en cas de panne.** Si le Service est indisponible plus de 24 heures consécutives, les clients d'un forfait payant reçoivent un crédit de service unique pour cette panne :
 - forfait mensuel : le mois suivant gratuit;
 - forfait annuel : une prolongation d'un mois de la période en cours.
 
-Pour l'obtenir, écrivez à bonjour@veillea.ca dans les [QUESTION POUR JOSHUA : X] jours suivant la panne, en indiquant la date et l'heure approximative. Ne comptent pas les pannes des sources officielles (par exemple le SEAO ou SAM.gov hors service), l'entretien planifié annoncé à l'avance et les événements hors de notre contrôle raisonnable. [QUESTION POUR JOSHUA : confirmer ces exclusions et un éventuel plafond, p. ex. un crédit par mois.] Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.
+Pour l'obtenir, écrivez à bonjour@veillea.ca dans les [QUESTION POUR JOSHUA : X] jours suivant la panne, en indiquant la date et l'heure approximative. Ne comptent pas comme des pannes :
+- l'indisponibilité des sources officielles (par exemple le SEAO ou SAM.gov);
+- l'entretien planifié annoncé à l'avance;
+- les événements hors de notre contrôle raisonnable.
+
+[QUESTION POUR JOSHUA : confirmer ces exclusions.] Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.
 
 ## 8. Utilisation acceptable
 

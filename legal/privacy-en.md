@@ -75,18 +75,20 @@ Before such a transfer we assess the protection it will receive, as required by 
 
 ## 7. Retention
 
-We keep your personal information while your account is active. It is deleted:
-- when your account is closed (on request to bonjour@veillea.ca), or
-- when your paid access ends after a cancellation. You keep access until the end of the period already paid; your account, profiles and other personal information are then deleted. [QUESTION FOR JOSHUA: deletion delay after that date (e.g. within 30 days, including backups)?]
+We keep your personal information while your account is active.
 
-Exceptions: payment and billing records are kept by Stripe, and any invoice and accounting records Veillea must keep are retained, for as long as tax and accounting laws require (generally 6 years). [QUESTION FOR JOSHUA: retention period for technical logs and for Free accounts that are inactive?]
+- **Free accounts** (never paid): kept as long as the account exists, until you delete it.
+- **Paid accounts:** cancelling a paid plan, or deleting your account from your account settings, closes the account. You keep access until the end of the period already paid. Your personal information (account, team members, profiles, alert history) is deleted **7 days after that access ends**.
+- **Free accounts deleted from the account settings** are deleted within 7 days.
+
+Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). [QUESTION FOR JOSHUA: retention period for technical logs and for inactive Free accounts? Are backups purged within the same 7 days?]
 
 ## 8. Your rights
 
 You may:
 - ask to access the personal information we hold about you;
 - have it corrected if it is inaccurate, incomplete or out of date;
-- withdraw your consent (for example by unsubscribing from alerts or closing your account);
+- withdraw your consent (for example by unsubscribing from alerts or deleting your account from your account settings);
 - ask that it be deleted or no longer disseminated, where the law allows;
 - ask for a copy of the information you gave us in a structured, commonly used technological format (portability).
 

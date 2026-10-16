@@ -96,18 +96,20 @@ Avant une telle communication, nous évaluons la protection dont les renseigneme
 
 ## 7. Conservation
 
-Nous conservons vos renseignements personnels tant que votre compte est actif. Ils sont supprimés :
-- à la fermeture de votre compte (sur demande à bonjour@veillea.ca), ou
-- à la fin de votre accès payant après une annulation. Vous gardez l'accès jusqu'à la fin de la période déjà payée; votre compte, vos profils et vos autres renseignements personnels sont ensuite supprimés. [QUESTION POUR JOSHUA : délai de suppression après cette date (p. ex. dans les 30 jours, sauvegardes comprises)?]
+Nous conservons vos renseignements personnels tant que votre compte est actif.
 
-Exceptions : les dossiers de paiement et de facturation sont conservés par Stripe, et les factures et registres comptables que Veillea doit garder sont conservés aussi longtemps que l'exigent les lois fiscales et comptables (en général 6 ans). [QUESTION POUR JOSHUA : durée de conservation des journaux techniques et des comptes Gratuits inactifs?]
+- **Comptes Gratuits** (jamais payants) : conservés tant que le compte existe, jusqu'à ce que vous le supprimiez.
+- **Comptes payants :** l'annulation d'un forfait payant, ou la suppression du compte à partir des paramètres du compte, ferme le compte. Vous gardez l'accès jusqu'à la fin de la période déjà payée. Vos renseignements personnels (compte, membres de l'équipe, profils, historique des alertes) sont supprimés **7 jours après la fin de cet accès**.
+- **Comptes Gratuits supprimés à partir des paramètres** : supprimés dans un délai de 7 jours.
+
+Exceptions : nous conservons un dossier de facturation anonymisé (montants, dates et forfait, sans votre nom ni votre courriel), et Stripe conserve les factures et les données de paiement à des fins fiscales et comptables, aussi longtemps que ces lois l'exigent (en général 6 ans). [QUESTION POUR JOSHUA : durée de conservation des journaux techniques et des comptes Gratuits inactifs? Les sauvegardes sont-elles purgées dans les mêmes 7 jours?]
 
 ## 8. Vos droits
 
 Vous pouvez :
 - demander l'accès aux renseignements personnels que nous détenons sur vous;
 - les faire rectifier s'ils sont inexacts, incomplets ou périmés;
-- retirer votre consentement, par exemple en vous désabonnant des alertes ou en fermant votre compte;
+- retirer votre consentement, par exemple en vous désabonnant des alertes ou en supprimant votre compte à partir des paramètres du compte;
 - demander leur suppression ou la cessation de leur diffusion, dans les cas prévus par la loi;
 - obtenir les renseignements que vous nous avez fournis dans un format technologique structuré et couramment utilisé (portabilité).
 

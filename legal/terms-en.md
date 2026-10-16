@@ -41,19 +41,26 @@ The paid plans include one 14-day free trial per workspace, with no credit card 
 
 ## 6. Billing
 
-Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails and is not resolved, paid access ends.
+Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails and is not resolved, the subscription ends and the account is closed as described in section 7. [QUESTION FOR JOSHUA: confirm, and the grace period Stripe should allow for failed payments.]
 
 ## 7. Cancellation and refunds
 
-**Cancellation.** You can cancel at any time from the billing page (Stripe customer portal). Cancellation takes effect at the end of the period already paid: you keep access until then. Access then ends and your account data is deleted, as described in the Privacy Policy. To close your account sooner, write to bonjour@veillea.ca.
+**Cancellation closes the account.** You can cancel at any time from the billing page (Stripe customer portal). Cancelling a paid plan closes the account: you keep access until the end of the period already paid, and your account data is deleted 7 days after that, as described in the Privacy Policy. The account does not move to the Free plan. The Free plan is for users who have never had a paid subscription.
+
+**Deleting your account.** You can also delete your account yourself from your account settings. For a paid account, this works the same way: the subscription is cancelled at the end of the period already paid, and the data is deleted 7 days later. A Free account is deleted within 7 days.
 
 **Refunds.** Fees already paid are not refunded automatically, except as provided below or by law.
 
-**Service credit for outages.** If the Service is unavailable for more than 24 consecutive hours, customers on a paid plan receive a service credit:
+**Service credit for outages.** If the Service is unavailable for more than 24 consecutive hours, customers on a paid plan receive a one-time service credit for that outage:
 - monthly plan: the next month free;
 - annual plan: a one-month extension of the current term.
 
-To claim it, write to bonjour@veillea.ca within [QUESTION FOR JOSHUA: X] days of the outage, with the date and approximate time. Outages caused by the official sources (for example SEAO or SAM.gov being down), planned maintenance announced in advance, or events beyond our reasonable control do not count. [QUESTION FOR JOSHUA: confirm these exclusions and whether credits are capped, e.g. one per month.] The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
+To claim it, write to bonjour@veillea.ca within [QUESTION FOR JOSHUA: X] days of the outage, with the date and approximate time. These do not count as outages:
+- the official sources being down (for example SEAO or SAM.gov);
+- planned maintenance announced in advance;
+- events beyond our reasonable control.
+
+[QUESTION FOR JOSHUA: confirm these exclusions.] The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
 
 ## 8. Acceptable use
 
