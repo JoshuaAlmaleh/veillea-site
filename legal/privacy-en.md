@@ -50,7 +50,7 @@ We do not sell or rent personal information, and we do not use it for advertisin
 
 Neither site uses analytics, advertising, tracking or error-tracking services.
 
-Both sites load fonts from Google Fonts, so Google receives visitors' IP addresses when a page loads. The live tracker on veillea.ca also contacts app.veillea.ca to fetch public counts.
+No third-party fonts are loaded: both sites serve their own fonts. The live tracker on veillea.ca also contacts app.veillea.ca to fetch public counts.
 
 ## 5. Privacy by default
 
@@ -68,7 +68,6 @@ We use the following processors. They process personal information on our behalf
 | Resend | Transactional and alert emails: recipient addresses and message content | United States |
 | Cloudflare | DNS, the tunnel to our server and the proxy. It sees IP addresses and requests. | Worldwide network |
 | GitHub (Microsoft) | Hosting of the marketing site veillea.ca (GitHub Pages) | United States |
-| Google Fonts | Fonts for the website and the application (IP addresses) | United States |
 
 No artificial intelligence service receives your data. Notice summaries are generated on our own server.
 
@@ -88,7 +87,7 @@ We keep your personal information while your account is active.
 Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). 
 
 **Logs and backups.**
-- Server logs, including IP addresses, are kept up to 30 days. [CONFIRM 30 days]
+- Server logs, including IP addresses, are deleted after 30 days.
 - Expired sessions are deleted.
 - The database is copied every night onto the same server, and each copy is deleted after 14 days. We keep no off-site backups.
 - So deleted data is erased from the live database 7 days after access ends, and is gone from every backup within 14 more days.

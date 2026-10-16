@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SEO = Path(sys.argv[sys.argv.index("--seo-dir") + 1]) if "--seo-dir" in sys.argv else ROOT.parent / "tender-seo"
 SITE = "https://veillea.ca"
 APP_URL = "https://app.veillea.ca"   # keep in sync with APP_URL in i18n.js
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">'
+FONTS = ''  # fonts are self-hosted via @font-face in style.css
 ICONS = '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#3e1a24">'
 HREFLANG = (f'<link rel="alternate" hreflang="fr-CA" href="{SITE}/fr/"><link rel="alternate" hreflang="en-CA" href="{SITE}/en/">'
             f'<link rel="alternate" hreflang="x-default" href="{SITE}/">')  # / is the language-neutral x-default
@@ -408,7 +408,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w10">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w11">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),

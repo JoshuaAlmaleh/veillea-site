@@ -71,7 +71,7 @@ Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utili
 
 Aucun service d'analyse, de publicité, de pistage ou de suivi des erreurs n'est utilisé.
 
-Les deux sites chargent des polices de Google Fonts. Google reçoit donc l'adresse IP des visiteurs au chargement d'une page. Le compteur en direct de veillea.ca interroge aussi app.veillea.ca pour obtenir des chiffres publics.
+Aucune police de tiers n'est chargée : les deux sites servent leurs propres polices. Le compteur en direct de veillea.ca interroge aussi app.veillea.ca pour obtenir des chiffres publics.
 
 ## 5. Confidentialité par défaut
 
@@ -89,7 +89,6 @@ Nous faisons appel aux sous-traitants suivants. Ils traitent des renseignements 
 | Resend | Courriels transactionnels et d'alerte : adresses des destinataires et contenu des messages | États-Unis |
 | Cloudflare | DNS, tunnel vers notre serveur et mandataire (proxy). Il voit les adresses IP et les requêtes. | Réseau mondial |
 | GitHub (Microsoft) | Hébergement du site veillea.ca (GitHub Pages) | États-Unis |
-| Google Fonts | Polices du site et de l'application (adresses IP) | États-Unis |
 
 Aucun service d'intelligence artificielle ne reçoit vos données. Les résumés des avis sont générés sur notre propre serveur.
 
@@ -109,7 +108,7 @@ Nous conservons vos renseignements personnels tant que votre compte est actif.
 Exceptions : nous conservons un dossier de facturation anonymisé (montants, dates et forfait, sans votre nom ni votre courriel), et Stripe conserve les factures et les données de paiement à des fins fiscales et comptables, aussi longtemps que ces lois l'exigent (en général 6 ans). 
 
 **Journaux et sauvegardes.**
-- Les journaux du serveur, adresses IP comprises, sont conservés au plus 30 jours. [CONFIRMER 30 jours]
+- Les journaux du serveur, adresses IP comprises, sont supprimés après 30 jours.
 - Les sessions expirées sont supprimées.
 - La base de données est copiée chaque nuit sur le même serveur, et chaque copie est supprimée après 14 jours. Nous ne faisons aucune sauvegarde hors site.
 - Les données supprimées sont donc effacées de la base active 7 jours après la fin de l'accès, puis disparaissent de toutes les sauvegardes dans les 14 jours suivants.

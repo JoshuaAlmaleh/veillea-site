@@ -40,7 +40,7 @@ Les forfaits et leurs limites sont décrits sur la page des tarifs. Les prix act
 | Équipe | 69 $/mois ou 690 $/an |
 | Entreprise | à partir de 199 $/mois ou 1 990 $/an |
 
-Les prix sont en dollars canadiens, taxes applicables en sus (TPS, TVQ ou TVH, ou taxe de vente américaine, selon le cas), affichées au paiement.
+Les prix sont en dollars canadiens et sont définitifs : Veillea n'est pas inscrite aux fichiers de la TPS/TVQ pour le moment et ne perçoit aucune taxe de vente. Si Veillea s'inscrit, les taxes applicables seront ajoutées après un préavis.
 
 Nous pouvons modifier les prix moyennant un préavis d'au moins 30 jours par courriel. Un nouveau prix s'applique à partir de votre prochain renouvellement.
 
