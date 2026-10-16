@@ -64,12 +64,7 @@ Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Str
 - forfait mensuel : le mois suivant gratuit;
 - forfait annuel : une prolongation d'un mois de la période en cours.
 
-Pour l'obtenir, écrivez à bonjour@veillea.ca dans les [QUESTION POUR JOSHUA : X] jours suivant la panne, en indiquant la date et l'heure approximative. Ne comptent pas comme des pannes :
-- l'indisponibilité des sources officielles (par exemple le SEAO ou SAM.gov);
-- l'entretien planifié annoncé à l'avance;
-- les événements hors de notre contrôle raisonnable.
-
-[QUESTION POUR JOSHUA : confirmer ces exclusions.] Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.
+Pour l'obtenir, écrivez à bonjour@veillea.ca dans les 30 jours suivant la panne, en indiquant la date et l'heure approximative. Le crédit s'applique à toute indisponibilité de plus de 24 heures consécutives, quelle qu'en soit la cause. Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.
 
 ## 8. Utilisation acceptable
 

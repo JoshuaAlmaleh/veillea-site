@@ -59,7 +59,7 @@ Nous utilisons ces renseignements pour :
 - surveiller le Service, prévenir les abus et corriger les problèmes. Le propriétaire reçoit des avis internes sur les inscriptions et les changements d'abonnement;
 - respecter nos obligations légales, par exemple la tenue des registres comptables.
 
-Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utilisons pas à des fins publicitaires. [QUESTION POUR JOSHUA : confirmer qu'aucun courriel de marketing ou infolettre n'est envoyé aux utilisateurs. Sinon, il faut un consentement distinct au sens de la Loi canadienne anti-pourriel (LCAP).]
+Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utilisons pas à des fins publicitaires. Nous n'envoyons que des alertes d'appels d'offres et des courriels liés au Service et au compte. Nous n'envoyons ni courriels de marketing ni infolettre.
 
 ## 4. Témoins et technologies semblables
 

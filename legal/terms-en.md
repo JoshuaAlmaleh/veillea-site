@@ -55,12 +55,7 @@ Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and
 - monthly plan: the next month free;
 - annual plan: a one-month extension of the current term.
 
-To claim it, write to bonjour@veillea.ca within [QUESTION FOR JOSHUA: X] days of the outage, with the date and approximate time. These do not count as outages:
-- the official sources being down (for example SEAO or SAM.gov);
-- planned maintenance announced in advance;
-- events beyond our reasonable control.
-
-[QUESTION FOR JOSHUA: confirm these exclusions.] The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
+To claim it, write to bonjour@veillea.ca within 30 days of the outage, with the date and approximate time. The credit applies to any unavailability of more than 24 consecutive hours, whatever the cause. The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
 
 ## 8. Acceptable use
 

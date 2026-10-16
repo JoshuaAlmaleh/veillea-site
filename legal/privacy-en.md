@@ -38,7 +38,7 @@ We do not collect sensitive personal information, and the Service is not intende
 - To monitor the Service, prevent abuse and fix problems. The owner receives internal notices about sign-ups and subscription changes.
 - To meet our legal obligations (for example accounting records).
 
-We do not sell or rent personal information, and we do not use it for advertising. [QUESTION FOR JOSHUA: confirm that no marketing or newsletter emails are sent to users. If they will be, we need a separate opt-in consent under Canada's anti-spam law (CASL).]
+We do not sell or rent personal information, and we do not use it for advertising. We send only tender alerts and service and account emails. We do not send marketing emails or newsletters.
 
 ## 4. Cookies and similar technologies
 
