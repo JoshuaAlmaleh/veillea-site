@@ -79,7 +79,7 @@ Before such a transfer we assess the protection it will receive, as required by 
 
 We keep your personal information while your account is active.
 
-- **Free accounts** (never paid): kept as long as the account exists, until you delete it.
+- **Free accounts** (never paid): kept until you delete the account, or until 12 months without a login, after which the account and its personal information are deleted.
 - **Paid accounts:** cancelling a paid plan, or deleting your account from your account settings, closes the account. You keep access until the end of the period already paid. Your personal information (account, team members, profiles, alert history) is deleted **7 days after that access ends**.
 - **Failed payment:** if a payment is still unpaid after a 7-day grace period, the account is closed, and its personal information is deleted 7 days later.
 - **Free accounts deleted from the account settings** are deleted within 7 days.
@@ -91,8 +91,6 @@ Exceptions: we keep an anonymised billing record (amounts, dates and plan, witho
 - Expired sessions are deleted.
 - The database is copied every night onto the same server, and each copy is deleted after 14 days. We keep no off-site backups.
 - So deleted data is erased from the live database 7 days after access ends, and is gone from every backup within 14 more days.
-
-[QUESTION FOR JOSHUA: retention for inactive Free accounts (kept until deleted, or deleted after X months of inactivity)?]
 
 ## 8. Your rights
 

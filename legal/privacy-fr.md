@@ -100,7 +100,7 @@ Avant une telle communication, nous évaluons la protection dont les renseigneme
 
 Nous conservons vos renseignements personnels tant que votre compte est actif.
 
-- **Comptes Gratuits** (jamais payants) : conservés tant que le compte existe, jusqu'à ce que vous le supprimiez.
+- **Comptes Gratuits** (jamais payants) : conservés jusqu'à ce que vous supprimiez le compte, ou jusqu'à 12 mois sans connexion; le compte et ses renseignements personnels sont alors supprimés.
 - **Comptes payants :** l'annulation d'un forfait payant, ou la suppression du compte à partir des paramètres du compte, ferme le compte. Vous gardez l'accès jusqu'à la fin de la période déjà payée. Vos renseignements personnels (compte, membres de l'équipe, profils, historique des alertes) sont supprimés **7 jours après la fin de cet accès**.
 - **Paiement échoué :** si un paiement demeure impayé après un délai de grâce de 7 jours, le compte est fermé, et ses renseignements personnels sont supprimés 7 jours plus tard.
 - **Comptes Gratuits supprimés à partir des paramètres** : supprimés dans un délai de 7 jours.
@@ -112,8 +112,6 @@ Exceptions : nous conservons un dossier de facturation anonymisé (montants, dat
 - Les sessions expirées sont supprimées.
 - La base de données est copiée chaque nuit sur le même serveur, et chaque copie est supprimée après 14 jours. Nous ne faisons aucune sauvegarde hors site.
 - Les données supprimées sont donc effacées de la base active 7 jours après la fin de l'accès, puis disparaissent de toutes les sauvegardes dans les 14 jours suivants.
-
-[QUESTION POUR JOSHUA : conservation des comptes Gratuits inactifs (jusqu'à leur suppression, ou suppression après X mois d'inactivité)?]
 
 ## 8. Vos droits
 
