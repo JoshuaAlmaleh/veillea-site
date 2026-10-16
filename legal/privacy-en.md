@@ -79,12 +79,12 @@ Before such a transfer we assess the protection it will receive, as required by 
 
 We keep your personal information while your account is active.
 
-- **Free accounts** (never paid): kept until you delete the account, or until 12 months without a login, after which the account and its personal information are deleted.
+- **Free accounts** (never paid): kept until you delete the account. After 12 months without a login, we email a warning 30 days before deletion. The account and its personal information are deleted no earlier than 30 days after that warning.
 - **Paid accounts:** cancelling a paid plan, or deleting your account from your account settings, closes the account. You keep access until the end of the period already paid. Your personal information (account, team members, profiles, alert history) is deleted **7 days after that access ends**.
-- **Failed payment:** if a payment is still unpaid after a 7-day grace period, the account is closed, and its personal information is deleted 7 days later.
+- **Failed payment:** if a payment is still unpaid after a grace period of about 7 days, the account is closed, and its personal information is deleted 7 days later.
 - **Free accounts deleted from the account settings** are deleted within 7 days.
 
-Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). 
+Exceptions: we keep a minimal record for accounting and tax obligations: the workspace number, the Stripe customer ID and the subscription dates, with no name, email address or tender data, and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). 
 
 **Logs and backups.**
 - Server logs, including IP addresses, are deleted after 30 days.

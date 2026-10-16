@@ -50,7 +50,7 @@ Les forfaits payants comprennent un seul essai gratuit de 14 jours par espace de
 
 ## 6. Facturation
 
-Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue, vous disposez d'un délai de grâce de 7 jours pour le régulariser. S'il demeure impayé après 7 jours, l'abonnement prend fin, le compte est fermé et ses données sont supprimées 7 jours plus tard, comme le prévoit l'article 7.
+Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue, vous disposez d'un délai de grâce d'environ 7 jours pour le régulariser. S'il demeure impayé après ce délai, l'abonnement prend fin, le compte est fermé et ses données sont supprimées 7 jours plus tard, comme le prévoit l'article 7.
 
 ## 7. Annulation et remboursements
 
@@ -61,7 +61,7 @@ Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Str
 **Remboursements.** Les frais déjà payés ne sont pas remboursés automatiquement, sauf dans le cas prévu ci-dessous ou par la loi.
 
 **Crédit de service en cas de panne.** Si le Service est indisponible plus de 24 heures consécutives, les clients d'un forfait payant reçoivent un crédit de service unique pour cette panne :
-- forfait mensuel : le mois suivant gratuit;
+- forfait mensuel : le mois suivant gratuit. Ce crédit remplace tout rabais promotionnel déjà appliqué à ce mois; les deux ne se cumulent pas;
 - forfait annuel : une prolongation d'un mois de la période en cours.
 
 Pour l'obtenir, écrivez à bonjour@veillea.ca dans les 30 jours suivant la panne, en indiquant la date et l'heure approximative. Le crédit s'applique à toute indisponibilité de plus de 24 heures consécutives, quelle qu'en soit la cause. Ce crédit est la seule compensation pour une indisponibilité, sans exclure les droits d'un consommateur en vertu de la Loi sur la protection du consommateur.

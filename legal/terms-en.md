@@ -41,7 +41,7 @@ The paid plans include one 14-day free trial per workspace, with no credit card 
 
 ## 6. Billing
 
-Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails, you have a 7-day grace period to fix it. If it is still unpaid after 7 days, the subscription ends, the account is closed, and its data is deleted 7 days later, as described in section 7.
+Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails, you have a grace period of about 7 days to fix it. If it is still unpaid after that, the subscription ends, the account is closed, and its data is deleted 7 days later, as described in section 7.
 
 ## 7. Cancellation and refunds
 
@@ -52,7 +52,7 @@ Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and
 **Refunds.** Fees already paid are not refunded automatically, except as provided below or by law.
 
 **Service credit for outages.** If the Service is unavailable for more than 24 consecutive hours, customers on a paid plan receive a one-time service credit for that outage:
-- monthly plan: the next month free;
+- monthly plan: the next month free. This credit replaces any promotional discount already applied to that month; the two do not combine;
 - annual plan: a one-month extension of the current term.
 
 To claim it, write to bonjour@veillea.ca within 30 days of the outage, with the date and approximate time. The credit applies to any unavailability of more than 24 consecutive hours, whatever the cause. The service credit is the only compensation for unavailability, without excluding the rights a consumer has under Quebec's Consumer Protection Act.
