@@ -12,7 +12,7 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.</p>
 <p><strong>Team members.</strong> If an account owner adds a team member, we store that person's email address, name (optional) and role (owner or member).</p>
 <p><strong>Monitoring profiles.</strong> The keywords, excluded words, category codes (UNSPSC/GSIN), regions and sources you choose, and which alerts you have unsubscribed from. This describes what your business is looking for, and is linked to your account.</p>
 <p><strong>Billing information.</strong> Payments are processed by Stripe. We do not receive or store your card number. Stripe collects your payment details and billing address. We store only your Stripe customer and subscription identifiers, your plan, billing interval, subscription status, period end date and any scheduled cancellation date.</p>
-<p><strong>Usage and technical information.</strong> Our server keeps a technical log of requests (date, method, page requested, response code). Requests reach our server through Cloudflare, which processes your IP address to route traffic and protect the Service. [QUESTION FOR JOSHUA: confirm whether any server or Cloudflare logs record visitors' IP addresses, and how long those logs are kept.] We record which alerts were sent to which profile, and account events (for example a trial start, cancellation or trial extension).</p>
+<p><strong>Usage and technical information.</strong> Our server logs each request with the IP address, method, page requested and response code. It does not record your browser's user agent. For logins we store only the time of your last login. Session records expire after 30 days and expired sessions are deleted. Requests reach our server through Cloudflare, which sees IP addresses and requests as our processor, under its own privacy policy. We also record which alerts were sent to which profile, and account events (for example a trial start, cancellation or trial extension).</p>
 <p><strong>API keys.</strong> If your plan includes API access, we store only a hash of your API key.</p>
 <p><strong>Communications.</strong> If you write to us, we keep your message and our reply.</p>
 <p>We do not collect sensitive personal information, and the Service is not intended for individuals under 14.</p>
@@ -31,55 +31,52 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.</p>
 - a session cookie, required to keep you logged in. It is HttpOnly and lasts up to 30 days, or until you log out;
 - a language cookie that remembers your language choice, kept for up to 1 year.</p>
 <p><strong>Marketing site (veillea.ca):</strong> your language choice is stored in your browser's local storage.</p>
-<p>Neither site uses analytics, advertising or tracking cookies.</p>
-<p>Both sites load fonts from Google Fonts, so your browser sends your IP address to Google when a page loads. The live tracker on veillea.ca also contacts app.veillea.ca to fetch public counts. [QUESTION FOR JOSHUA: keep Google Fonts, or self-host the fonts so no request goes to Google?]</p>
+<p>Neither site uses analytics, advertising, tracking or error-tracking services.</p>
+<p>Both sites load fonts from Google Fonts, so Google receives visitors' IP addresses when a page loads. The live tracker on veillea.ca also contacts app.veillea.ca to fetch public counts.</p>
 <h2>5. Privacy by default</h2>
 <p>The Service collects only what it needs to work. No optional tracking is enabled. Alerts can be turned off from any alert email (unsubscribe link) or from your account.</p>
-<h2>6. Service providers and transfers outside Quebec</h2>
-<p>We use the following providers. They process personal information on our behalf and only for the purposes below:</p>
+<h2>6. Processors and transfers outside Quebec</h2>
+<p>The application and its database run on a dedicated server operated by Veillea in Quebec, Canada. The server can be reached only through Cloudflare's tunnel. Your data is stored in Quebec.</p>
+<p>We use the following processors. They process personal information on our behalf, only for the purposes below:</p>
 <table>
 <thead>
 <tr>
-<th>Provider</th>
-<th>Purpose</th>
+<th>Processor</th>
+<th>What it processes</th>
 <th>Location</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Stripe</td>
-<td>Payment processing, invoices, customer portal</td>
+<td>Payments, billing name and address, invoices. Card numbers never reach our server.</td>
 <td>United States and other countries</td>
 </tr>
 <tr>
 <td>Resend</td>
-<td>Sending email (alerts, account messages)</td>
+<td>Transactional and alert emails: recipient addresses and message content</td>
 <td>United States</td>
 </tr>
 <tr>
 <td>Cloudflare</td>
-<td>DNS, secure connection to the application, network protection</td>
+<td>DNS, the tunnel to our server and the proxy. It sees IP addresses and requests.</td>
 <td>Worldwide network</td>
 </tr>
 <tr>
 <td>GitHub (Microsoft)</td>
-<td>Hosting the marketing website veillea.ca (GitHub Pages)</td>
+<td>Hosting of the marketing site veillea.ca (GitHub Pages)</td>
 <td>United States</td>
 </tr>
 <tr>
 <td>Google Fonts</td>
-<td>Website fonts (IP address only)</td>
+<td>Fonts for the website and the application (IP addresses)</td>
 <td>United States</td>
-</tr>
-<tr>
-<td>[QUESTION FOR JOSHUA: where does the application server and its database physically run (computer or provider, city or country)?]</td>
-<td>Application hosting and database</td>
-<td>[?]</td>
 </tr>
 </tbody>
 </table>
-<p>Some of this information is therefore stored or processed outside Quebec and Canada, mainly in the United States, where it may be accessible to authorities under local law.</p>
-<p>Before such a transfer we assess the protection it will receive, as required by section 17 of the Quebec Act. Our providers are bound by contracts that protect it. [QUESTION FOR JOSHUA: confirm that Stripe's, Resend's and Cloudflare's standard data processing terms are accepted, and whether a written transfer assessment has been done.]</p>
+<p>No artificial intelligence service receives your data. Notice summaries are generated on our own server.</p>
+<p>These processors may process information outside Quebec and Canada, mainly in the United States, where it may be accessible to authorities under local law.</p>
+<p>Before such a transfer we assess the protection it will receive, as required by section 17 of the Quebec Act. Our processors are bound by contracts that protect it. [QUESTION FOR JOSHUA: confirm that Stripe's, Resend's and Cloudflare's standard data processing terms are accepted, and whether a written transfer assessment has been done.]</p>
 <h2>7. Retention</h2>
 <p>We keep your personal information while your account is active.</p>
 <ul>
@@ -87,7 +84,13 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.</p>
 <li><strong>Paid accounts:</strong> cancelling a paid plan, or deleting your account from your account settings, closes the account. You keep access until the end of the period already paid. Your personal information (account, team members, profiles, alert history) is deleted <strong>7 days after that access ends</strong>.</li>
 <li><strong>Free accounts deleted from the account settings</strong> are deleted within 7 days.</li>
 </ul>
-<p>Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). [QUESTION FOR JOSHUA: retention period for technical logs and for inactive Free accounts? Are backups purged within the same 7 days?]</p>
+<p>Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). </p>
+<p><strong>Logs and backups.</strong>
+- Server logs, including IP addresses, are kept up to 30 days. [CONFIRM 30 days]
+- Expired sessions are deleted.
+- The database is copied every night onto the same server, and each copy is deleted after 14 days. We keep no off-site backups.
+- So deleted data is erased from the live database 7 days after access ends, and is gone from every backup within 14 more days.</p>
+<p>[QUESTION FOR JOSHUA: retention for inactive Free accounts (kept until deleted, or deleted after X months of inactivity)?]</p>
 <h2>8. Your rights</h2>
 <p>You may:
 - ask to access the personal information we hold about you;
@@ -97,7 +100,7 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.</p>
 - ask for a copy of the information you gave us in a structured, commonly used technological format (portability).</p>
 <p>To exercise a right, write to bonjour@veillea.ca. We may need to verify your identity. We will reply within 30 days. You may also file a complaint with the Commission d'accès à l'information du Québec (cai.gouv.qc.ca) or the Office of the Privacy Commissioner of Canada (priv.gc.ca).</p>
 <h2>9. Security</h2>
-<p>Passwords are hashed (scrypt), connections use HTTPS, session cookies are HttpOnly, and only the owner has administrative access. No method is perfectly secure.</p>
+<p>Passwords are hashed (scrypt), connections use HTTPS, session cookies are HttpOnly, the server is reachable only through Cloudflare's tunnel, and only the owner has administrative access. No method is perfectly secure.</p>
 <h2>10. Confidentiality incidents</h2>
 <p>If a confidentiality incident occurs involving personal information we hold, we will take reasonable measures to reduce the risk of harm and keep a register of incidents. If there is a risk of serious injury, we will notify the Commission d'accès à l'information, the Office of the Privacy Commissioner of Canada and the people concerned, as required by law.</p>
 <h2>11. Changes</h2>

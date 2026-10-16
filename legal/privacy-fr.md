@@ -39,7 +39,7 @@ Ces renseignements décrivent ce que votre entreprise recherche et sont liés à
 - l'état de l'abonnement et la date de fin de période;
 - la date d'annulation prévue, s'il y a lieu.
 
-**Utilisation et données techniques.** Notre serveur tient un journal technique des requêtes : date, méthode, page demandée, code de réponse. Les requêtes passent par Cloudflare, qui traite votre adresse IP pour acheminer le trafic et protéger le Service. [QUESTION POUR JOSHUA : confirmer si des journaux du serveur ou de Cloudflare conservent l'adresse IP des visiteurs, et pendant combien de temps.]
+**Utilisation et données techniques.** Notre serveur consigne chaque requête avec l'adresse IP, la méthode, la page demandée et le code de réponse. Il n'enregistre pas l'agent utilisateur de votre navigateur. Pour les connexions, nous ne conservons que l'heure de votre dernière connexion. Les sessions expirent après 30 jours et les sessions expirées sont supprimées. Les requêtes passent par Cloudflare, qui voit les adresses IP et les requêtes à titre de sous-traitant, selon sa propre politique de confidentialité. Nous enregistrons aussi les alertes envoyées pour chaque profil et les événements du compte (par exemple un début d'essai, une annulation ou une prolongation d'essai).
 
 Nous enregistrons aussi les alertes envoyées pour chaque profil et les événements du compte (par exemple un début d'essai, une annulation ou une prolongation d'essai).
 
@@ -69,30 +69,33 @@ Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utili
 
 **Sur le site (veillea.ca) :** votre choix de langue est enregistré dans le stockage local de votre navigateur.
 
-Aucun témoin d'analyse, de publicité ou de pistage n'est utilisé.
+Aucun service d'analyse, de publicité, de pistage ou de suivi des erreurs n'est utilisé.
 
-Les deux sites chargent des polices de Google Fonts. Votre navigateur transmet donc votre adresse IP à Google au chargement d'une page. Le compteur en direct de veillea.ca interroge aussi app.veillea.ca pour obtenir des chiffres publics. [QUESTION POUR JOSHUA : garder Google Fonts ou héberger les polices nous-mêmes?]
+Les deux sites chargent des polices de Google Fonts. Google reçoit donc l'adresse IP des visiteurs au chargement d'une page. Le compteur en direct de veillea.ca interroge aussi app.veillea.ca pour obtenir des chiffres publics.
 
 ## 5. Confidentialité par défaut
 
 Le Service ne recueille que ce qui est nécessaire à son fonctionnement, et aucun pistage facultatif n'est activé. Vous pouvez désactiver les alertes à partir de n'importe quel courriel d'alerte (lien de désabonnement) ou de votre compte.
 
-## 6. Fournisseurs et communication à l'extérieur du Québec
+## 6. Sous-traitants et communication à l'extérieur du Québec
 
-Nous faisons appel aux fournisseurs suivants. Ils traitent des renseignements pour notre compte, uniquement aux fins indiquées :
+L'application et sa base de données roulent sur un serveur dédié exploité par Veillea au Québec, Canada. Le serveur n'est accessible que par le tunnel de Cloudflare. Vos données sont conservées au Québec.
 
-| Fournisseur | Fin | Lieu |
+Nous faisons appel aux sous-traitants suivants. Ils traitent des renseignements pour notre compte, uniquement aux fins indiquées :
+
+| Sous-traitant | Ce qu'il traite | Lieu |
 |---|---|---|
-| Stripe | Traitement des paiements, factures, portail client | États-Unis et autres pays |
-| Resend | Envoi des courriels (alertes, messages du compte) | États-Unis |
-| Cloudflare | DNS, connexion sécurisée à l'application, protection du réseau | Réseau mondial |
+| Stripe | Paiements, nom et adresse de facturation, factures. Les numéros de carte ne passent jamais par notre serveur. | États-Unis et autres pays |
+| Resend | Courriels transactionnels et d'alerte : adresses des destinataires et contenu des messages | États-Unis |
+| Cloudflare | DNS, tunnel vers notre serveur et mandataire (proxy). Il voit les adresses IP et les requêtes. | Réseau mondial |
 | GitHub (Microsoft) | Hébergement du site veillea.ca (GitHub Pages) | États-Unis |
-| Google Fonts | Polices du site (adresse IP seulement) | États-Unis |
-| [QUESTION POUR JOSHUA : où roulent physiquement le serveur de l'application et sa base de données (ordinateur ou fournisseur, ville ou pays)?] | Hébergement de l'application et base de données | [?] |
+| Google Fonts | Polices du site et de l'application (adresses IP) | États-Unis |
 
-Certains renseignements sont donc conservés ou traités à l'extérieur du Québec et du Canada, surtout aux États-Unis. Ils peuvent y être accessibles aux autorités selon les lois locales.
+Aucun service d'intelligence artificielle ne reçoit vos données. Les résumés des avis sont générés sur notre propre serveur.
 
-Avant une telle communication, nous évaluons la protection dont les renseignements bénéficieront, comme l'exige l'article 17 de la Loi. Nos fournisseurs sont liés par des ententes qui la protègent. [QUESTION POUR JOSHUA : confirmer que les conditions de traitement des données de Stripe, Resend et Cloudflare sont acceptées, et si une évaluation écrite des transferts a été faite.]
+Ces sous-traitants peuvent traiter des renseignements à l'extérieur du Québec et du Canada, surtout aux États-Unis. Ils peuvent y être accessibles aux autorités selon les lois locales.
+
+Avant une telle communication, nous évaluons la protection dont les renseignements bénéficieront, comme l'exige l'article 17 de la Loi. Nos sous-traitants sont liés par des ententes qui la protègent. [QUESTION POUR JOSHUA : confirmer que les conditions de traitement des données de Stripe, Resend et Cloudflare sont acceptées, et si une évaluation écrite des transferts a été faite.]
 
 ## 7. Conservation
 
@@ -102,7 +105,15 @@ Nous conservons vos renseignements personnels tant que votre compte est actif.
 - **Comptes payants :** l'annulation d'un forfait payant, ou la suppression du compte à partir des paramètres du compte, ferme le compte. Vous gardez l'accès jusqu'à la fin de la période déjà payée. Vos renseignements personnels (compte, membres de l'équipe, profils, historique des alertes) sont supprimés **7 jours après la fin de cet accès**.
 - **Comptes Gratuits supprimés à partir des paramètres** : supprimés dans un délai de 7 jours.
 
-Exceptions : nous conservons un dossier de facturation anonymisé (montants, dates et forfait, sans votre nom ni votre courriel), et Stripe conserve les factures et les données de paiement à des fins fiscales et comptables, aussi longtemps que ces lois l'exigent (en général 6 ans). [QUESTION POUR JOSHUA : durée de conservation des journaux techniques et des comptes Gratuits inactifs? Les sauvegardes sont-elles purgées dans les mêmes 7 jours?]
+Exceptions : nous conservons un dossier de facturation anonymisé (montants, dates et forfait, sans votre nom ni votre courriel), et Stripe conserve les factures et les données de paiement à des fins fiscales et comptables, aussi longtemps que ces lois l'exigent (en général 6 ans). 
+
+**Journaux et sauvegardes.**
+- Les journaux du serveur, adresses IP comprises, sont conservés au plus 30 jours. [CONFIRMER 30 jours]
+- Les sessions expirées sont supprimées.
+- La base de données est copiée chaque nuit sur le même serveur, et chaque copie est supprimée après 14 jours. Nous ne faisons aucune sauvegarde hors site.
+- Les données supprimées sont donc effacées de la base active 7 jours après la fin de l'accès, puis disparaissent de toutes les sauvegardes dans les 14 jours suivants.
+
+[QUESTION POUR JOSHUA : conservation des comptes Gratuits inactifs (jusqu'à leur suppression, ou suppression après X mois d'inactivité)?]
 
 ## 8. Vos droits
 
@@ -120,6 +131,7 @@ Pour exercer un droit, écrivez à bonjour@veillea.ca. Nous pourrions devoir vé
 - Les mots de passe sont hachés (scrypt).
 - Les connexions passent par HTTPS.
 - Les témoins de session sont HttpOnly.
+- Le serveur n'est accessible que par le tunnel de Cloudflare.
 - Seul le propriétaire a un accès administrateur.
 
 Aucune méthode n'est parfaitement sûre.
