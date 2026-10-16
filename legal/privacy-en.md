@@ -2,7 +2,7 @@
 
 > **DRAFT. Not yet in effect. This document must be reviewed by a lawyer before publication.** Items marked [QUESTION FOR JOSHUA] must be answered first.
 
-**Effective date:** [EFFECTIVE DATE]
+**Effective date:** October 17, 2026
 
 Veillea ("Veillea", "we") is a sole proprietorship operated by Joshua Almaleh, Quebec Enterprise Number (NEQ) 2282674748, PO Box 311, Hudson, Quebec J0P 0A9. This policy explains what personal information we collect through the veillea.ca website and the Veillea application at app.veillea.ca (the "Service"), why, and what your rights are. It is written to meet Quebec's *Act respecting the protection of personal information in the private sector* (as amended by Law 25) and the federal *Personal Information Protection and Electronic Documents Act* (PIPEDA).
 
@@ -82,6 +82,7 @@ We keep your personal information while your account is active.
 
 - **Free accounts** (never paid): kept as long as the account exists, until you delete it.
 - **Paid accounts:** cancelling a paid plan, or deleting your account from your account settings, closes the account. You keep access until the end of the period already paid. Your personal information (account, team members, profiles, alert history) is deleted **7 days after that access ends**.
+- **Failed payment:** if a payment is still unpaid after a 7-day grace period, the account is closed, and its personal information is deleted 7 days later.
 - **Free accounts deleted from the account settings** are deleted within 7 days.
 
 Exceptions: we keep an anonymised billing record (amounts, dates and plan, without your name or email address), and Stripe keeps invoices and payment records for tax and accounting purposes, as long as those laws require (generally 6 years). 

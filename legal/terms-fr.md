@@ -2,7 +2,7 @@
 
 > **ÉBAUCHE. Non en vigueur. Ce document doit être révisé par un avocat avant sa publication.** Les éléments marqués [QUESTION POUR JOSHUA] doivent d'abord être réglés.
 
-**Date d'entrée en vigueur :** [DATE D'ENTRÉE EN VIGUEUR]
+**Date d'entrée en vigueur :** 17 octobre 2026
 
 Les présentes conditions régissent l'utilisation du site veillea.ca et de l'application Veillea à app.veillea.ca (le « Service »). Le Service est offert par Veillea, entreprise individuelle exploitée par Joshua Almaleh, NEQ 2282674748, C.P. 311, Hudson (Québec) J0P 0A9, bonjour@veillea.ca (« Veillea », « nous »). En créant un compte ou en utilisant le Service, vous acceptez ces conditions.
 
@@ -50,7 +50,7 @@ Les forfaits payants comprennent un seul essai gratuit de 14 jours par espace de
 
 ## 6. Facturation
 
-Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue et n'est pas régularisé, l'abonnement prend fin et le compte est fermé comme le prévoit l'article 7. [QUESTION POUR JOSHUA : confirmer, et le délai de grâce à prévoir dans Stripe pour les paiements échoués.]
+Les abonnements payants sont facturés d'avance, au mois ou à l'année, par Stripe. Ils se renouvellent automatiquement jusqu'à leur annulation. Si un paiement échoue, vous disposez d'un délai de grâce de 7 jours pour le régulariser. S'il demeure impayé après 7 jours, l'abonnement prend fin, le compte est fermé et ses données sont supprimées 7 jours plus tard, comme le prévoit l'article 7.
 
 ## 7. Annulation et remboursements
 
@@ -83,7 +83,7 @@ Le Service, son logiciel, sa conception, ses résumés et le nom Veillea apparti
 
 ## 10. Disponibilité
 
-Nous visons un Service fiable, sans garantir une disponibilité ininterrompue (voir le crédit de service à l'article 7). Nous pouvons modifier des fonctions, y compris les sources couvertes. Si nous cessons d'offrir le Service, nous donnerons un préavis raisonnable et rembourserons toute période payée d'avance non utilisée. [QUESTION POUR JOSHUA : confirmer cet engagement.]
+Nous visons un Service fiable, sans garantir une disponibilité ininterrompue (voir le crédit de service à l'article 7). Nous pouvons modifier des fonctions, y compris les sources couvertes. Si nous cessons d'offrir le Service, nous donnerons un préavis raisonnable et rembourserons au prorata toute période payée d'avance non utilisée.
 
 ## 11. Limitation de responsabilité
 

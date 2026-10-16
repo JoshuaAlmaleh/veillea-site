@@ -2,7 +2,7 @@
 
 > **DRAFT. Not yet in effect. This document must be reviewed by a lawyer before publication.** Items marked [QUESTION FOR JOSHUA] must be answered first.
 
-**Effective date:** [EFFECTIVE DATE]
+**Effective date:** October 17, 2026
 
 These terms govern your use of the veillea.ca website and the Veillea application at app.veillea.ca (the "Service"). The Service is provided by Veillea, a sole proprietorship operated by Joshua Almaleh, Quebec Enterprise Number (NEQ) 2282674748, PO Box 311, Hudson, Quebec J0P 0A9, bonjour@veillea.ca ("Veillea", "we"). By creating an account or using the Service, you accept these terms.
 
@@ -41,7 +41,7 @@ The paid plans include one 14-day free trial per workspace, with no credit card 
 
 ## 6. Billing
 
-Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails and is not resolved, the subscription ends and the account is closed as described in section 7. [QUESTION FOR JOSHUA: confirm, and the grace period Stripe should allow for failed payments.]
+Paid subscriptions are billed in advance, monthly or yearly, through Stripe, and renew automatically until cancelled. If a payment fails, you have a 7-day grace period to fix it. If it is still unpaid after 7 days, the subscription ends, the account is closed, and its data is deleted 7 days later, as described in section 7.
 
 ## 7. Cancellation and refunds
 
@@ -74,7 +74,7 @@ The Service, its software, design, summaries and the Veillea name belong to Veil
 
 ## 10. Availability
 
-We aim for a reliable Service but do not guarantee uninterrupted availability (see the service credit in section 7). We may modify features, including the sources covered. If we discontinue the Service, we will give reasonable notice and refund any prepaid period not used. [QUESTION FOR JOSHUA: confirm this commitment.]
+We aim for a reliable Service but do not guarantee uninterrupted availability (see the service credit in section 7). We may modify features, including the sources covered. If we discontinue the Service, we will give reasonable notice and refund any unused prepaid time, pro rata.
 
 ## 11. Limitation of liability
 

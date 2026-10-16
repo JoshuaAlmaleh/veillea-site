@@ -2,7 +2,7 @@
 
 > **ÉBAUCHE. Non en vigueur. Ce document doit être révisé par un avocat avant sa publication.** Les éléments marqués [QUESTION POUR JOSHUA] doivent d'abord être réglés.
 
-**Date d'entrée en vigueur :** [DATE D'ENTRÉE EN VIGUEUR]
+**Date d'entrée en vigueur :** 17 octobre 2026
 
 Veillea (« Veillea », « nous ») est une entreprise individuelle exploitée par Joshua Almaleh, NEQ 2282674748, C.P. 311, Hudson (Québec) J0P 0A9. La présente politique explique quels renseignements personnels nous recueillons par le site veillea.ca et l'application Veillea à app.veillea.ca (le « Service »), pourquoi, et quels sont vos droits. Elle vise à respecter la *Loi sur la protection des renseignements personnels dans le secteur privé* du Québec, telle que modifiée par la Loi 25, ainsi que la *Loi sur la protection des renseignements personnels et les documents électroniques* (LPRPDE) fédérale.
 
@@ -103,6 +103,7 @@ Nous conservons vos renseignements personnels tant que votre compte est actif.
 
 - **Comptes Gratuits** (jamais payants) : conservés tant que le compte existe, jusqu'à ce que vous le supprimiez.
 - **Comptes payants :** l'annulation d'un forfait payant, ou la suppression du compte à partir des paramètres du compte, ferme le compte. Vous gardez l'accès jusqu'à la fin de la période déjà payée. Vos renseignements personnels (compte, membres de l'équipe, profils, historique des alertes) sont supprimés **7 jours après la fin de cet accès**.
+- **Paiement échoué :** si un paiement demeure impayé après un délai de grâce de 7 jours, le compte est fermé, et ses renseignements personnels sont supprimés 7 jours plus tard.
 - **Comptes Gratuits supprimés à partir des paramètres** : supprimés dans un délai de 7 jours.
 
 Exceptions : nous conservons un dossier de facturation anonymisé (montants, dates et forfait, sans votre nom ni votre courriel), et Stripe conserve les factures et les données de paiement à des fins fiscales et comptables, aussi longtemps que ces lois l'exigent (en général 6 ans). 
