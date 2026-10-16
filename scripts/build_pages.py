@@ -63,6 +63,9 @@ def header(lang):
             f'<a class="btn" href="{signup(lang, "team")}">{d["trial"]}</a></div></header>')
 
 
+LEGAL = {"fr": "Veillea est une entreprise individuelle exploitée par Joshua Almaleh · NEQ 2282674748 · C.P. 311, Hudson (Québec) J0P 0A9", "en": "Veillea is a sole proprietorship operated by Joshua Almaleh · Quebec Enterprise Number (NEQ) 2282674748 · PO Box 311, Hudson, Quebec J0P 0A9"}
+
+
 def footer(lang):
     d = L[lang]
     return (f'<footer><div class="wrap grid g3"><div><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a><p>{d["tag"]}</p></div>'
@@ -70,7 +73,8 @@ def footer(lang):
                 f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{"Ressources" if lang=="fr" else "Resources"}</b><br>' + " · ".join(
                 f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + '<br>' + " · ".join(
                 f'<a href="{u}">{t}</a>' for u, t in hub_links(lang)) + f'</p><p>{d["ind"]}</p></div>'
-            f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></div></footer>')
+            f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></div>'
+            f'<div class="wrap ft-legal"><p>{LEGAL[lang]} · <a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></footer>')
 
 
 SECTORS = [  # (key, fr source, fr slug, en source, en slug, fr label, en label)
@@ -403,7 +407,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w8">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w9">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),

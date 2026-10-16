@@ -78,3 +78,4 @@ footer{background:var(--ox);color:#c9aeb2;padding:48px 0;font-size:14px}footer .
 .wk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:28px 0}.wk-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);border-radius:0}.wk-card b{font:700 36px/1 var(--serif)}.wk-card span{margin-top:6px;color:var(--ink2)}.wk-card:hover{border-color:var(--cu)}
 .wk-link{font-weight:600}
 @media(max-width:760px){.wk-t thead{display:none}.wk-t tr{display:block;border-bottom:1px solid var(--line);padding:8px 0}.wk-t td{display:block;border:0!important;padding:2px 12px}}
+.ft-legal{border-top:1px solid var(--line);margin-top:18px;padding-top:14px;padding-bottom:6px}.ft-legal p{font-size:12.5px;opacity:.75;margin:0}
