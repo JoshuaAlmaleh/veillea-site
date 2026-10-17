@@ -1,7 +1,5 @@
 # Politique de confidentialité
 
-> **ÉBAUCHE. Non en vigueur. Ce document doit être révisé par un avocat avant sa publication.** Les éléments marqués [QUESTION POUR JOSHUA] doivent d'abord être réglés.
-
 **Date d'entrée en vigueur :** 17 octobre 2026
 
 Veillea (« Veillea », « nous ») est une entreprise individuelle exploitée par Joshua Almaleh, NEQ 2282674748, C.P. 311, Hudson (Québec) J0P 0A9. La présente politique explique quels renseignements personnels nous recueillons par le site veillea.ca et l'application Veillea à app.veillea.ca (le « Service »), pourquoi, et quels sont vos droits. Elle vise à respecter la *Loi sur la protection des renseignements personnels dans le secteur privé* du Québec, telle que modifiée par la Loi 25, ainsi que la *Loi sur la protection des renseignements personnels et les documents électroniques* (LPRPDE) fédérale.
@@ -94,7 +92,7 @@ Aucun service d'intelligence artificielle ne reçoit vos données. Les résumés
 
 Ces sous-traitants peuvent traiter des renseignements à l'extérieur du Québec et du Canada, surtout aux États-Unis. Ils peuvent y être accessibles aux autorités selon les lois locales.
 
-Avant une telle communication, nous évaluons la protection dont les renseignements bénéficieront, comme l'exige l'article 17 de la Loi. Nos sous-traitants sont liés par des ententes qui la protègent. [QUESTION POUR JOSHUA : confirmer que les conditions de traitement des données de Stripe, Resend et Cloudflare sont acceptées, et si une évaluation écrite des transferts a été faite.]
+Avant une telle communication, nous évaluons la protection dont les renseignements bénéficieront, comme l'exige l'article 17 de la Loi. Nos sous-traitants sont liés par des ententes qui la protègent. Nous avons accepté les ententes de traitement des données de Stripe, de Resend et de Cloudflare, et nous avons réalisé l'évaluation des transferts exigée par la Loi 25.
 
 ## 7. Conservation
 

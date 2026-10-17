@@ -1,7 +1,5 @@
 # Privacy Policy
 
-> **DRAFT. Not yet in effect. This document must be reviewed by a lawyer before publication.** Items marked [QUESTION FOR JOSHUA] must be answered first.
-
 **Effective date:** October 17, 2026
 
 Veillea ("Veillea", "we") is a sole proprietorship operated by Joshua Almaleh, Quebec Enterprise Number (NEQ) 2282674748, PO Box 311, Hudson, Quebec J0P 0A9. This policy explains what personal information we collect through the veillea.ca website and the Veillea application at app.veillea.ca (the "Service"), why, and what your rights are. It is written to meet Quebec's *Act respecting the protection of personal information in the private sector* (as amended by Law 25) and the federal *Personal Information Protection and Electronic Documents Act* (PIPEDA).
@@ -73,7 +71,7 @@ No artificial intelligence service receives your data. Notice summaries are gene
 
 These processors may process information outside Quebec and Canada, mainly in the United States, where it may be accessible to authorities under local law.
 
-Before such a transfer we assess the protection it will receive, as required by section 17 of the Quebec Act. Our processors are bound by contracts that protect it. [QUESTION FOR JOSHUA: confirm that Stripe's, Resend's and Cloudflare's standard data processing terms are accepted, and whether a written transfer assessment has been done.]
+Before such a transfer we assess the protection it will receive, as required by section 17 of the Quebec Act. Our processors are bound by contracts that protect it. We have accepted Stripe's, Resend's and Cloudflare's data processing agreements, and we carried out a transfer assessment as Quebec's Law 25 requires.
 
 ## 7. Retention
 

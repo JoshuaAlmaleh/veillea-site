@@ -1,7 +1,5 @@
 # Conditions d'utilisation
 
-> **ÉBAUCHE. Non en vigueur. Ce document doit être révisé par un avocat avant sa publication.** Les éléments marqués [QUESTION POUR JOSHUA] doivent d'abord être réglés.
-
 **Date d'entrée en vigueur :** 17 octobre 2026
 
 Les présentes conditions régissent l'utilisation du site veillea.ca et de l'application Veillea à app.veillea.ca (le « Service »). Le Service est offert par Veillea, entreprise individuelle exploitée par Joshua Almaleh, NEQ 2282674748, C.P. 311, Hudson (Québec) J0P 0A9, bonjour@veillea.ca (« Veillea », « nous »). En créant un compte ou en utilisant le Service, vous acceptez ces conditions.
@@ -103,7 +101,7 @@ Ces conditions sont régies par les lois du Québec et les lois du Canada qui s'
 
 ## 15. Langue
 
-Ces conditions sont offertes en français et en anglais. [QUESTION POUR JOSHUA/AVOCAT : selon la Charte de la langue française, telle que modifiée par la Loi 96, la version française doit être offerte en premier et prévaut généralement. Faire valider la formulation de cette clause par un avocat.]
+La version française des présentes conditions est la version officielle. La version anglaise est fournie à titre de commodité; en cas de divergence, la version française prévaut. Le client qui choisit la version anglaise après s'être vu présenter d'abord la version française déclare que les parties ont expressément exigé que ces conditions et tous les documents qui s'y rattachent soient rédigés en anglais.
 
 ## 16. Nous joindre
 

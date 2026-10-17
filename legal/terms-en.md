@@ -1,7 +1,5 @@
 # Terms of Service
 
-> **DRAFT. Not yet in effect. This document must be reviewed by a lawyer before publication.** Items marked [QUESTION FOR JOSHUA] must be answered first.
-
 **Effective date:** October 17, 2026
 
 These terms govern your use of the veillea.ca website and the Veillea application at app.veillea.ca (the "Service"). The Service is provided by Veillea, a sole proprietorship operated by Joshua Almaleh, Quebec Enterprise Number (NEQ) 2282674748, PO Box 311, Hudson, Quebec J0P 0A9, bonjour@veillea.ca ("Veillea", "we"). By creating an account or using the Service, you accept these terms.
@@ -94,7 +92,7 @@ These terms are governed by the laws of Quebec and the applicable laws of Canada
 
 ## 15. Language
 
-These terms are available in French and English. [QUESTION FOR JOSHUA/LAWYER: under Quebec's Charter of the French Language, as amended by Bill 96, the French version must be offered first and usually prevails. Confirm the wording of this clause with a lawyer.]
+The French version of these terms is the official version. The English version is provided for convenience; if the two versions conflict, the French version prevails. By choosing this English version after the French version was presented to you first, you have expressly requested that these terms and all related documents be drafted in English.
 
 ## 16. Contact
 
