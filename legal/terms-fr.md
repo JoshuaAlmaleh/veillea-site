@@ -8,8 +8,7 @@ Les présentes conditions régissent l'utilisation du site veillea.ca et de l'ap
 
 Veillea recueille les avis d'appels d'offres publics diffusés par des sources officielles au Canada et aux États-Unis, par exemple le SEAO, AchatsCanada et SAM.gov. Il les compare aux profils de veille que vous configurez, puis vous les présente dans l'application ou vous les envoie par courriel. Selon le forfait, le Service offre aussi :
 - des résumés bilingues;
-- l'exportation CSV;
-- l'accès à l'API.
+- l'exportation CSV.
 
 La liste des sources peut changer avec le temps.
 
@@ -68,8 +67,8 @@ Pour l'obtenir, écrivez à bonjour@veillea.ca dans les 30 jours suivant la pann
 
 Vous vous engagez à ne pas :
 - revendre, redistribuer ou publier le Service ou son contenu comme base de données ou service d'alertes concurrent;
-- extraire des données en masse en dehors des fonctions prévues (API et exportation CSV, selon les limites du forfait);
-- partager un compte ou une clé d'API à l'extérieur de votre organisation;
+- extraire des données en masse en dehors des fonctions prévues (exportation CSV, selon les limites du forfait);
+- partager un compte à l'extérieur de votre organisation;
 - sonder, surcharger ou perturber le Service ou sa sécurité;
 - utiliser le Service à des fins illégales.
 

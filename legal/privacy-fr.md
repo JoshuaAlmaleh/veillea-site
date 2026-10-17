@@ -41,8 +41,6 @@ Ces renseignements décrivent ce que votre entreprise recherche et sont liés à
 
 Nous enregistrons aussi les alertes envoyées pour chaque profil et les événements du compte (par exemple un début d'essai, une annulation ou une prolongation d'essai).
 
-**Clés d'API.** Si votre forfait comprend l'accès à l'API, nous ne conservons qu'un hachage de votre clé.
-
 **Communications.** Si vous nous écrivez, nous conservons votre message et notre réponse.
 
 Nous ne recueillons aucun renseignement sensible. Le Service ne s'adresse pas aux personnes de moins de 14 ans.

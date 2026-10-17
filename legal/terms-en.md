@@ -6,7 +6,7 @@ These terms govern your use of the veillea.ca website and the Veillea applicatio
 
 ## 1. The Service
 
-Veillea collects public tender notices published by official sources in Canada and the United States (for example SEAO, CanadaBuys and SAM.gov). It matches them against the monitoring profiles you set up and shows them in the application or sends them to you by email. Depending on your plan, it also provides bilingual summaries, CSV export and API access. The list of sources may change over time.
+Veillea collects public tender notices published by official sources in Canada and the United States (for example SEAO, CanadaBuys and SAM.gov). It matches them against the monitoring profiles you set up and shows them in the application or sends them to you by email. Depending on your plan, it also provides bilingual summaries and CSV export. The list of sources may change over time.
 
 ## 2. Independence and data sources
 
@@ -59,8 +59,8 @@ To claim it, write to bonjour@veillea.ca within 30 days of the outage, with the 
 
 You agree not to:
 - resell, redistribute or publish the Service or its content as a competing database or alert service;
-- extract data in bulk outside the features provided (the API and CSV export, within plan limits);
-- share an account or API key outside your organization;
+- extract data in bulk outside the features provided (CSV export, within plan limits);
+- share an account outside your organization;
 - probe, overload or interfere with the Service or its security;
 - use the Service for an unlawful purpose.
 

@@ -21,8 +21,6 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.
 
 **Usage and technical information.** Our server logs each request with the IP address, method, page requested and response code. It does not record your browser's user agent. For logins we store only the time of your last login. Session records expire after 30 days and expired sessions are deleted. Requests reach our server through Cloudflare, which sees IP addresses and requests as our processor, under its own privacy policy. We also record which alerts were sent to which profile, and account events (for example a trial start, cancellation or trial extension).
 
-**API keys.** If your plan includes API access, we store only a hash of your API key.
-
 **Communications.** If you write to us, we keep your message and our reply.
 
 We do not collect sensitive personal information, and the Service is not intended for individuals under 14.
