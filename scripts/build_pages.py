@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SEO = Path(sys.argv[sys.argv.index("--seo-dir") + 1]) if "--seo-dir" in sys.argv else ROOT.parent / "tender-seo"
 SITE = "https://veillea.ca"
 APP_URL = "https://app.veillea.ca"   # keep in sync with APP_URL in i18n.js
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:wght@400;700&display=swap" rel="stylesheet">'
+FONTS = ''  # fonts are self-hosted via @font-face in style.css
 ICONS = '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#3e1a24">'
 HREFLANG = (f'<link rel="alternate" hreflang="fr-CA" href="{SITE}/fr/"><link rel="alternate" hreflang="en-CA" href="{SITE}/en/">'
             f'<link rel="alternate" hreflang="x-default" href="{SITE}/">')  # / is the language-neutral x-default
@@ -73,7 +73,8 @@ def footer(lang):
                 f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{"Ressources" if lang=="fr" else "Resources"}</b><br>' + " · ".join(
                 f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + '<br>' + " · ".join(
                 f'<a href="{u}">{t}</a>' for u, t in hub_links(lang)) + f'</p><p>{d["ind"]}</p></div>'
-            f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></div>'
+            f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a><br>'
+            + " · ".join(f'<a href="{u}">{t}</a>' for u, t in legal_links(lang)) + '</p></div></div>'
             f'<div class="wrap ft-legal"><p>{LEGAL[lang]} · <a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a></p></div></footer>')
 
 
@@ -407,7 +408,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w9">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w11">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -519,6 +520,36 @@ def lastmod(url):
     return datetime.fromtimestamp((ROOT / rel).stat().st_mtime, ZoneInfo("America/Toronto")).date().isoformat()
 
 
+LEGAL_PAGES = {  # key: {lang: (path, md file, title, description)}
+    "privacy": {"fr": ("/fr/confidentialite", "privacy-fr", "Politique de confidentialité | Veillea",
+                       "Comment Veillea recueille, utilise et protège vos renseignements personnels : Loi 25, LPRPDE, fournisseurs, témoins, conservation et droits."),
+                "en": ("/en/privacy", "privacy-en", "Privacy Policy | Veillea",
+                       "How Veillea collects, uses and protects your personal information: Quebec Law 25, PIPEDA, service providers, cookies, retention and your rights.")},
+    "terms": {"fr": ("/fr/conditions", "terms-fr", "Conditions d'utilisation | Veillea",
+                     "Conditions d'utilisation de Veillea : service, comptes, forfaits en dollars canadiens, essai gratuit, annulation, usage acceptable et droit applicable."),
+              "en": ("/en/terms", "terms-en", "Terms of Service | Veillea",
+                     "Veillea Terms of Service: the service, accounts, plans in Canadian dollars, free trial, billing, cancellation, acceptable use and governing law.")},
+}
+
+
+def legal_links(lang):
+    return [(LEGAL_PAGES[k][lang][0], LEGAL_PAGES[k][lang][2].split(" | ")[0]) for k in ("privacy", "terms")]
+
+
+def legal():
+    for key, langs in LEGAL_PAGES.items():
+        a = "".join(f'<link rel="alternate" hreflang="{h}" href="{SITE}{langs[l][0]}">' for h, l in (("fr-CA", "fr"), ("en-CA", "en"))) + \
+            f'<link rel="alternate" hreflang="x-default" href="{SITE}{langs["fr"][0]}">'
+        for lang, (path, src, title, desc) in langs.items():
+            assert len(title) <= 60 and 140 <= len(desc) <= 160, (path, len(title), len(desc))
+            url = SITE + path
+            crumbs = [("Accueil" if lang == "fr" else "Home", f"{SITE}/{lang}/"), (title.split(" | ")[0], url)]
+            body = markdown.markdown((ROOT / "legal" / f"{src}.md").read_text(encoding="utf-8"), extensions=["tables"], output_format="html")
+            out = head(lang, title, desc, url, ld(crumbs_ld(crumbs)), a) + header(lang)
+            out += f'<main class="landing"><div class="wrap prose legal-doc">{crumbs_html(lang, crumbs)}{body}</div></main>' + footer(lang) + "</body></html>\n"
+            (ROOT / (path.strip("/") + ".html")).write_text(out, encoding="utf-8")
+
+
 def sitemap():
     alt = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}/{p}{"/" if p else ""}"/>' for h, p in (("fr-CA", "fr"), ("en-CA", "en"), ("x-default", "")))
     urls = "".join(f"<url><loc>{SITE}/{p}/</loc>{alt}<changefreq>weekly</changefreq><priority>{pr}</priority></url>"
@@ -542,6 +573,9 @@ def sitemap():
     if WEEKLY:
         for u in [WEEKLY["hub"]] + [WEEKLY["hub"] + p["slug"] for p in WEEKLY["pages"]]:
             urls += f'<url><loc>{SITE}{u}</loc><xhtml:link rel="alternate" hreflang="fr-CA" href="{SITE}{u}"/><changefreq>weekly</changefreq><priority>0.6</priority></url>'
+    for langs in LEGAL_PAGES.values():
+        a = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}{langs[l][0]}"/>' for h, l in (("fr-CA", "fr"), ("en-CA", "en"), ("x-default", "fr")))
+        urls += "".join(f"<url><loc>{SITE}{langs[l][0]}</loc>{a}<changefreq>yearly</changefreq><priority>0.3</priority></url>" for l in ("fr", "en"))
     urls += f"<url><loc>{SITE}/</loc>{alt}<changefreq>weekly</changefreq><priority>0.8</priority></url>"
     urls = re.sub(r"<loc>([^<]+)</loc>", lambda m: f"<loc>{m.group(1)}</loc><lastmod>{lastmod(m.group(1))}</lastmod>", urls)
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
@@ -594,4 +628,4 @@ def prerender_root():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); page_404(); sitemap(); prerender_root(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); sitemap(); prerender_root(); print("ok")
