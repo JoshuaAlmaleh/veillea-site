@@ -45,23 +45,22 @@
       "name_en": "Solo",
       "tagline_fr": "Pour l'entrepreneur ou le travailleur autonome",
       "tagline_en": "For owner-operators",
-      "monthly_cad": 29,
-      "annual_cad": 319,
-      "max_profiles": 3,
+      "monthly_cad": 39,
+      "annual_cad": 429,
+      "max_profiles": 1,
       "max_users": 1,
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto"
       ],
       "frequencies": [
         "weekly",
         "daily"
       ],
       "summaries": true,
-      "history_days": 90,
+      "history_days": 30,
       "csv_export": true,
       "api_access": false,
       "trial": true,
