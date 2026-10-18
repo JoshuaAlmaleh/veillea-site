@@ -33,9 +33,9 @@ Les forfaits et leurs limites sont décrits sur la page des tarifs. Les prix act
 | Forfait | Prix |
 |---|---|
 | Gratuit | 0 $ |
-| Solo | 29 $/mois ou 290 $/an |
-| Équipe | 69 $/mois ou 690 $/an |
-| Entreprise | à partir de 199 $/mois ou 1 990 $/an |
+| Solo | 35 $/mois ou 385 $/an |
+| Équipe | 69 $/mois ou 759 $/an |
+| Entreprise | à partir de 199 $/mois ou 2 189 $/an |
 
 Les prix sont en dollars canadiens et sont définitifs : Veillea n'est pas inscrite aux fichiers de la TPS/TVQ pour le moment et ne perçoit aucune taxe de vente. Si Veillea s'inscrit, les taxes applicables seront ajoutées après un préavis.
 

@@ -1,7 +1,7 @@
 {
   "currency": "CAD",
   "trial_days": 14,
-  "annual_discount": "2 months free",
+  "annual_discount": "1 month free",
   "live_sources": [
     "seao",
     "canadabuys"
@@ -45,23 +45,22 @@
       "name_en": "Solo",
       "tagline_fr": "Pour l'entrepreneur ou le travailleur autonome",
       "tagline_en": "For owner-operators",
-      "monthly_cad": 29,
-      "annual_cad": 290,
-      "max_profiles": 3,
+      "monthly_cad": 35,
+      "annual_cad": 385,
+      "max_profiles": 1,
       "max_users": 1,
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto"
       ],
       "frequencies": [
         "weekly",
         "daily"
       ],
       "summaries": true,
-      "history_days": 90,
+      "history_days": 30,
       "csv_export": true,
       "api_access": false,
       "trial": true,
@@ -77,15 +76,24 @@
       "tagline_fr": "Pour les PME qui soumissionnent régulièrement",
       "tagline_en": "For SMBs that bid regularly",
       "monthly_cad": 69,
-      "annual_cad": 690,
+      "annual_cad": 759,
       "max_profiles": 15,
       "max_users": 5,
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto",
+        "tn_cpo",
+        "nm_spd",
+        "iowa",
+        "lapac",
+        "montgomery_md",
+        "delaware",
+        "nyc",
+        "la_ramp",
+        "usac_erate",
+        "samgov"
       ],
       "frequencies": [
         "weekly",
@@ -109,15 +117,24 @@
       "tagline_fr": "Plusieurs équipes, besoins sur mesure",
       "tagline_en": "Multiple teams, custom needs",
       "monthly_cad": 199,
-      "annual_cad": 1990,
+      "annual_cad": 2189,
       "max_profiles": null,
       "max_users": null,
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto",
+        "tn_cpo",
+        "nm_spd",
+        "iowa",
+        "lapac",
+        "montgomery_md",
+        "delaware",
+        "nyc",
+        "la_ramp",
+        "usac_erate",
+        "samgov"
       ],
       "frequencies": [
         "weekly",
