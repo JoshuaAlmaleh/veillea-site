@@ -1,7 +1,7 @@
 {
   "currency": "CAD",
   "trial_days": 14,
-  "annual_discount": "2 months free",
+  "annual_discount": "1 month free",
   "live_sources": [
     "seao",
     "canadabuys"
@@ -46,7 +46,7 @@
       "tagline_fr": "Pour l'entrepreneur ou le travailleur autonome",
       "tagline_en": "For owner-operators",
       "monthly_cad": 29,
-      "annual_cad": 290,
+      "annual_cad": 319,
       "max_profiles": 3,
       "max_users": 1,
       "sources": [
@@ -77,7 +77,7 @@
       "tagline_fr": "Pour les PME qui soumissionnent régulièrement",
       "tagline_en": "For SMBs that bid regularly",
       "monthly_cad": 69,
-      "annual_cad": 690,
+      "annual_cad": 759,
       "max_profiles": 15,
       "max_users": 5,
       "sources": [
@@ -109,7 +109,7 @@
       "tagline_fr": "Plusieurs équipes, besoins sur mesure",
       "tagline_en": "Multiple teams, custom needs",
       "monthly_cad": 199,
-      "annual_cad": 1990,
+      "annual_cad": 2189,
       "max_profiles": null,
       "max_users": null,
       "sources": [
