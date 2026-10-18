@@ -45,8 +45,8 @@
       "name_en": "Solo",
       "tagline_fr": "Pour l'entrepreneur ou le travailleur autonome",
       "tagline_en": "For owner-operators",
-      "monthly_cad": 39,
-      "annual_cad": 429,
+      "monthly_cad": 35,
+      "annual_cad": 385,
       "max_profiles": 1,
       "max_users": 1,
       "sources": [
@@ -82,9 +82,18 @@
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto",
+        "tn_cpo",
+        "nm_spd",
+        "iowa",
+        "lapac",
+        "montgomery_md",
+        "delaware",
+        "nyc",
+        "la_ramp",
+        "usac_erate",
+        "samgov"
       ],
       "frequencies": [
         "weekly",
@@ -114,9 +123,18 @@
       "sources": [
         "seao",
         "canadabuys",
-        "bidsandtenders",
-        "mtl_municipal",
-        "ontario"
+        "sasktenders",
+        "toronto",
+        "tn_cpo",
+        "nm_spd",
+        "iowa",
+        "lapac",
+        "montgomery_md",
+        "delaware",
+        "nyc",
+        "la_ramp",
+        "usac_erate",
+        "samgov"
       ],
       "frequencies": [
         "weekly",

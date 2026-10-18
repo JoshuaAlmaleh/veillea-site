@@ -25,7 +25,7 @@ The plans and their limits are described on the pricing page. Current prices are
 | Plan | Price |
 |---|---|
 | Free | $0 |
-| Solo | $39/month or $429/year |
+| Solo | $35/month or $385/year |
 | Team | $69/month or $759/year |
 | Enterprise | from $199/month or $2,189/year |
 

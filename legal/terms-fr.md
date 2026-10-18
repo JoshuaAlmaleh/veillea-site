@@ -33,7 +33,7 @@ Les forfaits et leurs limites sont décrits sur la page des tarifs. Les prix act
 | Forfait | Prix |
 |---|---|
 | Gratuit | 0 $ |
-| Solo | 39 $/mois ou 429 $/an |
+| Solo | 35 $/mois ou 385 $/an |
 | Équipe | 69 $/mois ou 759 $/an |
 | Entreprise | à partir de 199 $/mois ou 2 189 $/an |
 

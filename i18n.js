@@ -10,7 +10,7 @@ f1h:"Correspondances classées",f1p:"Chaque avis reçoit un score selon vos mots
 pos_h:"Pourquoi Veillea",p1h:"Un abonnement, toutes les sources",p1p:"Pas un compte par portail : vos avis SEAO, fédéraux, provinciaux, municipaux et américains au même endroit.",p2h:"Bilingue de nature",p2p:"Correspondance et résumés en français et en anglais. Un avis fédéral en anglais ne vous échappera plus.",p3h:"Québec d'abord",p3p:"Bâti à Montréal, autour de SEAO et des besoins des PME québécoises, puis élargi au reste du Canada et aux États-Unis.",
 who_eye:"Pour qui",who_h:"Pour les PME qui vendent au secteur public",who_p:"Si vous répondez — ou voulez répondre — à des appels d'offres publics, Veillea vous fait gagner du temps.",
 w1h:"Entretien et nettoyage",w1p:"Contrats d'entretien ménager d'immeubles, d'écoles et de bureaux.",w2h:"Construction",w2p:"Entrepreneurs généraux et spécialisés, travaux municipaux et provinciaux.",w3h:"TI et logiciels",w3p:"Services infonuagiques, développement, soutien technique, licences.",w4h:"Services-conseils",w4p:"Gestion de projet, ingénierie, formation, études.",
-pr_eye:"Tarifs",pr_h:"Moins cher que la concurrence, plus de sources",pr_p:"Essai gratuit de 14 jours sur les forfaits payants, sans carte de crédit. Prix en dollars canadiens.",
+pr_eye:"Tarifs",pr_h:"Plus de sources, prix simples",pr_p:"Essai gratuit de 14 jours sur les forfaits payants, sans carte de crédit. Prix en dollars canadiens.",
 iv_m:"Mensuel",iv_y:"Annuel",iv_save:"1 mois gratuit",per_mo:" /mois",per_yr:" /an",forever:" pour toujours",from:"dès ",eq_mo:"soit {x} $/mois, facturé annuellement",pop:"Le plus choisi",
 cta_free:"Commencer gratuitement",
 pl:{free:["Gratuit","Pour essayer la veille SEAO",["1 profil de veille","1 utilisateur","SEAO seulement","Résumé hebdomadaire par courriel","Historique de 7 jours"]],
@@ -36,7 +36,7 @@ f1h:"Ranked matches",f1p:"Every notice is scored against your keywords and categ
 pos_h:"Why Veillea",p1h:"One subscription, every source",p1p:"Not one account per portal: your SEAO, federal, provincial, municipal and US notices in one place.",p2h:"Bilingual by design",p2p:"Matching and summaries in English and French. A French-only SEAO notice won't slip past you.",p3h:"Québec first",p3p:"Built in Montréal around SEAO and the needs of Québec SMBs, then expanding across Canada and the US.",
 who_eye:"Who it's for",who_h:"For SMBs selling to the public sector",who_p:"If you bid — or want to bid — on public tenders, Veillea saves you time.",
 w1h:"Cleaning & janitorial",w1p:"Building, school and office maintenance contracts.",w2h:"Construction",w2p:"General and specialty contractors, municipal and provincial work.",w3h:"IT & software",w3p:"Cloud services, development, technical support, licensing.",w4h:"Consulting",w4p:"Project management, engineering, training, studies.",
-pr_eye:"Pricing",pr_h:"Lower prices, more sources",pr_p:"14-day free trial on paid plans, no credit card. Prices in Canadian dollars.",
+pr_eye:"Pricing",pr_h:"More sources, simple pricing",pr_p:"14-day free trial on paid plans, no credit card. Prices in Canadian dollars.",
 iv_m:"Monthly",iv_y:"Annual",iv_save:"1 month free",per_mo:" /mo",per_yr:" /yr",forever:" forever",from:"from ",eq_mo:"i.e. ${x}/mo, billed annually",pop:"Most popular",
 cta_free:"Start free",
 pl:{free:["Free","Try SEAO monitoring",["1 monitoring profile","1 user","SEAO only","Weekly email digest","7-day history"]],
@@ -53,7 +53,7 @@ ft_p:"Bilingual public tender monitoring for Canadian SMBs.",ft_legal:"Veillea i
 /* Plans: keep in sync with tender-scanner/tender_scanner/plans.py (exported to plans.json). Prices CAD. */
 /* App base URL — single place to change when the app moves. */
 const APP_URL="https://app.veillea.ca";
-const PLANS=[{k:"free",m:0,y:0},{k:"solo",m:39,y:429},{k:"team",m:69,y:759,pop:1},{k:"enterprise",m:199,y:2189,from:1}];
+const PLANS=[{k:"free",m:0,y:0},{k:"solo",m:35,y:385},{k:"team",m:69,y:759,pop:1},{k:"enterprise",m:199,y:2189,from:1}];
 let IV="m",CUR="fr";
 const money=(n,l)=>l==="en"?"$"+n.toLocaleString("en-CA"):n.toLocaleString("fr-CA")+"\u00a0$";
 function signupUrl(plan){return `${APP_URL}/signup?plan=${encodeURIComponent(plan)}&interval=${IV==="y"?"annual":"monthly"}&lang=${CUR}`}
