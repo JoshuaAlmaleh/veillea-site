@@ -673,7 +673,21 @@ def prerender_root():
     p.write_text(s, encoding="utf-8")
 
 
+REDIRECTS = {"fr/tarifs.html": ("fr", "/#pricing", "Voir les tarifs de Veillea"), "en/pricing.html": ("en", "/?lang=en#pricing", "See Veillea pricing")}
+
+
+def redirect_stubs():
+    """Redirect stubs (not in the sitemap): no standalone pricing page, pricing lives in /#pricing."""
+    for rel, (lang, target, label) in REDIRECTS.items():
+        t = html.escape(target)
+        (ROOT / rel).write_text(
+            f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><title>{label}</title>'
+            f'<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}/">'
+            f'<meta http-equiv="refresh" content="0; url={t}"><script>location.replace({json.dumps(target)})</script></head>'
+            f'<body><p><a href="{t}">{label}</a></p></body></html>\n', encoding="utf-8")
+
+
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); sitemap(); prerender_root(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); sitemap(); prerender_root(); redirect_stubs(); print("ok")
