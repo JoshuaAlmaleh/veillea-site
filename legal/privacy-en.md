@@ -43,7 +43,7 @@ We do not sell or rent personal information, and we do not use it for advertisin
 **Application (app.veillea.ca):**
 - a session cookie, required to keep you logged in. It is HttpOnly and lasts up to 30 days, or until you log out;
 - a language cookie that remembers your language choice, kept for up to 1 year;
-- a signup-source cookie: when you reach the signup page from a link, we keep a first-party cookie for 30 days (or until you sign up) recording the page or campaign you came from, only to learn which pages lead to signups. It is not shared with anyone.
+- a signup-source cookie (veillea_src): when you reach the signup page from a link, we keep a first-party cookie for 30 days (or until you sign up) recording the campaign you came from (UTM source, medium and campaign) and the referring page, only to learn which pages lead to signups. It is not shared with anyone.
 
 **Marketing site (veillea.ca):** your language choice is stored in your browser's local storage.
 

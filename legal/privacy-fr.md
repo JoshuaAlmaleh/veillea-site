@@ -62,7 +62,7 @@ Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utili
 **Dans l'application (app.veillea.ca) :**
 - un témoin de session, nécessaire pour rester connecté. Il est HttpOnly et dure au plus 30 jours ou jusqu'à la déconnexion;
 - un témoin de langue, conservé jusqu'à 1 an;
-- un témoin de provenance : lorsque vous arrivez sur la page d'inscription depuis un lien, nous conservons pendant 30 jours (ou jusqu'à votre inscription) un témoin (cookie) interne indiquant la page ou la campagne d'origine, uniquement pour savoir quelle page mène aux inscriptions. Il n'est partagé avec personne.
+- un témoin de provenance (veillea_src) : lorsque vous arrivez sur la page d'inscription depuis un lien, nous conservons pendant 30 jours (ou jusqu'à votre inscription) un témoin (cookie) interne indiquant la campagne d'origine (source, support et campagne UTM) et la page de provenance, uniquement pour savoir quelle page mène aux inscriptions. Il n'est partagé avec personne.
 
 **Sur le site (veillea.ca) :** votre choix de langue est enregistré dans le stockage local de votre navigateur.
 
