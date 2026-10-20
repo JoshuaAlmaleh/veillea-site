@@ -13,7 +13,7 @@ Contact: bonjour@veillea.ca · PO Box 311, Hudson, Quebec J0P 0A9.
 
 ## 2. Information we collect
 
-**Account information.** When you create an account: your email address, a password (stored only as a salted scrypt hash, never in readable form), your name (optional), your organization name, your preferred language, and your plan choice. We also record when the account was created, whether your email address was confirmed, and the date of your last login.
+**Account information.** When you create an account: your email address, a password (stored only as a salted scrypt hash, never in readable form), your name (optional), your organization name, your preferred language, and your plan choice. We also record when the account was created, whether your email address was confirmed, the date of your last login, and which page or campaign led to the signup.
 
 **Team members.** If an account owner adds a team member, we store that person's email address, name (optional) and role (owner or member).
 
@@ -42,7 +42,8 @@ We do not sell or rent personal information, and we do not use it for advertisin
 
 **Application (app.veillea.ca):**
 - a session cookie, required to keep you logged in. It is HttpOnly and lasts up to 30 days, or until you log out;
-- a language cookie that remembers your language choice, kept for up to 1 year.
+- a language cookie that remembers your language choice, kept for up to 1 year;
+- a signup-source cookie: when you reach the signup page from a link, we keep a first-party cookie for 30 days (or until you sign up) recording the page or campaign you came from, only to learn which pages lead to signups. It is not shared with anyone.
 
 **Marketing site (veillea.ca):** your language choice is stored in your browser's local storage.
 

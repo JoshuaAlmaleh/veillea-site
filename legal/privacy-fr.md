@@ -21,7 +21,7 @@ Pour le joindre : bonjour@veillea.ca · C.P. 311, Hudson (Québec) J0P 0A9.
 - votre langue;
 - le forfait choisi.
 
-Nous enregistrons aussi la date de création du compte, la confirmation ou non de votre adresse courriel et la date de votre dernière connexion.
+Nous enregistrons aussi la date de création du compte, la confirmation ou non de votre adresse courriel, la date de votre dernière connexion et la page ou la campagne qui a mené à l'inscription.
 
 **Membres de l'équipe.** Si le propriétaire du compte ajoute un membre, nous conservons son adresse courriel, son nom (facultatif) et son rôle (propriétaire ou membre).
 
@@ -40,8 +40,6 @@ Ces renseignements décrivent ce que votre entreprise recherche et sont liés à
 - la date d'annulation prévue, s'il y a lieu.
 
 **Utilisation et données techniques.** Notre serveur consigne chaque requête avec l'adresse IP, la méthode, la page demandée et le code de réponse. Il n'enregistre pas l'agent utilisateur de votre navigateur. Pour les connexions, nous ne conservons que l'heure de votre dernière connexion. Les sessions expirent après 30 jours et les sessions expirées sont supprimées. Les requêtes passent par Cloudflare, qui voit les adresses IP et les requêtes à titre de sous-traitant, selon sa propre politique de confidentialité. Nous enregistrons aussi les alertes envoyées pour chaque profil et les événements du compte (par exemple un début d'essai, une annulation ou une prolongation d'essai).
-
-Nous enregistrons aussi les alertes envoyées pour chaque profil et les événements du compte (par exemple un début d'essai, une annulation ou une prolongation d'essai).
 
 **Communications.** Si vous nous écrivez, nous conservons votre message et notre réponse.
 
@@ -63,7 +61,8 @@ Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utili
 
 **Dans l'application (app.veillea.ca) :**
 - un témoin de session, nécessaire pour rester connecté. Il est HttpOnly et dure au plus 30 jours ou jusqu'à la déconnexion;
-- un témoin de langue, conservé jusqu'à 1 an.
+- un témoin de langue, conservé jusqu'à 1 an;
+- un témoin de provenance : lorsque vous arrivez sur la page d'inscription depuis un lien, nous conservons pendant 30 jours (ou jusqu'à votre inscription) un témoin (cookie) interne indiquant la page ou la campagne d'origine, uniquement pour savoir quelle page mène aux inscriptions. Il n'est partagé avec personne.
 
 **Sur le site (veillea.ca) :** votre choix de langue est enregistré dans le stockage local de votre navigateur.
 
