@@ -214,7 +214,7 @@ def page(tr, items, updated, data_end):
         lds += B.ld({"@context": "https://schema.org", "@type": "ItemList", "name": f"Appels d'offres ouverts en {tr['name']}",
                      "numberOfItems": n, "itemListElement": [{"@type": "ListItem", "position": i, "url": r["url"], "name": r["title"][:150]}
                                                              for i, r in enumerate(items[:50], 1)]})
-    alts = f'<link rel="alternate" hreflang="fr-CA" href="{url}">'
+    alts = f'<link rel="alternate" hreflang="fr-CA" href="{url}"><link rel="alternate" hreflang="x-default" href="{url}">'
     out = B.head("fr", title, desc, url, lds, alts)
     rows = "".join(
         f'<tr><td><a href="{html.escape(r["url"])}" rel="nofollow noopener" target="_blank">{html.escape(r["title"])}</a>'
@@ -253,7 +253,7 @@ def hub(counts, updated):
             "informatique, etc.")
     assert len(title) <= 60 and len(desc) <= 160, (len(title), len(desc))
     crumbs = [("Accueil", f"{B.SITE}/fr/"), ("Appels d'offres cette semaine", url)]
-    out = B.head("fr", title, desc, url, B.ld(B.crumbs_ld(crumbs)), f'<link rel="alternate" hreflang="fr-CA" href="{url}">')
+    out = B.head("fr", title, desc, url, B.ld(B.crumbs_ld(crumbs)), f'<link rel="alternate" hreflang="fr-CA" href="{url}"><link rel="alternate" hreflang="x-default" href="{url}">')
     cards = "".join(f'<a class="card wk-card" href="{HUB}{t["slug"]}"><b>{counts[t["slug"]]}</b><span>{t["label"]}</span></a>' for t in TRADES)
     body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres ouverts — semaine du {wk}</h1><p class="wk-meta">Mis à jour le {fr_date(updated)}</p>'
             '<p>Les appels d\'offres publics du SEAO encore ouverts, classés par métier. Chaque page liste le titre, l\'organisme, la ville, '
