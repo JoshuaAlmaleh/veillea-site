@@ -12,6 +12,8 @@ SEO = Path(sys.argv[sys.argv.index("--seo-dir") + 1]) if "--seo-dir" in sys.argv
 SITE = "https://veillea.ca"
 APP_URL = "https://app.veillea.ca"   # keep in sync with APP_URL in i18n.js
 FONTS = ''  # fonts are self-hosted via @font-face in style.css
+# Cloudflare Web Analytics (cookieless); Cloudflare's snippet as given, placed before </body> on every page
+CF_BEACON = '''<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0db15ef9766647029a30dadef264f5ba"}'></script><!-- End Cloudflare Web Analytics -->'''
 ICONS = '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><link rel="manifest" href="/site.webmanifest"><meta name="theme-color" content="#3e1a24">'
 HREFLANG = (f'<link rel="alternate" hreflang="fr-CA" href="{SITE}/fr/"><link rel="alternate" hreflang="en-CA" href="{SITE}/en/">'
             f'<link rel="alternate" hreflang="x-default" href="{SITE}/">')  # / is the language-neutral x-default
@@ -247,9 +249,9 @@ def hubs():
             body = (crumbs_html(lg, crumbs) + f"<h1>{html.escape(h1)}</h1><p>{html.escape(intro)}</p>"
                     + "".join(f'<h2><a href="{u}">{html.escape(t)}</a></h2><p>{html.escape(d)}</p>' for u, t, d in items))
             out = head(lg, title, desc, url, ld(lst) + ld(crumbs_ld(crumbs)), alts)
-            out += header(lg) + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lg) + "</body></html>\n"
+            out += header(lg) + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lg) + CF_BEACON + "</body></html>\n"
             out = out.replace('<a href="/fr/" class', f'<a href="{fp}" class', 1).replace('<a href="/en/" class', f'<a href="{ep}" class', 1)
-            assert "<!--" not in out
+            assert "<!--" not in out.replace(CF_BEACON, "")
             target = ROOT / path.strip("/") / "index.html"
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(out, encoding="utf-8")
@@ -408,7 +410,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w15">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w16">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -471,8 +473,8 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots
     if dates:
         h = re.sub(r"(</h1>)", r"\1" + dates, h, count=1)
     out = head(lang, title, desc, canonical, blocks, alts, og_type, og_extra)
-    out += header(lang) + f'<main class="landing"><div class="wrap prose">{crumbs_html(lang, crumbs) if crumbs else ""}{h}</div></main>' + footer(lang) + "</body></html>\n"
-    assert "<!--" not in out, "HTML comment left in page"
+    out += header(lang) + f'<main class="landing"><div class="wrap prose">{crumbs_html(lang, crumbs) if crumbs else ""}{h}</div></main>' + footer(lang) + CF_BEACON + "</body></html>\n"
+    assert "<!--" not in out.replace(CF_BEACON, ""), "HTML comment left in page"  # only the Cloudflare snippet's own comments are allowed
     target = Path(out_path or ROOT / lang / "index.html")
     target.parent.mkdir(exist_ok=True)
     target.write_text(out, encoding="utf-8")
@@ -500,7 +502,7 @@ def page_404():
         '<h1>Page introuvable</h1><p>La page demandée n\'existe pas ou a été déplacée.</p>'
         '<p class="ctas"><a class="btn" href="/fr/">Accueil en français</a></p>'
         '<hr><h2 lang="en">Page not found</h2><p lang="en">The page you requested does not exist or has moved.</p>'
-        '<p class="ctas"><a class="btn ghost" href="/en/">English home page</a></p></div></main>') + footer("fr") + "</body></html>\n"
+        '<p class="ctas"><a class="btn ghost" href="/en/">English home page</a></p></div></main>') + footer("fr") + CF_BEACON + "</body></html>\n"
     (ROOT / "404.html").write_text(out, encoding="utf-8")
 
 
@@ -546,7 +548,7 @@ def legal():
             crumbs = [("Accueil" if lang == "fr" else "Home", f"{SITE}/{lang}/"), (title.split(" | ")[0], url)]
             body = markdown.markdown((ROOT / "legal" / f"{src}.md").read_text(encoding="utf-8"), extensions=["tables"], output_format="html")
             out = head(lang, title, desc, url, ld(crumbs_ld(crumbs)), a) + header(lang)
-            out += f'<main class="landing"><div class="wrap prose legal-doc">{crumbs_html(lang, crumbs)}{body}</div></main>' + footer(lang) + "</body></html>\n"
+            out += f'<main class="landing"><div class="wrap prose legal-doc">{crumbs_html(lang, crumbs)}{body}</div></main>' + footer(lang) + CF_BEACON + "</body></html>\n"
             (ROOT / (path.strip("/") + ".html")).write_text(out, encoding="utf-8")
 
 

@@ -238,8 +238,8 @@ def page(tr, items, updated, data_end):
             '<p class="small">Classement automatique selon le titre et les codes UNSPSC de l\'avis; une catégorie peut contenir des avis connexes. '
             'Source : données ouvertes du SEAO (Données Québec), mises à jour chaque semaine. Vérifiez toujours l\'avis officiel avant de soumissionner.</p>'
             f'<p><a href="{HUB}">← Toutes les catégories cette semaine</a></p>')
-    out += B.header("fr") + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer() + "</body></html>\n"
-    assert "<!--" not in out
+    out += B.header("fr") + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer() + B.CF_BEACON + "</body></html>\n"
+    assert "<!--" not in out.replace(B.CF_BEACON, "")
     return out
 
 
@@ -260,7 +260,7 @@ def hub(counts, updated):
             'les dates de publication et de clôture, avec un lien vers l\'avis officiel.</p>'
             f'<div class="wk-grid">{cards}</div>'
             f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a></p>')
-    out += B.header("fr") + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer() + "</body></html>\n"
+    out += B.header("fr") + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer() + B.CF_BEACON + "</body></html>\n"
     return out
 
 

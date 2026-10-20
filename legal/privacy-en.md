@@ -2,6 +2,8 @@
 
 **Effective date:** October 17, 2026
 
+**Last updated:** October 19, 2026
+
 Veillea ("Veillea", "we") is a sole proprietorship operated by Joshua Almaleh, Quebec Enterprise Number (NEQ) 2282674748, PO Box 311, Hudson, Quebec J0P 0A9. This policy explains what personal information we collect through the veillea.ca website and the Veillea application at app.veillea.ca (the "Service"), why, and what your rights are. It is written to meet Quebec's *Act respecting the protection of personal information in the private sector* (as amended by Law 25) and the federal *Personal Information Protection and Electronic Documents Act* (PIPEDA).
 
 ## 1. Person responsible for the protection of personal information
@@ -44,7 +46,9 @@ We do not sell or rent personal information, and we do not use it for advertisin
 
 **Marketing site (veillea.ca):** your language choice is stored in your browser's local storage.
 
-Neither site uses analytics, advertising, tracking or error-tracking services.
+**Audience measurement (veillea.ca only):** the marketing site uses Cloudflare Web Analytics to measure its audience. This tool sets no cookies, uses no local storage and does not follow individuals across sites. It collects aggregate visit statistics: pages visited, referring page, country, browser and device type, and page performance. Each page loads a script from static.cloudflareinsights.com for this purpose. The application (app.veillea.ca) does not use it.
+
+Neither site uses advertising, cross-site tracking or error-tracking services.
 
 No third-party fonts are loaded: both sites serve their own fonts. The live tracker on veillea.ca also contacts app.veillea.ca to fetch public counts.
 
@@ -62,7 +66,7 @@ We use the following processors. They process personal information on our behalf
 |---|---|---|
 | Stripe | Payments, billing name and address, invoices. Card numbers never reach our server. | United States and other countries |
 | Resend | Transactional and alert emails: recipient addresses and message content | United States |
-| Cloudflare | DNS, the tunnel to our server and the proxy. It sees IP addresses and requests. | Worldwide network |
+| Cloudflare | DNS, the tunnel to our server and the proxy. It sees IP addresses and requests. Audience measurement for veillea.ca (Cloudflare Web Analytics): aggregate visit statistics, without cookies. | Worldwide network |
 | GitHub (Microsoft) | Hosting of the marketing site veillea.ca (GitHub Pages) | United States |
 
 No artificial intelligence service receives your data. Notice summaries are generated on our own server.

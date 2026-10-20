@@ -2,6 +2,8 @@
 
 **Date d'entrée en vigueur :** 17 octobre 2026
 
+**Dernière mise à jour :** 19 octobre 2026
+
 Veillea (« Veillea », « nous ») est une entreprise individuelle exploitée par Joshua Almaleh, NEQ 2282674748, C.P. 311, Hudson (Québec) J0P 0A9. La présente politique explique quels renseignements personnels nous recueillons par le site veillea.ca et l'application Veillea à app.veillea.ca (le « Service »), pourquoi, et quels sont vos droits. Elle vise à respecter la *Loi sur la protection des renseignements personnels dans le secteur privé* du Québec, telle que modifiée par la Loi 25, ainsi que la *Loi sur la protection des renseignements personnels et les documents électroniques* (LPRPDE) fédérale.
 
 ## 1. Responsable de la protection des renseignements personnels
@@ -65,7 +67,9 @@ Nous ne vendons ni ne louons aucun renseignement personnel, et nous ne les utili
 
 **Sur le site (veillea.ca) :** votre choix de langue est enregistré dans le stockage local de votre navigateur.
 
-Aucun service d'analyse, de publicité, de pistage ou de suivi des erreurs n'est utilisé.
+**Mesure d'audience (veillea.ca seulement) :** le site utilise Cloudflare Web Analytics pour mesurer son audience. Cet outil ne dépose aucun témoin, n'utilise pas le stockage local et ne suit pas les personnes d'un site à l'autre. Il recueille des statistiques de visite agrégées : pages consultées, page de provenance, pays, type de navigateur et d'appareil, et performance des pages. Chaque page charge à cette fin un script de static.cloudflareinsights.com. L'application (app.veillea.ca) ne l'utilise pas.
+
+Aucun service de publicité, de pistage entre sites ou de suivi des erreurs n'est utilisé.
 
 Aucune police de tiers n'est chargée : les deux sites servent leurs propres polices. Le compteur en direct de veillea.ca interroge aussi app.veillea.ca pour obtenir des chiffres publics.
 
@@ -83,7 +87,7 @@ Nous faisons appel aux sous-traitants suivants. Ils traitent des renseignements 
 |---|---|---|
 | Stripe | Paiements, nom et adresse de facturation, factures. Les numéros de carte ne passent jamais par notre serveur. | États-Unis et autres pays |
 | Resend | Courriels transactionnels et d'alerte : adresses des destinataires et contenu des messages | États-Unis |
-| Cloudflare | DNS, tunnel vers notre serveur et mandataire (proxy). Il voit les adresses IP et les requêtes. | Réseau mondial |
+| Cloudflare | DNS, tunnel vers notre serveur et mandataire (proxy). Il voit les adresses IP et les requêtes. Mesure d'audience de veillea.ca (Cloudflare Web Analytics) : statistiques de visite agrégées, sans témoin. | Réseau mondial |
 | GitHub (Microsoft) | Hébergement du site veillea.ca (GitHub Pages) | États-Unis |
 
 Aucun service d'intelligence artificielle ne reçoit vos données. Les résumés des avis sont générés sur notre propre serveur.
