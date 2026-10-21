@@ -673,7 +673,8 @@ def prerender_root():
     p.write_text(s, encoding="utf-8")
 
 
-REDIRECTS = {"fr/tarifs.html": ("fr", "/#pricing", "Voir les tarifs de Veillea"), "en/pricing.html": ("en", "/?lang=en#pricing", "See Veillea pricing")}
+REDIRECTS = {"fr/tarifs.html": ("fr", "/#pricing", "Voir les tarifs de Veillea"), "en/pricing.html": ("en", "/?lang=en#pricing", "See Veillea pricing"),
+             "fr/guide/seuils-appels-offresquebec-2026-2027.html": ("fr", "/fr/guide/seuils-appels-offres-quebec-2026-2027", "Seuils des appels d'offres au Québec 2026-2027")}
 
 
 def redirect_stubs():
@@ -682,7 +683,7 @@ def redirect_stubs():
         t = html.escape(target)
         (ROOT / rel).write_text(
             f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><title>{label}</title>'
-            f'<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}/">'
+            f'<meta name="robots" content="noindex"><link rel="canonical" href="{SITE}{target if target.startswith('/fr/') else '/'}">'
             f'<meta http-equiv="refresh" content="0; url={t}"><script>location.replace({json.dumps(target)})</script></head>'
             f'<body><p><a href="{t}">{label}</a></p></body></html>\n', encoding="utf-8")
 
