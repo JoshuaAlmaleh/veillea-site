@@ -29,7 +29,7 @@ The plans and their limits are described on the pricing page. Current prices are
 | Team | $69/month or $759/year |
 | Enterprise | from $199/month or $2,189/year |
 
-Prices are in Canadian dollars and are final: Veillea is not currently registered for GST/QST and charges no sales taxes. If Veillea registers, applicable taxes will be added after notice to you.
+If Veillea registers, applicable taxes will be added after notice to you.
 
 We may change prices with at least 30 days' notice by email. A new price applies from your next renewal.
 
