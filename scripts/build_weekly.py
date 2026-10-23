@@ -217,6 +217,9 @@ def week_short(updated):
     return f"{'1er' if m.day == 1 else m.day} {MOIS_ABR[m.month - 1]}"
 
 
+WEEKLY_TRIAL = {"construction": "semaine-construction-fr"}  # trade slug -> utm_campaign
+
+
 def page(tr, items, updated, data_end):
     url = f"{B.SITE}{HUB}{tr['slug']}"
     n = len(items)
@@ -255,12 +258,14 @@ def page(tr, items, updated, data_end):
            f'les nouveaux appels d\'offres en {tr["name"]} selon vos mots-clés et vos régions. Essai gratuit de 14 jours, sans carte de crédit.</p></div>'
            f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a>'
            f'<a class="btn ghost" href="{B.APP_URL}/signup?plan=free&amp;interval=monthly&amp;lang=fr">Alerte hebdo gratuite</a></p></div>')
+    # above-the-fold trial CTA (same component as build_pages.TRIAL_CTA pages) on selected trades
+    trial = f'\n<p class="ctas">{B.trial_cta("fr", WEEKLY_TRIAL[tr["slug"]])}</p>' if tr["slug"] in WEEKLY_TRIAL else ""
     body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres {tr["name"]} — semaine du {wk}</h1>'
             f'<p class="wk-meta">Mis à jour le {fr_date(updated)} · Données ouvertes SEAO jusqu\'au {fr_date(datetime.combine(data_end, datetime.min.time(), TZ))} · '
             f'<b>{n}</b> appel{"s" if n != 1 else ""} d\'offres ouvert{"s" if n != 1 else ""}</p>'
             f'<p>Liste des appels d\'offres publics du SEAO (Québec) encore ouverts dans la catégorie {tr["name"]}, triés par date de clôture. '
             f'Chaque titre mène à l\'avis officiel sur le SEAO, où se trouvent les documents et les modalités de dépôt.{sec}</p>'
-            + cta + table +
+            + trial + cta + table +
             '<p class="small">Classement automatique selon le titre et les codes UNSPSC de l\'avis; une catégorie peut contenir des avis connexes. '
             'Source : données ouvertes du SEAO (Données Québec), mises à jour chaque semaine. Vérifiez toujours l\'avis officiel avant de soumissionner.</p>'
             f'<p><a href="{HUB}">← Toutes les catégories cette semaine</a></p>')

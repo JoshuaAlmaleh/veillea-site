@@ -582,7 +582,7 @@ TRIAL_CTA = {"fr/index.html": "home-fr", "en/index.html": "home-en",
              "fr/scanner-appels-offres.html": "tender-scanner-fr", "en/tender-scanner.html": "tender-scanner-en",
              "fr/alternative-alertes-seao.html": "seao-alerts-fr", "en/seao-alerts-alternative.html": "seao-alerts-en",
              "fr/appels-offres-construction-quebec.html": "construction-qc-fr", "en/construction-tenders-quebec.html": "construction-qc-en",
-             "fr/guide/soumissionner-achatscanada.html": "canadabuys-guide-fr", "en/guide/how-to-bid-canadabuys.html": "canadabuys-guide-en"}
+             "fr/guide/soumissionner-achatscanada.html": "canadabuys-guide-fr", "fr/guide/gagner-appel-offres-public-quebec.html": "gagner-ao-guide-fr", "en/guide/how-to-bid-canadabuys.html": "canadabuys-guide-en"}
 
 
 def trial_url(lang, campaign):
