@@ -197,6 +197,26 @@ def week_label(updated):
     return f"{'1er' if m.day == 1 else m.day} {MOIS[m.month - 1]} {m.year}"
 
 
+MOIS_ABR = "janv. févr. mars avr. mai juin juil. août sept. oct. nov. déc.".split()
+SEO_META = {  # trade slug -> (title template, meta description)
+    "entretien-menager": ("Appel d'offres entretien ménager Québec : semaine du {d}",
+                          "Appels d'offres en entretien ménager ouverts cette semaine au SEAO : organisme, ville, date de clôture. Recevez-les par alerte : essai 14 jours, sans carte."),
+    "construction": ("Appels d'offres construction Québec : semaine du {d}",
+                     "Appels d'offres en construction ouverts cette semaine au SEAO : organisme, ville, date de clôture, lien officiel. Alertes : essai 14 jours, sans carte."),
+    "fournitures": ("Appels d'offres fournitures Québec : semaine du {d}",
+                    "Appels d'offres en fournitures et équipement ouverts cette semaine au SEAO : organisme, ville, clôture. Recevez-les par alerte : essai 14 jours, sans carte."),
+    "informatique": ("Appels d'offres TI et informatique Québec : {d}",
+                     "Appels d'offres en informatique et TI ouverts cette semaine au SEAO : organisme, ville, date de clôture. Alertes selon profil : essai 14 jours, sans carte."),
+}
+
+
+def week_short(updated):
+    """Monday of the refresh week as '{day} {abbreviated month}', e.g. '19 oct.' (same Monday as week_label)."""
+    d = updated.astimezone(TZ).date()
+    m = d - timedelta(days=d.weekday())
+    return f"{'1er' if m.day == 1 else m.day} {MOIS_ABR[m.month - 1]}"
+
+
 def page(tr, items, updated, data_end):
     url = f"{B.SITE}{HUB}{tr['slug']}"
     n = len(items)
@@ -207,6 +227,12 @@ def page(tr, items, updated, data_end):
         f"Appels d'offres SEAO en {tr['name']} ouverts la semaine du {wk} : organisme, ville, dates de clôture et lien vers l'avis officiel.",
         f"Appels d'offres SEAO en {tr['name']}, semaine du {wk} : organisme, ville, clôture et lien vers l'avis officiel.",
         f"SEAO, {tr['name']}, semaine du {wk} : appels d'offres ouverts, organismes, dates de clôture.") if len(d) <= 160)
+    if tr["slug"] in SEO_META:  # Tender SEO handoff (items 1-2-5): title template with the current week's Monday, fixed description
+        t_tpl, d_fix = SEO_META[tr["slug"]]
+        t_new = t_tpl.format(d=week_short(updated))
+        if len(t_new) <= 60:  # else keep the generic title (e.g. 2-digit day + "sept." would exceed 60 characters)
+            title = t_new
+        desc = d_fix
     assert len(title) <= 60 and 70 <= len(desc) <= 160, (tr["slug"], len(title), len(desc))
     crumbs = [("Accueil", f"{B.SITE}/fr/"), ("Appels d'offres cette semaine", B.SITE + HUB), (tr["label"], url)]
     lds = B.ld(B.crumbs_ld(crumbs))

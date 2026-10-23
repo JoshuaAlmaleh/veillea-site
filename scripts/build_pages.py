@@ -121,6 +121,8 @@ BATCH3 = [(f"batch3/{f}", f"batch3/{e}", k) for f, e, k in [
     ("guide-neq-rbq-fr", "guide-neq-rbq-en", "guide"),
     ("guide-autorisation-amp-fr", "guide-amp-authorization-en", "guide"),
     ("guide-gagner-appel-offres-fr", "guide-how-to-win-tender-en", "guide"),
+    ("guide-entretien-menager-fr", "guide-cleaning-tenders-en", "guide"),
+    ("guide-hydro-quebec-2026-fr", "guide-hydro-quebec-2026-en", "guide"),
 ]]
 PAGES = BATCH2 + BATCH3
 
