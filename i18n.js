@@ -75,7 +75,7 @@ document.querySelectorAll("[data-i]").forEach(e=>{const v=d[e.dataset.i];if(v!==
 /* App screenshots: img/<name>.png = FR (default), img/<name>-en.png = EN */
 document.querySelectorAll("img[data-shot]").forEach(i=>{i.src=`img/${i.dataset.shot}${l==="en"?"-en":""}.png?v=2`;if(d[i.dataset.alt])i.alt=d[i.dataset.alt]});
 renderPricing(d);document.getElementById("faqlist").innerHTML=d.faq.map(q=>`<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join("");
-trkRender();document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on",b.dataset.l===l));try{localStorage.lang=l}catch(e){}}
+trkRender();document.querySelectorAll(".lang button").forEach(b=>{const on=b.dataset.l===l;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on?"true":"false")})}
 /* Live tender tracker: rendered from the app's public stats; never hardcoded; "—" + note when unavailable. */
 const SRC_C={seao:"ca",canadabuys:"ca",sasktenders:"ca",toronto:"ca",samgov:"us",usac_erate:"us",la_ramp:"us",nyc:"us",delaware:"us",montgomery_md:"us",lapac:"us",iowa:"us",tn_cpo:"us",nm_spd:"us"};
 const SRC_N={seao:"SEAO",canadabuys:"CanadaBuys",sasktenders:"SaskTenders",toronto:"Toronto",samgov:"SAM.gov",usac_erate:"E-Rate",la_ramp:"LA RAMP",nyc:"NYC",delaware:"Delaware",montgomery_md:"Montgomery MD",lapac:"LaPAC",iowa:"Iowa",tn_cpo:"Tennessee",nm_spd:"New Mexico"};
@@ -93,6 +93,12 @@ g[c].sort((a,b)=>(b.open_total||0)-(a.open_total||0));col.querySelector("tbody")
 box.querySelector(".trk-up").textContent=has&&last?d.trk_upd+" "+ago(last):"";
 const na=box.querySelector(".trk-na");na.hidden=has||!(TRKF||TRK);box.classList.toggle("trk-off",!has)}
 fetch("https://app.veillea.ca/api/public/stats",{headers:{Accept:"application/json"}}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>{TRK=j;trkRender()}).catch(()=>{TRKF=true;trkRender()});
-document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+/* Root-only FR/EN toggle (i18n.js is loaded by / only). The choice is kept under a root-scoped key and mirrored in the URL
+   (?lang=en, no parameter for FR). No browser-language guess: French unless ?lang=en or a saved "en". */
+const LK="veillea_root_lang";
+function syncUrl(l){try{const u=new URL(location.href);if(l==="en")u.searchParams.set("lang","en");else u.searchParams.delete("lang");history.replaceState(history.state,"",u.pathname+u.search+u.hash)}catch(e){}}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{const l=b.dataset.l==="en"?"en":"fr";setLang(l);try{localStorage.setItem(LK,l)}catch(e){}syncUrl(l)});
 const q=new URLSearchParams(location.search).get("lang");
-setLang(q==="en"?"en":"fr");  // French by default on /: no browser-language guess; EN lives at /en/ (?lang=en kept for old links)
+let saved=null;try{saved=localStorage.getItem(LK)}catch(e){}
+const L0=q==="en"||q==="fr"?q:(saved==="en"?"en":"fr");
+setLang(L0);syncUrl(L0);
