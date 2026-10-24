@@ -407,12 +407,33 @@ def software_ld(lang):
             "image": OG_IMAGE, "publisher": {"@id": ORG_ID}, "offers": offers}
 
 
+CSS_V = "w18"  # style.css cache version (also in the static index.html)
+NO_PAIR_NOTE = {"fr": "Page disponible en français seulement / This page is available in French only",
+                "en": "This page is available in English only / Page disponible en anglais seulement",
+                "both": "Page bilingue / This page is bilingual"}
+
+
+def single_lang_switch(lang, note):
+    """FR/EN switcher for a page with no counterpart: the current language is shown as active, the other one is
+    disabled (no link) with an explanation, so the switcher never jumps to an unrelated page."""
+    other = "en" if lang == "fr" else "fr"
+    cur = f'<span class="on" lang="{lang}" aria-current="true">{lang.upper()}</span>'
+    off = f'<span class="off" lang="{other}" aria-disabled="true" title="{html.escape(note)}">{other.upper()}</span>'
+    spans = (cur + off) if lang == "fr" else (off + cur)
+    return f'<div class="lang" role="group" aria-label="Langue / Language">{spans}</div>'
+
+
+def no_pair_switch(page_html, lang="fr", note=None):
+    """Replace the header switcher of a page that has no other-language counterpart (idempotent)."""
+    return re.sub(r'<div class="lang"[^>]*>.*?</div>', lambda m: single_lang_switch(lang, note or NO_PAIR_NOTE[lang]), page_html, count=1, flags=re.S)
+
+
 def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", og_extra=""):
     t, ds = html.escape(title), html.escape(desc)
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w17">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -505,6 +526,7 @@ def page_404():
         '<p class="ctas"><a class="btn" href="/fr/">Accueil en français</a></p>'
         '<hr><h2 lang="en">Page not found</h2><p lang="en">The page you requested does not exist or has moved.</p>'
         '<p class="ctas"><a class="btn ghost" href="/en/">English home page</a></p></div></main>') + footer("fr") + CF_BEACON + "</body></html>\n"
+    out = no_pair_switch(out, "fr", NO_PAIR_NOTE["both"])
     (ROOT / "404.html").write_text(out, encoding="utf-8")
 
 
@@ -582,8 +604,12 @@ def finalize_pages():
     (b) the trial CTA above the fold on TRIAL_CTA pages (replaces the top free/team button row, or is added after the intro)."""
     for f in sorted(list((ROOT / "fr").rglob("*.html")) + list((ROOT / "en").rglob("*.html"))):
         rel = f.relative_to(ROOT).as_posix()
-        if rel.startswith("fr/appels-offres-cette-semaine/"):
-            continue  # FR-only weekly pages (built by build_weekly.py)
+        if rel.startswith("fr/appels-offres-cette-semaine/"):  # FR-only weekly pages (built by build_weekly.py, which applies the same)
+            s = o = f.read_text(encoding="utf-8")
+            s = re.sub(r"/style\.css\?v=w\d+", f"/style.css?v={CSS_V}", no_pair_switch(s, "fr"))
+            if s != o:
+                f.write_text(s, encoding="utf-8")
+            continue
         s = o = f.read_text(encoding="utf-8")
         alt = dict(re.findall(r'<link rel="alternate" hreflang="(fr-CA|en-CA)" href="https://veillea\.ca([^"]*)">', s))
         if "fr-CA" in alt and "en-CA" in alt:
@@ -598,6 +624,93 @@ def finalize_pages():
                 s = s[:j] + f'\n<p class="ctas">{btn}</p>' + s[j:]
         if s != o:
             f.write_text(s, encoding="utf-8")
+
+
+# /fr/ in-place FR/EN toggle (same behaviour as the root page). The static /fr/ HTML stays French; the English version of its
+# <main> (rendered from i18n/landing-fr.en.md, a faithful translation of tender-seo/landing-fr.md) and the header/footer
+# string map go to /fr/index.en.json, loaded by /fr-toggle.js only when the visitor switches to English.
+FR_TOGGLE_SRC = ROOT / "i18n" / "landing-fr.en.md"
+FR_TOGGLE_LANG = ('<div class="lang" role="group" aria-label="Langue / Language"><button type="button" data-l="fr" class="on" aria-pressed="true" '
+                  'lang="fr">FR</button><button type="button" data-l="en" aria-pressed="false" lang="en">EN</button></div>')
+FR_TOGGLE_JS = '<script src="/fr-toggle.js?v=w18" defer></script>'
+
+
+def _main_of(t):
+    return re.search(r"<main[^>]*>.*</main>", t, re.S).group(0)
+
+
+def fr_toggle():
+    import tempfile
+    fr_path = ROOT / "fr" / "index.html"
+    fr = fr_path.read_text(encoding="utf-8")
+    src = FR_TOGGLE_SRC.read_text(encoding="utf-8")
+    title = re.search(r"\*\*Title tag[^*]*\*\*\s*(.+)", src).group(1).strip()
+    desc = re.search(r"\*\*Meta description[^*]*\*\*\s*(.+)", src).group(1).strip()
+    with tempfile.TemporaryDirectory() as td:
+        md, out = Path(td) / "en.md", Path(td) / "en.html"
+        md.write_text(src.rstrip() + '\n\n```html\n<script type="application/ld+json">\n{"@context": "https://schema.org", "@type": "WebPage"}\n</script>\n```\n', encoding="utf-8")
+        landing("en", md, out, f"{SITE}/fr/", HREFLANG)
+        en_main = _main_of(out.read_text(encoding="utf-8"))
+    # same above-the-fold trial CTA as finalize_pages() puts on /fr/ (campaign of the page, link and text in English)
+    btn, i = trial_cta("en", TRIAL_CTA["fr/index.html"]), en_main.index("</h1>")
+    m = CTA_ROW.search(en_main, i)
+    assert m and m.start() - i < 2500
+    en_main = en_main[:m.start()] + f'<p class="ctas">{btn} <a class="btn ghost" {m.group(1)}>{m.group(2)}</a></p>' + en_main[m.end():]
+    fr_main = _main_of(fr)
+    for tag in ("<h1", "<h2", "<h3", "<tr", "<li", "<table", "<a ", "<img"):  # the translation must mirror the French page
+        assert fr_main.count(tag) == en_main.count(tag), ("fr/en toggle out of sync", tag, fr_main.count(tag), en_main.count(tag))
+    assert "<!--" not in en_main
+    # header/footer strings, FR -> EN (exact text nodes)
+    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["trial"]: L["en"]["trial"], L["fr"]["tag"]: L["en"]["tag"],
+            "Secteurs": "Sectors", "Ressources": "Resources", L["fr"]["ind"]: L["en"]["ind"],
+            "Appels d'offres cette semaine": "Open tenders this week (in French)"}
+    tmap.update({x[5]: x[6] for x in SECTORS})
+    tmap.update({a: b for (_, a), (_, b) in zip(resources("fr"), resources("en"))})
+    tmap.update({a: b for (_, a), (_, b) in zip(hub_links("fr"), hub_links("en"))})
+    tmap.update({a: b for (_, a), (_, b) in zip(legal_links("fr"), legal_links("en"))})
+    tmap[LEGAL["fr"] + " · "] = LEGAL["en"] + " · "
+    tmap = {k: v for k, v in tmap.items() if k != v}
+    (ROOT / "fr" / "index.en.json").write_text(json.dumps({"lang": "en-CA", "title": title, "desc": desc, "main": en_main, "map": tmap},
+                                                         ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    # /fr/: FR/EN buttons instead of links, and the toggle script (idempotent)
+    fr = re.sub(r'<div class="lang"[^>]*>.*?</div>', FR_TOGGLE_LANG, fr, count=1, flags=re.S)
+    if FR_TOGGLE_JS not in fr:
+        fr = fr.replace("</body>", FR_TOGGLE_JS + "</body>", 1)
+    fr_path.write_text(fr, encoding="utf-8")
+
+
+def check_switchers():
+    """Fail the build if any page's FR/EN switcher could send a visitor to a page that is not its counterpart:
+    links must point to the page's own hreflang fr-CA / en-CA URLs; in-place toggles only on / and /fr/;
+    a disabled language only where the page has no counterpart in that language."""
+    bad = []
+    for f in sorted(ROOT.rglob("*.html")):
+        rel = f.relative_to(ROOT).as_posix()
+        if rel.startswith((".git/", "i18n/")):
+            continue
+        s = f.read_text(encoding="utf-8")
+        m = re.search(r'<div class="lang"[^>]*>(.*?)</div>', s, re.S)
+        if not m:
+            continue
+        d = m.group(1)
+        alt = dict(re.findall(r'<link rel="alternate" hreflang="(fr-CA|en-CA)" href="https://veillea\.ca([^"]*)"', s))
+        if "<button" in d:
+            if rel not in ("index.html", "fr/index.html"):
+                bad.append((rel, "in-place toggle outside / and /fr/"))
+            continue
+        for lg in ("fr", "en"):
+            a = re.search(rf'<a href="([^"]*)"[^>]*hreflang="{lg}-CA"', d)
+            off = re.search(rf'<span class="off" lang="{lg}"', d)
+            cur = re.search(rf'<span class="on" lang="{lg}"', d)
+            if a:
+                if a.group(1) != alt.get(f"{lg}-CA"):
+                    bad.append((rel, f"{lg.upper()} -> {a.group(1)}, counterpart is {alt.get(lg + '-CA')}"))
+            elif off:
+                if f"{lg}-CA" in alt and rel != "404.html":
+                    bad.append((rel, f"{lg.upper()} disabled but the page has a {lg}-CA counterpart"))
+            elif not cur:
+                bad.append((rel, f"no {lg.upper()} control"))
+    assert not bad, "FR/EN switcher check failed: " + "; ".join(f"{r}: {w}" for r, w in bad)
 
 
 def sitemap():
@@ -693,4 +806,4 @@ def redirect_stubs():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); sitemap(); prerender_root(); redirect_stubs(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); check_switchers(); print("ok")
