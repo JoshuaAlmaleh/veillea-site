@@ -600,6 +600,59 @@ def finalize_pages():
             f.write_text(s, encoding="utf-8")
 
 
+# /fr/ in-place FR/EN toggle (same behaviour as the root page). The static /fr/ HTML stays French; the English version of its
+# <main> (rendered from i18n/landing-fr.en.md, a faithful translation of tender-seo/landing-fr.md) and the header/footer
+# string map go to /fr/index.en.json, loaded by /fr-toggle.js only when the visitor switches to English.
+FR_TOGGLE_SRC = ROOT / "i18n" / "landing-fr.en.md"
+FR_TOGGLE_LANG = ('<div class="lang" role="group" aria-label="Langue / Language"><button type="button" data-l="fr" class="on" aria-pressed="true" '
+                  'lang="fr">FR</button><button type="button" data-l="en" aria-pressed="false" lang="en">EN</button></div>')
+FR_TOGGLE_JS = '<script src="/fr-toggle.js?v=w18" defer></script>'
+
+
+def _main_of(t):
+    return re.search(r"<main[^>]*>.*</main>", t, re.S).group(0)
+
+
+def fr_toggle():
+    import tempfile
+    fr_path = ROOT / "fr" / "index.html"
+    fr = fr_path.read_text(encoding="utf-8")
+    src = FR_TOGGLE_SRC.read_text(encoding="utf-8")
+    title = re.search(r"\*\*Title tag[^*]*\*\*\s*(.+)", src).group(1).strip()
+    desc = re.search(r"\*\*Meta description[^*]*\*\*\s*(.+)", src).group(1).strip()
+    with tempfile.TemporaryDirectory() as td:
+        md, out = Path(td) / "en.md", Path(td) / "en.html"
+        md.write_text(src.rstrip() + '\n\n```html\n<script type="application/ld+json">\n{"@context": "https://schema.org", "@type": "WebPage"}\n</script>\n```\n', encoding="utf-8")
+        landing("en", md, out, f"{SITE}/fr/", HREFLANG)
+        en_main = _main_of(out.read_text(encoding="utf-8"))
+    # same above-the-fold trial CTA as finalize_pages() puts on /fr/ (campaign of the page, link and text in English)
+    btn, i = trial_cta("en", TRIAL_CTA["fr/index.html"]), en_main.index("</h1>")
+    m = CTA_ROW.search(en_main, i)
+    assert m and m.start() - i < 2500
+    en_main = en_main[:m.start()] + f'<p class="ctas">{btn} <a class="btn ghost" {m.group(1)}>{m.group(2)}</a></p>' + en_main[m.end():]
+    fr_main = _main_of(fr)
+    for tag in ("<h1", "<h2", "<h3", "<tr", "<li", "<table", "<a ", "<img"):  # the translation must mirror the French page
+        assert fr_main.count(tag) == en_main.count(tag), ("fr/en toggle out of sync", tag, fr_main.count(tag), en_main.count(tag))
+    assert "<!--" not in en_main
+    # header/footer strings, FR -> EN (exact text nodes)
+    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["trial"]: L["en"]["trial"], L["fr"]["tag"]: L["en"]["tag"],
+            "Secteurs": "Sectors", "Ressources": "Resources", L["fr"]["ind"]: L["en"]["ind"],
+            "Appels d'offres cette semaine": "Open tenders this week (in French)"}
+    tmap.update({x[5]: x[6] for x in SECTORS})
+    tmap.update({a: b for (_, a), (_, b) in zip(resources("fr"), resources("en"))})
+    tmap.update({a: b for (_, a), (_, b) in zip(hub_links("fr"), hub_links("en"))})
+    tmap.update({a: b for (_, a), (_, b) in zip(legal_links("fr"), legal_links("en"))})
+    tmap[LEGAL["fr"] + " · "] = LEGAL["en"] + " · "
+    tmap = {k: v for k, v in tmap.items() if k != v}
+    (ROOT / "fr" / "index.en.json").write_text(json.dumps({"lang": "en-CA", "title": title, "desc": desc, "main": en_main, "map": tmap},
+                                                         ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    # /fr/: FR/EN buttons instead of links, and the toggle script (idempotent)
+    fr = re.sub(r'<div class="lang"[^>]*>.*?</div>', FR_TOGGLE_LANG, fr, count=1, flags=re.S)
+    if FR_TOGGLE_JS not in fr:
+        fr = fr.replace("</body>", FR_TOGGLE_JS + "</body>", 1)
+    fr_path.write_text(fr, encoding="utf-8")
+
+
 def sitemap():
     alt = "".join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}/{p}{"/" if p else ""}"/>' for h, p in (("fr-CA", "fr"), ("en-CA", "en"), ("x-default", "")))
     urls = "".join(f"<url><loc>{SITE}/{p}/</loc>{alt}<changefreq>weekly</changefreq><priority>{pr}</priority></url>"
@@ -693,4 +746,4 @@ def redirect_stubs():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); sitemap(); prerender_root(); redirect_stubs(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); print("ok")
