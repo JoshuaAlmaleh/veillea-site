@@ -407,12 +407,33 @@ def software_ld(lang):
             "image": OG_IMAGE, "publisher": {"@id": ORG_ID}, "offers": offers}
 
 
+CSS_V = "w18"  # style.css cache version (also in the static index.html)
+NO_PAIR_NOTE = {"fr": "Page disponible en français seulement / This page is available in French only",
+                "en": "This page is available in English only / Page disponible en anglais seulement",
+                "both": "Page bilingue / This page is bilingual"}
+
+
+def single_lang_switch(lang, note):
+    """FR/EN switcher for a page with no counterpart: the current language is shown as active, the other one is
+    disabled (no link) with an explanation, so the switcher never jumps to an unrelated page."""
+    other = "en" if lang == "fr" else "fr"
+    cur = f'<span class="on" lang="{lang}" aria-current="true">{lang.upper()}</span>'
+    off = f'<span class="off" lang="{other}" aria-disabled="true" title="{html.escape(note)}">{other.upper()}</span>'
+    spans = (cur + off) if lang == "fr" else (off + cur)
+    return f'<div class="lang" role="group" aria-label="Langue / Language">{spans}</div>'
+
+
+def no_pair_switch(page_html, lang="fr", note=None):
+    """Replace the header switcher of a page that has no other-language counterpart (idempotent)."""
+    return re.sub(r'<div class="lang"[^>]*>.*?</div>', lambda m: single_lang_switch(lang, note or NO_PAIR_NOTE[lang]), page_html, count=1, flags=re.S)
+
+
 def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", og_extra=""):
     t, ds = html.escape(title), html.escape(desc)
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v=w17">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -505,6 +526,7 @@ def page_404():
         '<p class="ctas"><a class="btn" href="/fr/">Accueil en français</a></p>'
         '<hr><h2 lang="en">Page not found</h2><p lang="en">The page you requested does not exist or has moved.</p>'
         '<p class="ctas"><a class="btn ghost" href="/en/">English home page</a></p></div></main>') + footer("fr") + CF_BEACON + "</body></html>\n"
+    out = no_pair_switch(out, "fr", NO_PAIR_NOTE["both"])
     (ROOT / "404.html").write_text(out, encoding="utf-8")
 
 
@@ -582,8 +604,12 @@ def finalize_pages():
     (b) the trial CTA above the fold on TRIAL_CTA pages (replaces the top free/team button row, or is added after the intro)."""
     for f in sorted(list((ROOT / "fr").rglob("*.html")) + list((ROOT / "en").rglob("*.html"))):
         rel = f.relative_to(ROOT).as_posix()
-        if rel.startswith("fr/appels-offres-cette-semaine/"):
-            continue  # FR-only weekly pages (built by build_weekly.py)
+        if rel.startswith("fr/appels-offres-cette-semaine/"):  # FR-only weekly pages (built by build_weekly.py, which applies the same)
+            s = o = f.read_text(encoding="utf-8")
+            s = re.sub(r"/style\.css\?v=w\d+", f"/style.css?v={CSS_V}", no_pair_switch(s, "fr"))
+            if s != o:
+                f.write_text(s, encoding="utf-8")
+            continue
         s = o = f.read_text(encoding="utf-8")
         alt = dict(re.findall(r'<link rel="alternate" hreflang="(fr-CA|en-CA)" href="https://veillea\.ca([^"]*)">', s))
         if "fr-CA" in alt and "en-CA" in alt:
@@ -651,6 +677,40 @@ def fr_toggle():
     if FR_TOGGLE_JS not in fr:
         fr = fr.replace("</body>", FR_TOGGLE_JS + "</body>", 1)
     fr_path.write_text(fr, encoding="utf-8")
+
+
+def check_switchers():
+    """Fail the build if any page's FR/EN switcher could send a visitor to a page that is not its counterpart:
+    links must point to the page's own hreflang fr-CA / en-CA URLs; in-place toggles only on / and /fr/;
+    a disabled language only where the page has no counterpart in that language."""
+    bad = []
+    for f in sorted(ROOT.rglob("*.html")):
+        rel = f.relative_to(ROOT).as_posix()
+        if rel.startswith((".git/", "i18n/")):
+            continue
+        s = f.read_text(encoding="utf-8")
+        m = re.search(r'<div class="lang"[^>]*>(.*?)</div>', s, re.S)
+        if not m:
+            continue
+        d = m.group(1)
+        alt = dict(re.findall(r'<link rel="alternate" hreflang="(fr-CA|en-CA)" href="https://veillea\.ca([^"]*)"', s))
+        if "<button" in d:
+            if rel not in ("index.html", "fr/index.html"):
+                bad.append((rel, "in-place toggle outside / and /fr/"))
+            continue
+        for lg in ("fr", "en"):
+            a = re.search(rf'<a href="([^"]*)"[^>]*hreflang="{lg}-CA"', d)
+            off = re.search(rf'<span class="off" lang="{lg}"', d)
+            cur = re.search(rf'<span class="on" lang="{lg}"', d)
+            if a:
+                if a.group(1) != alt.get(f"{lg}-CA"):
+                    bad.append((rel, f"{lg.upper()} -> {a.group(1)}, counterpart is {alt.get(lg + '-CA')}"))
+            elif off:
+                if f"{lg}-CA" in alt and rel != "404.html":
+                    bad.append((rel, f"{lg.upper()} disabled but the page has a {lg}-CA counterpart"))
+            elif not cur:
+                bad.append((rel, f"no {lg.upper()} control"))
+    assert not bad, "FR/EN switcher check failed: " + "; ".join(f"{r}: {w}" for r, w in bad)
 
 
 def sitemap():
@@ -746,4 +806,4 @@ def redirect_stubs():
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); check_switchers(); print("ok")
