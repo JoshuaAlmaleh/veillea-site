@@ -1,67 +1,67 @@
 {
  "hub": "/fr/appels-offres-cette-semaine/",
- "updated": "2026-10-19",
- "week": "19 octobre 2026",
+ "updated": "2026-10-26",
+ "week": "26 octobre 2026",
  "pages": [
   {
    "slug": "entretien-menager",
    "label": "Entretien ménager",
    "sector": "appels-offres-entretien-menager",
-   "count": 37
+   "count": 35
   },
   {
    "slug": "toiture",
    "label": "Toiture",
    "sector": null,
-   "count": 23
+   "count": 25
   },
   {
    "slug": "deneigement",
    "label": "Déneigement",
    "sector": "appels-offres-deneigement",
-   "count": 29
+   "count": 24
   },
   {
    "slug": "construction",
    "label": "Construction",
    "sector": "appels-offres-construction-quebec",
-   "count": 346
+   "count": 354
   },
   {
    "slug": "informatique",
    "label": "Informatique / TI",
    "sector": "appels-offres-informatique-quebec",
-   "count": 52
+   "count": 55
   },
   {
    "slug": "securite-gardiennage",
    "label": "Sécurité / gardiennage",
    "sector": "appels-offres-securite-gardiennage",
-   "count": 12
+   "count": 15
   },
   {
    "slug": "transport",
    "label": "Transport",
    "sector": "appels-offres-transport",
-   "count": 24
+   "count": 22
   },
   {
    "slug": "genie-architecture",
    "label": "Génie / architecture",
    "sector": "appels-offres-genie-architecture",
-   "count": 119
+   "count": 108
   },
   {
    "slug": "services-professionnels",
    "label": "Services professionnels",
    "sector": "appels-offres-services-professionnels",
-   "count": 93
+   "count": 102
   },
   {
    "slug": "fournitures",
    "label": "Fournitures / équipement",
    "sector": "appels-offres-fournitures-equipement",
-   "count": 351
+   "count": 355
   }
  ]
 }
