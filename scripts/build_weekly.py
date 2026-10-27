@@ -254,7 +254,7 @@ def page(tr, items, updated, data_end):
              f'<th scope="col">Ville</th><th scope="col">Publié</th><th scope="col">Clôture</th></tr></thead><tbody>{rows}</tbody></table></div>'
              if items else '<p class="note">Aucun appel d\'offres ouvert dans cette catégorie pour le moment. Revenez la semaine prochaine.</p>')
     sec = f' Voir aussi notre page <a href="/fr/{tr["sector"]}">appels d\'offres en {tr["name"]}</a>.' if tr["sector"] else ""
-    cta = (f'<div class="wk-cta"><div><h2>Recevez ces avis automatiquement</h2><p>Veillea surveille le SEAO et 13 autres sources et vous envoie '
+    cta = (f'<div class="wk-cta"><div><h2>Recevez ces avis automatiquement</h2><p>Veillea surveille le SEAO et 12 autres sources et vous envoie '
            f'les nouveaux appels d\'offres en {tr["name"]} selon vos mots-clés et vos régions. Essai gratuit de 14 jours, sans carte de crédit.</p></div>'
            f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a>'
            f'<a class="btn ghost" href="{B.APP_URL}/signup?plan=free&amp;interval=monthly&amp;lang=fr">Alerte hebdo gratuite</a></p></div>')

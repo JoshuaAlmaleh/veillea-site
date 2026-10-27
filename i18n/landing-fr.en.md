@@ -67,12 +67,12 @@ SEAO offers its own alert service, "jumelage" (matching), which requires a paid 
 
 ## Free or paid tender monitoring: our plans
 
-Prices in Canadian dollars. Annual billing: 1 month free.
+Prices in Canadian dollars, plus taxes. Annual billing: 1 month free.
 
 | | Free | Solo | Team | Enterprise |
 | --- | --- | --- | --- | --- |
 | Per month | $0 | $35 | $69 | From $199 |
-| Annual | — | $385 | $759 | From $2,189 |
+| Annual | $0 | $385 | $759 | From $2,189 |
 | Monitoring profiles | 1 | 1 | 15 | Unlimited |
 | Users | 1 | 1 | 5 | Unlimited |
 | Sources | SEAO | Federal and Quebec contracts | Quebec, federal and US contracts | Quebec, federal and US contracts |

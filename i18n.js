@@ -11,7 +11,7 @@ pos_h:"Pourquoi Veillea",p1h:"Un abonnement, vos sources au même endroit",p1p:"
 who_eye:"Pour qui",who_h:"Pour les PME qui vendent au secteur public",who_p:"Si vous répondez — ou voulez répondre — à des appels d'offres publics, Veillea vous fait gagner du temps.",
 w1h:"Entretien et nettoyage",w1p:"Contrats d'entretien ménager d'immeubles, d'écoles et de bureaux.",w2h:"Construction",w2p:"Entrepreneurs généraux et spécialisés, travaux municipaux et provinciaux.",w3h:"TI et logiciels",w3p:"Services infonuagiques, développement, soutien technique, licences.",w4h:"Services-conseils",w4p:"Gestion de projet, ingénierie, formation, études.",
 pr_eye:"Tarifs",pr_h:"Plus de sources, prix simples",pr_p:"Essai gratuit de 14 jours sur les forfaits payants, sans carte de crédit. Prix en dollars canadiens.",
-iv_m:"Mensuel",iv_y:"Annuel",iv_save:"1 mois gratuit",per_mo:" /mois",per_yr:" /an",forever:" pour toujours",from:"dès ",eq_mo:"soit {x} $/mois, facturé annuellement",pop:"Le plus choisi",
+iv_m:"Mensuel",iv_y:"Annuel",iv_save:"1 mois gratuit",per_mo:" /mois",per_yr:" /an",forever:" pour toujours",from:"dès ",eq_mo:"soit {x} $/mois, facturé annuellement",tax:"taxes en sus",pop:"Le plus choisi",
 cta_free:"Commencer gratuitement",
 pl:{free:["Gratuit","Pour essayer la veille SEAO",["1 profil de veille","1 utilisateur","SEAO seulement","Résumé hebdomadaire par courriel","Historique de 7 jours"]],
 solo:["Solo","Pour l'entrepreneur ou le travailleur autonome",["1 profil de veille","1 utilisateur","Contrats fédéraux et québécois","Alertes quotidiennes ou hebdomadaires","Résumés FR/EN","Historique de 30 jours","Export CSV"]],
@@ -37,7 +37,7 @@ pos_h:"Why Veillea",p1h:"One subscription, your sources in one place",p1p:"Not o
 who_eye:"Who it's for",who_h:"For SMBs selling to the public sector",who_p:"If you bid — or want to bid — on public tenders, Veillea saves you time.",
 w1h:"Cleaning & janitorial",w1p:"Building, school and office maintenance contracts.",w2h:"Construction",w2p:"General and specialty contractors, municipal and provincial work.",w3h:"IT & software",w3p:"Cloud services, development, technical support, licensing.",w4h:"Consulting",w4p:"Project management, engineering, training, studies.",
 pr_eye:"Pricing",pr_h:"More sources, simple pricing",pr_p:"14-day free trial on paid plans, no credit card. Prices in Canadian dollars.",
-iv_m:"Monthly",iv_y:"Annual",iv_save:"1 month free",per_mo:" /mo",per_yr:" /yr",forever:" forever",from:"from ",eq_mo:"i.e. ${x}/mo, billed annually",pop:"Most popular",
+iv_m:"Monthly",iv_y:"Annual",iv_save:"1 month free",per_mo:" /mo",per_yr:" /yr",forever:" forever",from:"from ",eq_mo:"i.e. ${x}/mo, billed annually",tax:"plus taxes",pop:"Most popular",
 cta_free:"Start free",
 pl:{free:["Free","Try SEAO monitoring",["1 monitoring profile","1 user","SEAO only","Weekly email digest","7-day history"]],
 solo:["Solo","For owner-operators and freelancers",["1 monitoring profile","1 user","Federal and Quebec contracts","Daily or weekly alerts","FR/EN summaries","30-day history","CSV export"]],
@@ -64,7 +64,7 @@ document.getElementById("plans").innerHTML=PLANS.map(p=>{const P=d.pl[p.k],amt=I
 const sub=p.m===0?d.forever:(IV==="m"?d.per_mo:d.per_yr);
 const eq=(IV==="y"&&p.y)?`<div class="eq">${d.eq_mo.replace("{x}",(p.y/12).toFixed(2).replace(".",l==="fr"?",":"."))}</div>`:'<div class="eq">&nbsp;</div>';
 const cta=p.k==="free"?d.cta_free:(p.k==="enterprise"?d.cta_contact:d.cta_trial);
-return `<div class="card price${p.pop?" pop":""}">${p.pop?`<span class="popb">${d.pop}</span>`:""}<h3>${P[0]}</h3><p class="tagl">${P[1]}</p><div class="amt">${p.from&&p.m?`<small>${d.from}</small>`:""}${money(amt,l)}<span>${sub}</span></div>${eq}<ul>${P[2].map(x=>`<li>${x}</li>`).join("")}</ul><a class="btn${p.pop?"":" ghost"}" href="${signupUrl(p.k)}" data-app="signup" data-plan="${p.k}">${cta}</a></div>`}).join("");
+return `<div class="card price${p.pop?" pop":""}">${p.pop?`<span class="popb">${d.pop}</span>`:""}<h3>${P[0]}</h3><p class="tagl">${P[1]}</p><div class="amt">${p.from&&p.m?`<small>${d.from}</small>`:""}${money(amt,l)}<span>${sub}</span></div><div class="eq tax">${p.m?d.tax:"&nbsp;"}</div>${eq}<ul>${P[2].map(x=>`<li>${x}</li>`).join("")}</ul><a class="btn${p.pop?"":" ghost"}" href="${signupUrl(p.k)}" data-app="signup" data-plan="${p.k}">${cta}</a></div>`}).join("");
 const h=PLANS.map(p=>`<th>${d.pl[p.k][0]}</th>`).join("");
 const price=`<tr><td>${IV==="m"?d.iv_m:d.iv_y}</td>${PLANS.map(p=>`<td>${money(IV==="m"?p.m:p.y,l)}</td>`).join("")}</tr>`;
 document.getElementById("cmp").innerHTML=`<thead><tr><th></th>${h}</tr></thead><tbody>${price}${d.cmp_rows.map(r=>`<tr>${r.map((c,i)=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody>`;
@@ -79,11 +79,12 @@ trkRender();document.querySelectorAll(".lang button").forEach(b=>{const on=b.dat
 /* Live tender tracker: rendered from the app's public stats; never hardcoded; "—" + note when unavailable. */
 const SRC_C={seao:"ca",canadabuys:"ca",sasktenders:"ca",toronto:"ca",samgov:"us",usac_erate:"us",la_ramp:"us",nyc:"us",delaware:"us",montgomery_md:"us",lapac:"us",iowa:"us",nm_spd:"us"};
 const SRC_N={seao:"SEAO",canadabuys:"CanadaBuys",sasktenders:"SaskTenders",toronto:"Toronto",samgov:"SAM.gov",usac_erate:"E-Rate",la_ramp:"LA RAMP",nyc:"NYC",delaware:"Delaware",montgomery_md:"Montgomery MD",lapac:"LaPAC",iowa:"Iowa",nm_spd:"New Mexico"};
+const SRC_OFF=["tn_cpo"]; /* retired sources the stats API may still list — never shown or counted */
 let TRK=null,TRKF=false;
 function trkRender(){const d=T[CUR],box=document.getElementById("tracker");if(!box)return;const L=CUR==="en"?"en-CA":"fr-CA",nf=new Intl.NumberFormat(L),rt=new Intl.RelativeTimeFormat(L,{numeric:"auto"});
 const ago=i=>{const s=(new Date(i)-Date.now())/1e3;if(!isFinite(s))return"";const a=Math.abs(s);return a<3600?rt.format(Math.round(s/60),"minute"):a<86400?rt.format(Math.round(s/3600),"hour"):rt.format(Math.round(s/86400),"day")};
 const ok=v=>Number.isFinite(v)&&v>=0,esc=x=>String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
-const live=TRK&&Array.isArray(TRK.sources)?TRK.sources.filter(s=>s&&s.id&&ok(s.open_total)):[];
+const live=TRK&&Array.isArray(TRK.sources)?TRK.sources.filter(s=>s&&s.id&&!SRC_OFF.includes(s.id)&&ok(s.open_total)):[];
 const rows=live.length?live:Object.keys(SRC_C).map(id=>({id}));const tot={ca:0,us:0,other:0,all:0};let last=null;
 const g={ca:[],us:[],other:[]};rows.forEach(s=>{const c=SRC_C[s.id]||"other";g[c].push(s);if(ok(s.open_total)){tot[c]+=s.open_total;tot.all+=s.open_total}if(s.updated_at&&(!last||s.updated_at>last))last=s.updated_at});
 const has=live.length>0,f=v=>has&&ok(v)?nf.format(v):"—";
