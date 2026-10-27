@@ -55,7 +55,7 @@ SEAO offers its own alert service, "jumelage" (matching), which requires a paid 
 | | SEAO matching | Veillea |
 | --- | --- | --- |
 | Price | $6.95/month per Specialist user **+ $0.35 per notice sent** | Free (SEAO, weekly) · Solo $35/month · Team $69/month · Enterprise from $199/month — flat price |
-| Sources | SEAO only | SEAO, CanadaBuys, SaskTenders, City of Toronto and 10 US sources (Team and Enterprise) |
+| Sources | SEAO only | SEAO, CanadaBuys, SaskTenders, City of Toronto and 9 US sources (Team and Enterprise) |
 | Ranking | Notices matching your criteria | Every notice scored against your profile, most relevant first |
 | Summaries | — | FR/EN summary for every notice (paid plans) |
 | Matching languages | SEAO search profile | French and English keywords |
