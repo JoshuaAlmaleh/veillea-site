@@ -1,7 +1,7 @@
 {
  "hub": "/fr/appels-offres-cette-semaine/",
- "updated": "2026-11-02",
- "week": "2 novembre 2026",
+ "updated": "2026-11-09",
+ "week": "9 novembre 2026",
  "pages": [
   {
    "slug": "entretien-menager",
@@ -13,25 +13,25 @@
    "slug": "toiture",
    "label": "Toiture",
    "sector": null,
-   "count": 23
+   "count": 29
   },
   {
    "slug": "deneigement",
    "label": "Déneigement",
    "sector": "appels-offres-deneigement",
-   "count": 15
+   "count": 18
   },
   {
    "slug": "construction",
    "label": "Construction",
    "sector": "appels-offres-construction-quebec",
-   "count": 369
+   "count": 409
   },
   {
    "slug": "informatique",
    "label": "Informatique / TI",
    "sector": "appels-offres-informatique-quebec",
-   "count": 49
+   "count": 58
   },
   {
    "slug": "securite-gardiennage",
@@ -43,25 +43,25 @@
    "slug": "transport",
    "label": "Transport",
    "sector": "appels-offres-transport",
-   "count": 22
+   "count": 24
   },
   {
    "slug": "genie-architecture",
    "label": "Génie / architecture",
    "sector": "appels-offres-genie-architecture",
-   "count": 102
+   "count": 97
   },
   {
    "slug": "services-professionnels",
    "label": "Services professionnels",
    "sector": "appels-offres-services-professionnels",
-   "count": 104
+   "count": 113
   },
   {
    "slug": "fournitures",
    "label": "Fournitures / équipement",
    "sector": "appels-offres-fournitures-equipement",
-   "count": 359
+   "count": 379
   }
  ]
 }
