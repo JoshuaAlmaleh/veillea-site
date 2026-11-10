@@ -59,10 +59,12 @@ def signup(lang, plan="free", interval="monthly"):
 def header(lang):
     d = L[lang]
     return (f'<header><div class="wrap nav"><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a>'
-            f'<nav class="links"><a href="/{lang}/#pricing-plans">{"Forfaits" if lang=="fr" else "Pricing"}</a><a href="/{lang}/#faq">FAQ</a></nav>'
-            f'<div class="lang"><a href="/fr/" class="{"on" if lang=="fr" else ""}" hreflang="fr-CA">FR</a><a href="/en/" class="{"on" if lang=="en" else ""}" hreflang="en-CA">EN</a></div>'
+            f'<div class="nav-panel" id="site-nav"><nav class="links"><a href="/{lang}/#pricing-plans">{"Forfaits" if lang=="fr" else "Pricing"}</a><a href="/{lang}/#faq">FAQ</a></nav>'
             f'<a class="login" href="{APP_URL}/login?lang={lang}">{d["login"]}</a>'
-            f'<a class="btn" href="{signup(lang, "team")}">{d["trial"]}</a></div></header>')
+            f'<a class="btn" href="{signup(lang, "team")}">{d["trial"]}</a></div>'
+            f'<div class="lang"><a href="/fr/" class="{"on" if lang=="fr" else ""}" hreflang="fr-CA">FR</a><a href="/en/" class="{"on" if lang=="en" else ""}" hreflang="en-CA">EN</a></div>'
+            f'<button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span></button>'
+            f'</div></header>')
 
 
 LEGAL = {"fr": "Veillea est une entreprise individuelle exploitée par Joshua Almaleh · NEQ 2282674748 · C.P. 311, Hudson (Québec) J0P 0A9", "en": "Veillea is a sole proprietorship operated by Joshua Almaleh · Quebec Enterprise Number (NEQ) 2282674748 · PO Box 311, Hudson, Quebec J0P 0A9"}
@@ -70,10 +72,11 @@ LEGAL = {"fr": "Veillea est une entreprise individuelle exploitée par Joshua Al
 
 def footer(lang):
     d = L[lang]
+    sec, res, bro = ("Secteurs", "Ressources", "Explorer") if lang == "fr" else ("Sectors", "Resources", "Browse")
     return (f'<footer><div class="wrap grid g3"><div><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a><p>{d["tag"]}</p></div>'
-            f'<div><p><b>{"Secteurs" if lang=="fr" else "Sectors"}</b><br>' + " · ".join(
-                f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{"Ressources" if lang=="fr" else "Resources"}</b><br>' + " · ".join(
-                f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + '<br>' + " · ".join(
+            f'<div><p><b>{sec}</b><br>' + " · ".join(
+                f'<a href="/{lang}/{x[2] if lang=="fr" else x[4]}">{x[5] if lang=="fr" else x[6]}</a>' for x in SECTORS) + f'</p><p><b>{res}</b><br>' + " · ".join(
+                f'<a href="{u}">{t}</a>' for u, t in resources(lang)) + f'</p><p><b>{bro}</b><br>' + " · ".join(
                 f'<a href="{u}">{t}</a>' for u, t in hub_links(lang)) + f'</p><p>{d["ind"]}</p></div>'
             f'<div><p>© 2026 Veillea · Montréal, QC<br><a href="mailto:bonjour@veillea.ca">bonjour@veillea.ca</a><br>'
             + " · ".join(f'<a href="{u}">{t}</a>' for u, t in legal_links(lang)) + '</p></div></div>'
@@ -407,7 +410,8 @@ def software_ld(lang):
             "image": OG_IMAGE, "publisher": {"@id": ORG_ID}, "offers": offers}
 
 
-CSS_V = "w18"  # style.css cache version (also in the static index.html)
+CSS_V = "w20"  # style.css + nav.js cache version (also in the static index.html)
+NAV_JS = f'<script src="/nav.js?v={CSS_V}" defer></script>'
 NO_PAIR_NOTE = {"fr": "Page disponible en français seulement / This page is available in French only",
                 "en": "This page is available in English only / Page disponible en anglais seulement",
                 "both": "Page bilingue / This page is bilingual"}
@@ -433,7 +437,7 @@ def head(lang, title, desc, canonical, extra="", alts=None, og_type="website", o
     return (f'<!doctype html><html lang="{lang}-CA"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{t}</title><meta name="description" content="{ds}"><link rel="canonical" href="{canonical}">{alts or HREFLANG}'
             + social(lang, title, desc, canonical, og_type, og_extra) +
-            f'{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{ICONS}{ld(SITE_LD)}{extra}</head><body>')
+            f'{FONTS}<link rel="stylesheet" href="/style.css?v={CSS_V}">{ICONS}{NAV_JS}{ld(SITE_LD)}{extra}</head><body>')
 
 
 MONTHS = {"fr": "janvier février mars avril mai juin juillet août septembre octobre novembre décembre".split(),
@@ -606,7 +610,11 @@ def finalize_pages():
         rel = f.relative_to(ROOT).as_posix()
         if rel.startswith("fr/appels-offres-cette-semaine/"):  # FR-only weekly pages (built by build_weekly.py, which applies the same)
             s = o = f.read_text(encoding="utf-8")
-            s = re.sub(r"/style\.css\?v=w\d+", f"/style.css?v={CSS_V}", no_pair_switch(s, "fr"))
+            s = re.sub(r"/style\.css\?v=w\d+", f"/style.css?v={CSS_V}", s)
+            s = re.sub(r"<header>.*?</header>", lambda m: no_pair_switch(header("fr"), "fr"), s, count=1, flags=re.S)
+            s = re.sub(r"<footer>.*?</footer>", lambda m: footer("fr"), s, count=1, flags=re.S)
+            if NAV_JS not in s:
+                s = s.replace("</head>", NAV_JS + "</head>", 1)
             if s != o:
                 f.write_text(s, encoding="utf-8")
             continue
@@ -632,7 +640,7 @@ def finalize_pages():
 FR_TOGGLE_SRC = ROOT / "i18n" / "landing-fr.en.md"
 FR_TOGGLE_LANG = ('<div class="lang" role="group" aria-label="Langue / Language"><button type="button" data-l="fr" class="on" aria-pressed="true" '
                   'lang="fr">FR</button><button type="button" data-l="en" aria-pressed="false" lang="en">EN</button></div>')
-FR_TOGGLE_JS = '<script src="/fr-toggle.js?v=w18" defer></script>'
+FR_TOGGLE_JS = '<script src="/fr-toggle.js?v=w20" defer></script>'
 
 
 def _main_of(t):
@@ -660,18 +668,17 @@ def fr_toggle():
     for tag in ("<h1", "<h2", "<h3", "<tr", "<li", "<table", "<a ", "<img"):  # the translation must mirror the French page
         assert fr_main.count(tag) == en_main.count(tag), ("fr/en toggle out of sync", tag, fr_main.count(tag), en_main.count(tag))
     assert "<!--" not in en_main
-    # header/footer strings, FR -> EN (exact text nodes)
-    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["trial"]: L["en"]["trial"], L["fr"]["tag"]: L["en"]["tag"],
-            "Secteurs": "Sectors", "Ressources": "Resources", L["fr"]["ind"]: L["en"]["ind"],
-            "Appels d'offres cette semaine": "Open tenders this week (in French)"}
-    tmap.update({x[5]: x[6] for x in SECTORS})
-    tmap.update({a: b for (_, a), (_, b) in zip(resources("fr"), resources("en"))})
-    tmap.update({a: b for (_, a), (_, b) in zip(hub_links("fr"), hub_links("en"))})
-    tmap.update({a: b for (_, a), (_, b) in zip(legal_links("fr"), legal_links("en"))})
-    tmap[LEGAL["fr"] + " · "] = LEGAL["en"] + " · "
+    # Header strings only. The footer is emitted in both languages below; CSS keyed on html[lang]
+    # shows the matching block so English mode also gets EN hrefs (mapText cannot change links).
+    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["trial"]: L["en"]["trial"]}
     tmap = {k: v for k, v in tmap.items() if k != v}
     (ROOT / "fr" / "index.en.json").write_text(json.dumps({"lang": "en-CA", "title": title, "desc": desc, "main": en_main, "map": tmap},
                                                          ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    # bilingual footer so EN mode shows English labels and links to EN pages
+    fr_inner = re.search(r"<footer>(.*)</footer>", footer("fr"), re.S).group(1)
+    en_inner = re.search(r"<footer>(.*)</footer>", footer("en"), re.S).group(1)
+    bilingual = f'<footer><div class="only-fr">{fr_inner}</div><div class="only-en">{en_inner}</div></footer>'
+    fr = re.sub(r"<footer>.*?</footer>", lambda m: bilingual, fr, count=1, flags=re.S)
     # /fr/: FR/EN buttons instead of links, and the toggle script (idempotent)
     fr = re.sub(r'<div class="lang"[^>]*>.*?</div>', FR_TOGGLE_LANG, fr, count=1, flags=re.S)
     if FR_TOGGLE_JS not in fr:
@@ -762,13 +769,23 @@ def prerender_root():
     # screenshots: French file + French alt in the static HTML (i18n.js swaps to -en.png and the EN alt)
     s = re.sub(r'(<img [^>]*\bdata-shot="(\w+)"[^>]*\bdata-alt="(\w+)"[^>]*>)',
                lambda m: re.sub(r'(?<=\s)alt="[^"]*"', f'alt="{html.escape(fr[m.group(3)])}"', re.sub(r'(?<=\s)src="[^"]*"', f'src="img/{m.group(2)}.png"', m.group(1))), s)
-    # Resources links (FR + EN) in the root footer, after the sectors paragraph; regenerated on every build
-    res = ('<p class="resources"><b>Ressources</b> : ' + " · ".join(f'<a href="{u}">{t}</a>' for u, t in resources("fr"))
-           + '<br><b lang="en">Resources</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in resources("en"))
-           + '<br><b>Explorer</b> : ' + " · ".join(f'<a href="{u}">{t}</a>' for u, t in hub_links("fr"))
-           + '<br><b lang="en">Browse</b>: ' + " · ".join(f'<a href="{u}" hreflang="en-CA">{t}</a>' for u, t in hub_links("en")) + "</p>")
-    s = re.sub(r'<p class="resources">.*?</p>', "", s, flags=re.S)
-    s = re.sub(r'(<p class="sectors">.*?</p>)', lambda m: m.group(1) + res, s, count=1, flags=re.S)
+    # Sector / resource / browse lines: one language visible at a time (CSS on html[lang]). Regenerated every build.
+    def _ft_line(lg, heading, items):
+        sep = " : " if lg == "fr" else ": "
+        href_extra = ' hreflang="en-CA"' if lg == "en" else ""
+        lang_attr = ' lang="en"' if lg == "en" else ""
+        links = " · ".join(f'<a href="{u}"{href_extra}>{t}</a>' for u, t in items)
+        return f'<span class="only-{lg}"><b{lang_attr}>{heading}</b>{sep}{links}</span>'
+    sec_items_fr = [(f"/fr/{x[2]}", x[5]) for x in SECTORS]
+    sec_items_en = [(f"/en/{x[4]}", x[6]) for x in SECTORS]
+    sec = ('<p class="sectors">' + _ft_line("fr", "Secteurs", sec_items_fr) + _ft_line("en", "Sectors", sec_items_en) + "</p>")
+    res = ('<p class="resources">' + _ft_line("fr", "Ressources", resources("fr")) + _ft_line("en", "Resources", resources("en")) + "</p>"
+           + '<p class="browse">' + _ft_line("fr", "Explorer", hub_links("fr")) + _ft_line("en", "Browse", hub_links("en")) + "</p>")
+    s = re.sub(r'<p class="(?:resources|browse)">.*?</p>', "", s, flags=re.S)
+    s = re.sub(r'<p class="sectors">.*?</p>', sec + res, s, count=1, flags=re.S)
+    s = re.sub(r"style\.css\?v=w\d+", f"style.css?v={CSS_V}", s)
+    if "nav.js?" not in s:
+        s = s.replace("</head>", NAV_JS + "</head>", 1)
     # head of / (x-default landing): lang, title, description, canonical + hreflang, OG/Twitter, JSON-LD. Idempotent rewrite.
     title = "Veillea | Veille d'appels d'offres SEAO et AchatsCanada"
     desc = ("Veillea surveille le SEAO et AchatsCanada et vous envoie les appels d'offres pertinents, résumés en français et en anglais. "

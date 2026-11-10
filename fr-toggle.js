@@ -6,7 +6,7 @@ const LK="veillea_root_lang",APP="https://app.veillea.ca";
 const main=document.querySelector("main"),meta=document.querySelector('meta[name="description"]');
 const FR={main:main.innerHTML,title:document.title,desc:meta?meta.content:"",lang:document.documentElement.lang||"fr-CA"};
 let EN=window.__FR_EN__||null,cur="fr";
-function load(){return EN?Promise.resolve(EN):fetch("/fr/index.en.json?v=w18").then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>EN=j)}
+function load(){return EN?Promise.resolve(EN):fetch("/fr/index.en.json?v=w20").then(r=>{if(!r.ok)throw 0;return r.json()}).then(j=>EN=j)}
 function mapText(m){document.querySelectorAll("header, footer").forEach(root=>{const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
  while((n=w.nextNode())){const k=n.nodeValue;if(Object.prototype.hasOwnProperty.call(m,k))n.nodeValue=m[k]}})}
 function appLang(l){document.querySelectorAll('header a[href^="'+APP+'"], footer a[href^="'+APP+'"]').forEach(a=>{try{const u=new URL(a.href);if(u.searchParams.has("lang")){u.searchParams.set("lang",l);a.href=u.toString()}}catch(e){}})}
