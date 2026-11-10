@@ -54,7 +54,7 @@ SEAO offers its own alert service, "jumelage" (matching), which requires a paid 
 
 | | SEAO matching | Veillea |
 | --- | --- | --- |
-| Price | $6.95/month per Specialist user **+ $0.35 per notice sent** | Free (SEAO, weekly) · Solo $35/month · Team $69/month · Enterprise from $199/month — flat price |
+| Price | $6.95/month per Specialist user **+ $0.35 per notice sent** | Free (SEAO, weekly, notices from the last 7 days only) · Solo $35/month · Team $69/month · Enterprise from $199/month — flat price |
 | Sources | SEAO only | SEAO, CanadaBuys, SaskTenders, City of Toronto and 9 US sources (Team and Enterprise) |
 | Ranking | Notices matching your criteria | Every notice scored against your profile, most relevant first |
 | Summaries | — | FR/EN summary for every notice (paid plans) |
@@ -78,11 +78,11 @@ Prices in Canadian dollars, plus taxes. Annual billing: 1 month free.
 | Sources | SEAO | Federal and Quebec contracts | Quebec, federal and US contracts | Quebec, federal and US contracts |
 | Alert frequency | Weekly | Daily or weekly | Real-time | Real-time |
 | FR/EN summaries | — | ✓ | ✓ | ✓ |
-| History | 7 days | 30 days | 12 months | Full |
+| Open notices shown | Last 7 days only | Last 30 days only | Last 365 days only | All (no limit) |
 | CSV export | — | ✓ | ✓ | ✓ |
 | 14-day free trial | — | ✓ | ✓ | ✓ |
 
-*Real-time = as soon as the source publishes (CanadaBuys: every 2 hours; SEAO: as the open data is updated).*
+*Real-time = as soon as the source publishes (CanadaBuys: every 2 hours; SEAO: as the open data is updated). The notices-shown window is based on the publication date, Montreal time. Open notices published before that window do not appear on the dashboard, in the list, in search or in alerts.*
 
 ## For SMBs that sell to the public sector
 
@@ -94,7 +94,10 @@ Prices in Canadian dollars, plus taxes. Annual billing: 1 month free.
 ## Frequently asked questions
 
 ### Is there free tender monitoring?
-Yes. Veillea's Free plan covers SEAO with a weekly digest and one monitoring profile. Paid plans add federal and Quebec contracts (Solo) or Quebec, federal and US contracts (Team and Enterprise), daily or real-time alerts and FR/EN summaries, with a 14-day trial and no credit card.
+Yes. Veillea's Free plan covers SEAO with a weekly digest and one monitoring profile. Only open notices published in the last 7 days (Montreal time) are shown. Paid plans add federal and Quebec contracts (Solo) or Quebec, federal and US contracts (Team and Enterprise), daily or real-time alerts and FR/EN summaries, with a 14-day trial and no credit card.
+
+### What do you see on the Free plan?
+The Free plan covers SEAO only, with weekly alerts and one profile. Only open notices published in the last 7 days (Montreal time) appear on the dashboard, in the list, in search and in alerts. Open notices published more than 7 days ago stay hidden. To see all open notices, or a longer window, upgrade to a paid plan: the 14-day trial uses the tried plan's window, sources and alerts.
 
 ### Which tender sources are covered?
 In Canada: SEAO (Québec), CanadaBuys (federal), SaskTenders (Saskatchewan) and the City of Toronto. Veillea also covers several US sources, such as SAM.gov. Solo covers federal and Quebec contracts; Team and Enterprise include Quebec, federal and US contracts at no extra cost.
