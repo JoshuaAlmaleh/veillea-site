@@ -2,6 +2,7 @@
 robots.txt, and pre-fill the root index.html with static French text (i18n.js still switches languages).
 Run:  python scripts/build_pages.py [--seo-dir ../tender-seo]   (needs `pip install markdown`, node)"""
 import html, json, os, re, subprocess, sys
+from urllib.parse import quote
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
@@ -843,12 +844,29 @@ CCGJ_PRICES = {"solo": 262.50, "team": 517.50, "enterprise": 1492.50}  # annual 
 CCGJ_PATH = {"fr": "/ccgj/", "en": "/en/ccgj/"}
 
 
-def ccgj_signup_url(lang, plan="solo"):
-    campaign = f"ccgj-member-{lang}"
-    assert re.fullmatch(r"[a-z0-9-]{1,80}", campaign), campaign
-    assert plan in ("solo", "team", "enterprise"), plan
-    return (f"{APP_URL}/signup?plan={plan}&interval=annual&lang={lang}"
-            f"&utm_source=ccgj&utm_medium=partner&utm_campaign={campaign}")
+def ccgj_plan_mailto(lang, plan):
+    """Mailto so members write in for the member rate; the app has no member price at signup."""
+    assert lang in ("fr", "en") and plan in ("solo", "team", "enterprise")
+    name = {"fr": {"solo": "Solo", "team": "Équipe", "enterprise": "Entreprise"},
+            "en": {"solo": "Solo", "team": "Team", "enterprise": "Enterprise"}}[lang][plan]
+    if lang == "fr":
+        subject = f"Avantage membre CCGJ – {name}"
+        body = (
+            f"Bonjour, je souhaite profiter de l'avantage membre CCGJ pour le forfait {name} (annuel).\r\n"
+            f"\r\n"
+            f"Nom de l'entreprise :\r\n"
+            f"Nom du membre CCGJ :"
+        )
+    else:
+        subject = f"CCGJ member offer – {name}"
+        body = (
+            f"Hello, I'd like the CCGJ member offer for the {name} plan (annual).\r\n"
+            f"\r\n"
+            f"Company name:\r\n"
+            f"CCGJ member name:"
+        )
+    return (f"mailto:bonjour@veillea.ca?subject={quote(subject, safe='')}"
+            f"&body={quote(body, safe='')}")
 
 
 def ccgj():
@@ -913,7 +931,7 @@ def ccgj():
                 "<ol>"
                 "<li>Écrivez à "
                 '<a href="mailto:bonjour@veillea.ca?subject=Avantage%20membre%20CCGJ">bonjour@veillea.ca</a> '
-                "en mentionnant CCGJ (objet : « Avantage membre CCGJ »), ou créez votre compte.</li>"
+                "en mentionnant CCGJ (ou utilisez un bouton de forfait).</li>"
                 "<li>Nous appliquerons le tarif membre à votre abonnement annuel.</li>"
                 "</ol>"
             ),
@@ -961,7 +979,7 @@ def ccgj():
                 "<ol>"
                 "<li>Write to "
                 '<a href="mailto:bonjour@veillea.ca?subject=CCGJ%20member%20perk">bonjour@veillea.ca</a> '
-                "mentioning CCGJ (subject: “CCGJ member perk”), or create your account.</li>"
+                "mentioning CCGJ (or use a plan button).</li>"
                 "<li>We will apply the member rate to your annual plan.</li>"
                 "</ol>"
             ),
@@ -1008,7 +1026,7 @@ def ccgj():
                 f'<div class="amt">{money_cad(CCGJ_PRICES[key], lang)}<span>{html.escape(c["per"])}</span></div>'
                 f'<div class="eq tax">{html.escape(c["tax"])}</div>'
                 f"<ul>{items}</ul>"
-                f'<a class="btn{"" if pop else " ghost"}" href="{html.escape(ccgj_signup_url(lang, key))}">'
+                f'<a class="btn{"" if pop else " ghost"}" href="{html.escape(ccgj_plan_mailto(lang, key))}">'
                 f'{html.escape(c["choose"] + " " + name)}</a></div>'
             )
         faq_html = "".join(
