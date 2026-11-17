@@ -928,6 +928,8 @@ def ccgj():
                  "Oui. Selon l'offre, le rabais de 25 % sur l'abonnement annuel s'applique à chaque renouvellement, tant que vous êtes membre de la CCGJ."),
                 ("Les taxes sont-elles incluses ?",
                  "Non. Les prix indiqués sont en dollars canadiens, taxes en sus (TPS et TVQ)."),
+                ("Puis-je essayer Veillea avant de m'abonner ?",
+                 "Oui. Vous pouvez essayer gratuitement les forfaits payants pendant 14 jours, sans carte de crédit."),
             ],
         ),
         "en": dict(
@@ -974,6 +976,8 @@ def ccgj():
                  "Yes. As the offer states, the 25% discount on the annual plan applies at every renewal, for as long as you are a CCGJ member."),
                 ("Are taxes included?",
                  "No. Prices are in Canadian dollars, plus taxes (GST and QST)."),
+                ("Can I try Veillea before subscribing?",
+                 "Yes. You can try the paid plans free for 14 days, with no credit card."),
             ],
         ),
     }
