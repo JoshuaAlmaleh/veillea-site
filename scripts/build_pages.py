@@ -808,7 +808,7 @@ def prerender_root():
     # head of / (x-default landing): lang, title, description, canonical + hreflang, OG/Twitter, JSON-LD. Idempotent rewrite.
     title = "Veillea | Veille d'appels d'offres SEAO et AchatsCanada"
     desc = ("Veillea surveille le SEAO et AchatsCanada et vous envoie les appels d'offres pertinents, résumés en français et en anglais. "
-            "Forfait gratuit, essai 14 jours.")
+            "Forfait gratuit offert.")
     assert len(title) <= 60 and 140 <= len(desc) <= 160, (len(title), len(desc))
     s = re.sub(r'<html lang="[^"]*"', '<html lang="fr-CA"', s, count=1)
     s = re.sub(r'<link rel="canonical"[^>]*>|<link rel="alternate" hreflang[^>]*>|<meta property="(?:og|article):[^>]*>|<meta name="twitter:[^>]*>'

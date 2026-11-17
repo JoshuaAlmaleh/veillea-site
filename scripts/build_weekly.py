@@ -200,13 +200,13 @@ def week_label(updated):
 MOIS_ABR = "janv. févr. mars avr. mai juin juil. août sept. oct. nov. déc.".split()
 SEO_META = {  # trade slug -> (title template, meta description)
     "entretien-menager": ("Appel d'offres entretien ménager Québec : semaine du {d}",
-                          "Appels d'offres en entretien ménager ouverts cette semaine au SEAO : organisme, ville, date de clôture. Recevez-les par alerte : essai 14 jours, sans carte."),
+                          "Appels d'offres en entretien ménager ouverts cette semaine au SEAO : organisme, ville, date de clôture. Recevez-les par alerte."),
     "construction": ("Appels d'offres construction Québec : semaine du {d}",
-                     "Appels d'offres en construction ouverts cette semaine au SEAO : organisme, ville, date de clôture, lien officiel. Alertes : essai 14 jours, sans carte."),
+                     "Appels d'offres en construction ouverts cette semaine au SEAO : organisme, ville, date de clôture, lien officiel."),
     "fournitures": ("Appels d'offres fournitures Québec : semaine du {d}",
-                    "Appels d'offres en fournitures et équipement ouverts cette semaine au SEAO : organisme, ville, clôture. Recevez-les par alerte : essai 14 jours, sans carte."),
+                    "Appels d'offres en fournitures et équipement ouverts cette semaine au SEAO : organisme, ville, clôture. Recevez-les par alerte."),
     "informatique": ("Appels d'offres TI et informatique Québec : {d}",
-                     "Appels d'offres en informatique et TI ouverts cette semaine au SEAO : organisme, ville, date de clôture. Alertes selon profil : essai 14 jours, sans carte."),
+                     "Appels d'offres en informatique et TI ouverts cette semaine au SEAO : organisme, ville, date de clôture. Alertes selon profil."),
 }
 
 
