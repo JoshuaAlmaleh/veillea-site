@@ -19,10 +19,10 @@ ICONS = '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" hre
 HREFLANG = (f'<link rel="alternate" hreflang="fr-CA" href="{SITE}/fr/"><link rel="alternate" hreflang="en-CA" href="{SITE}/en/">'
             f'<link rel="alternate" hreflang="x-default" href="{SITE}/">')  # / is the language-neutral x-default
 L = {
- "fr": dict(other="en", other_label="English", login="Connexion", trial="Essai gratuit 14 jours", free="Commencer gratuitement",
+ "fr": dict(other="en", other_label="English", login="Connexion", trial="Essai gratuit 14 jours, sans carte de crédit", account="Créer mon compte", see_plans="Voir les forfaits", free="Commencer gratuitement",
             ind="Veillea est un service indépendant, non affilié au SEAO, au gouvernement du Canada ni aux autres plateformes mentionnées.",
             tag="Veille bilingue d'appels d'offres publics pour les PME canadiennes.", locale="fr_CA", home="Accueil"),
- "en": dict(other="fr", other_label="Français", login="Log in", trial="Start 14-day free trial", free="Start free",
+ "en": dict(other="fr", other_label="Français", login="Log in", trial="14-day free trial, no credit card", account="Create my account", see_plans="See plans", free="Start free",
             ind="Veillea is an independent service, not affiliated with SEAO, the Government of Canada or any other platform mentioned.",
             tag="Bilingual public tender monitoring for Canadian SMBs.", locale="en_CA", home="Home"),
 }
@@ -62,7 +62,7 @@ def header(lang):
     return (f'<header><div class="wrap nav"><a class="brand" href="/{lang}/"><span class="seal">V</span>Veillea</a>'
             f'<div class="nav-panel" id="site-nav"><nav class="links"><a href="/{lang}/#pricing-plans">{"Forfaits" if lang=="fr" else "Pricing"}</a><a href="/{lang}/#faq">FAQ</a></nav>'
             f'<a class="login" href="{APP_URL}/login?lang={lang}">{d["login"]}</a>'
-            f'<a class="btn" href="{signup(lang, "team")}">{d["trial"]}</a></div>'
+            f'<a class="btn" href="{signup(lang, "team")}">{d["account"]}</a></div>'
             f'<div class="lang"><a href="/fr/" class="{"on" if lang=="fr" else ""}" hreflang="fr-CA">FR</a><a href="/en/" class="{"on" if lang=="en" else ""}" hreflang="en-CA">EN</a></div>'
             f'<button type="button" class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-bars" aria-hidden="true"></span></button>'
             f'</div></header>')
@@ -487,9 +487,9 @@ def landing(lang, src_path=None, out_path=None, canonical=None, alts=None, shots
     if crumbs:  # the markdown breadcrumb line is replaced by the generated <nav class="crumbs">
         body = re.sub(r"^\[[^\]]+\]\(/(?:fr|en)/\) >.*\n", "", body, count=1, flags=re.M)
     d = L[lang]
-    cta = (f'<p class="ctas"><a class="btn" href="{signup(lang, "free")}">{d["free"]}</a> '
-           f'<a class="btn ghost" href="{signup(lang, "team")}">{d["trial"]}</a></p><p class="small">')
-    body = re.sub(r"^\*\*\[([^\]]+)\](?:\([^)]*\))?\*\*\s*·\s*(.+)$", lambda m: cta + m.group(2) + "</p>", body, flags=re.M)
+    cta = (f'<p class="ctas"><a class="btn" href="{signup(lang, "team")}">{d["account"]}</a> '
+           f'<a class="btn ghost" href="/{lang}/#pricing-plans">{d["see_plans"]}</a></p>')
+    body = re.sub(r"^\*\*\[([^\]]+)\](?:\([^)]*\))?\*\*(?:\s*·\s*.+)?$", cta, body, flags=re.M)
     h = markdown.markdown(body, extensions=["tables"], output_format="html")
     h = re.sub(r"<table>", '<div class="cmpwrap"><table class="cmp">', h).replace("</table>", "</table></div>")
     # anchors for the plan table and FAQ section
@@ -583,8 +583,9 @@ def legal():
 
 TRIAL_TXT = {"fr": "Essai gratuit 14 jours, sans carte de crédit", "en": "14-day free trial, no credit card"}
 # Above-the-fold trial CTA on the key landings: built page path -> utm_campaign slug (/ is in index.html: "home")
-TRIAL_CTA = {"fr/index.html": "home-fr", "en/index.html": "home-en",
-             "fr/scanner-appels-offres.html": "tender-scanner-fr", "en/tender-scanner.html": "tender-scanner-en",
+# Only the homepage heroes keep a trial-labelled CTA. Other key landings keep the same UTM URLs with a "Créer mon compte" label.
+TRIAL_CTA = {"fr/index.html": "home-fr", "en/index.html": "home-en"}
+ACCOUNT_CTA = {"fr/scanner-appels-offres.html": "tender-scanner-fr", "en/tender-scanner.html": "tender-scanner-en",
              "fr/alternative-alertes-seao.html": "seao-alerts-fr", "en/seao-alerts-alternative.html": "seao-alerts-en",
              "fr/appels-offres-construction-quebec.html": "construction-qc-fr", "en/construction-tenders-quebec.html": "construction-qc-en",
              "fr/guide/soumissionner-achatscanada.html": "canadabuys-guide-fr", "fr/guide/gagner-appel-offres-public-quebec.html": "gagner-ao-guide-fr", "en/guide/how-to-bid-canadabuys.html": "canadabuys-guide-en"}
@@ -625,14 +626,28 @@ def finalize_pages():
         alt = dict(re.findall(r'<link rel="alternate" hreflang="(fr-CA|en-CA)" href="https://veillea\.ca([^"]*)">', s))
         if "fr-CA" in alt and "en-CA" in alt:
             s = SWITCH.sub(lambda m: m.group(1) + alt["fr-CA"] + m.group(2) + alt["en-CA"] + m.group(3), s, count=1)
-        if rel in TRIAL_CTA and "trial-cta" not in s:
+        if rel in TRIAL_CTA:
             lang, btn, i = rel[:2], trial_cta(rel[:2], TRIAL_CTA[rel]), s.index("</h1>")
-            m = CTA_ROW.search(s, i)
-            if m and m.start() - i < 2500:
-                s = s[:m.start()] + f'<p class="ctas">{btn} <a class="btn ghost" {m.group(1)}>{m.group(2)}</a></p>' + s[m.end():]
+            m = re.search(r'<p class="ctas">.*?</p>', s[i:i+4000], re.S)
+            plans = L[lang]["see_plans"]
+            ghost = f'<a class="btn ghost" href="/{lang}/#pricing-plans">{plans}</a>'
+            if m:
+                start, end = i + m.start(), i + m.end()
+                s = s[:start] + f'<p class="ctas">{btn} {ghost}</p>' + s[end:]
             else:
                 j = s.index("</p>", re.compile(r"<p>").search(s, i).start()) + 4
-                s = s[:j] + f'\n<p class="ctas">{btn}</p>' + s[j:]
+                s = s[:j] + f'\n<p class="ctas">{btn} {ghost}</p>' + s[j:]
+        elif rel in ACCOUNT_CTA:
+            lang, i = rel[:2], s.index("</h1>")
+            url = html.escape(trial_url(lang, ACCOUNT_CTA[rel]))
+            label = L[lang]["account"]
+            m = re.search(r'<p class="ctas"><a class="btn" href="[^"]*">([^<]*)</a>', s[i:i+4000])
+            if m:
+                s = s[:i] + s[i:i+4000].replace(
+                    m.group(0),
+                    f'<p class="ctas"><a class="btn" href="{url}">{label}</a>',
+                    1,
+                ) + s[i+4000:]
         if s != o:
             f.write_text(s, encoding="utf-8")
 
@@ -664,16 +679,17 @@ def fr_toggle():
         en_main = _main_of(out.read_text(encoding="utf-8"))
     # same above-the-fold trial CTA as finalize_pages() puts on /fr/ (campaign of the page, link and text in English)
     btn, i = trial_cta("en", TRIAL_CTA["fr/index.html"]), en_main.index("</h1>")
-    m = CTA_ROW.search(en_main, i)
-    assert m and m.start() - i < 2500
-    en_main = en_main[:m.start()] + f'<p class="ctas">{btn} <a class="btn ghost" {m.group(1)}>{m.group(2)}</a></p>' + en_main[m.end():]
+    m = re.search(r'<p class="ctas">.*?</p>', en_main[i:i+4000], re.S)
+    assert m
+    ghost = f'<a class="btn ghost" href="/en/#pricing-plans">{L["en"]["see_plans"]}</a>'
+    en_main = en_main[:i+m.start()] + f'<p class="ctas">{btn} {ghost}</p>' + en_main[i+m.end():]
     fr_main = _main_of(fr)
     for tag in ("<h1", "<h2", "<h3", "<tr", "<li", "<table", "<a ", "<img"):  # the translation must mirror the French page
         assert fr_main.count(tag) == en_main.count(tag), ("fr/en toggle out of sync", tag, fr_main.count(tag), en_main.count(tag))
     assert "<!--" not in en_main
     # Header strings only. The footer is emitted in both languages below; CSS keyed on html[lang]
     # shows the matching block so English mode also gets EN hrefs (mapText cannot change links).
-    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["trial"]: L["en"]["trial"]}
+    tmap = {"Forfaits": "Pricing", L["fr"]["login"]: L["en"]["login"], L["fr"]["account"]: L["en"]["account"]}
     tmap = {k: v for k, v in tmap.items() if k != v}
     (ROOT / "fr" / "index.en.json").write_text(json.dumps({"lang": "en-CA", "title": title, "desc": desc, "main": en_main, "map": tmap},
                                                          ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
@@ -1060,9 +1076,9 @@ def ccgj():
         )
         out = head(lang, c["title"], c["desc"], url, extra, alts) + header(lang)
         out += f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lang) + CF_BEACON + "</body></html>\n"
-        # On these pages only, replace the shared header trial button with a link to the claim section.
+        # On these pages only, replace the shared header account button with a link to the claim section.
         header_trial = (
-            f'<a class="btn" href="{signup(lang, "team")}">{L[lang]["trial"]}</a>'
+            f'<a class="btn" href="{signup(lang, "team")}">{L[lang]["account"]}</a>'
         )
         header_member = f'<a class="btn" href="#obtenir">{html.escape(c["header_cta"])}</a>'
         if header_trial not in out:
@@ -1081,3 +1097,4 @@ if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
     sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); ccgj(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); check_switchers(); print("ok")
+

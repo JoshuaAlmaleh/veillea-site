@@ -255,11 +255,11 @@ def page(tr, items, updated, data_end):
              if items else '<p class="note">Aucun appel d\'offres ouvert dans cette catégorie pour le moment. Revenez la semaine prochaine.</p>')
     sec = f' Voir aussi notre page <a href="/fr/{tr["sector"]}">appels d\'offres en {tr["name"]}</a>.' if tr["sector"] else ""
     cta = (f'<div class="wk-cta"><div><h2>Recevez ces avis automatiquement</h2><p>Veillea surveille le SEAO et 12 autres sources et vous envoie '
-           f'les nouveaux appels d\'offres en {tr["name"]} selon vos mots-clés et vos régions. Essai gratuit de 14 jours, sans carte de crédit.</p></div>'
-           f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a>'
+           f'les nouveaux appels d\'offres en {tr["name"]} selon vos mots-clés et vos régions.</p></div>'
+           f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">{B.L["fr"]["account"]}</a>'
            f'<a class="btn ghost" href="{B.APP_URL}/signup?plan=free&amp;interval=monthly&amp;lang=fr">Alerte hebdo gratuite</a></p></div>')
     # above-the-fold trial CTA (same component as build_pages.TRIAL_CTA pages) on selected trades
-    trial = f'\n<p class="ctas">{B.trial_cta("fr", WEEKLY_TRIAL[tr["slug"]])}</p>' if tr["slug"] in WEEKLY_TRIAL else ""
+    trial = ""  # trial CTA is homepage-hero only; keep WEEKLY_TRIAL URLs unused here
     body = (f'{B.crumbs_html("fr", crumbs)}<h1>Appels d\'offres {tr["name"]} — semaine du {wk}</h1>'
             f'<p class="wk-meta">Mis à jour le {fr_date(updated)} · Données ouvertes SEAO jusqu\'au {fr_date(datetime.combine(data_end, datetime.min.time(), TZ))} · '
             f'<b>{n}</b> appel{"s" if n != 1 else ""} d\'offres ouvert{"s" if n != 1 else ""}</p>'
@@ -290,7 +290,7 @@ def hub(counts, updated):
             '<p>Les appels d\'offres publics du SEAO encore ouverts, classés par métier. Chaque page liste le titre, l\'organisme, la ville, '
             'les dates de publication et de clôture, avec un lien vers l\'avis officiel.</p>'
             f'<div class="wk-grid">{cards}</div>'
-            f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">Essai gratuit 14 jours</a></p>')
+            f'<p class="ctas"><a class="btn" href="{B.APP_URL}/signup?plan=team&amp;interval=monthly&amp;lang=fr">{B.L["fr"]["account"]}</a></p>')
     out += B.no_pair_switch(B.header("fr"), "fr") + f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer() + B.CF_BEACON + "</body></html>\n"
     return out
 
