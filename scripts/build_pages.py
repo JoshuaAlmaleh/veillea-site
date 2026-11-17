@@ -606,7 +606,9 @@ def finalize_pages():
     """Post-build passes on generated FR/EN pages (idempotent):
     (a) the FR/EN switch links to the paired page, taken from the page's own hreflang links;
     (b) the trial CTA above the fold on TRIAL_CTA pages (replaces the top free/team button row, or is added after the intro)."""
-    for f in sorted(list((ROOT / "fr").rglob("*.html")) + list((ROOT / "en").rglob("*.html"))):
+    pages = list((ROOT / "fr").rglob("*.html")) + list((ROOT / "en").rglob("*.html"))
+    pages += list((ROOT / "ccgj").rglob("*.html")) if (ROOT / "ccgj").exists() else []
+    for f in sorted(pages):
         rel = f.relative_to(ROOT).as_posix()
         if rel.startswith("fr/appels-offres-cette-semaine/"):  # FR-only weekly pages (built by build_weekly.py, which applies the same)
             s = o = f.read_text(encoding="utf-8")
@@ -820,7 +822,225 @@ def redirect_stubs():
             f'<body><p><a href="{t}">{label}</a></p></body></html>\n', encoding="utf-8")
 
 
+def money_cad(n, lang):
+    """Format a CAD amount like i18n.js money(), always with two decimals (member prices are not whole dollars)."""
+    if lang == "en":
+        return f"${n:,.2f}"
+    whole, frac = f"{n:.2f}".split(".")
+    grouped = ""
+    for i, ch in enumerate(reversed(whole)):
+        if i and i % 3 == 0:
+            grouped = "\u00a0" + grouped
+        grouped = ch + grouped
+    return f"{grouped},{frac}\u00a0$"
+
+
+# CCGJ member-perk landing (partner page). Built into /ccgj/ (FR) and /en/ccgj/ (EN).
+# Stay out of the sitemap and hubs: the page is reached from CCGJ's own link. noindex,follow.
+# Member prices are the figures Joshua quoted to CCGJ; do not show a struck-through regular price.
+# Feature lines must stay in sync with i18n.js `pl.{solo,team,enterprise}`.
+CCGJ_PRICES = {"solo": 262.50, "team": 517.50, "enterprise": 1492.50}  # annual CAD, plus taxes
+CCGJ_PATH = {"fr": "/ccgj/", "en": "/en/ccgj/"}
+
+
+def ccgj_trial_url(lang):
+    campaign = f"ccgj-member-{lang}"
+    assert re.fullmatch(r"[a-z0-9-]{1,80}", campaign), campaign
+    return f"{APP_URL}/signup?plan=solo&lang={lang}&utm_source=ccgj&utm_medium=partner&utm_campaign={campaign}"
+
+
+def ccgj():
+    """Preview partner landing for the CCGJ member perk. Not listed in the sitemap or hubs."""
+    pl = {
+        "fr": {
+            "solo": ["Solo", "Pour l'entrepreneur ou le travailleur autonome",
+                     ["1 profil de veille", "1 utilisateur", "Contrats fédéraux et québécois",
+                      "Alertes quotidiennes ou hebdomadaires", "Résumés FR/EN",
+                      "Avis publiés au cours des 30 derniers jours seulement", "Export CSV"]],
+            "team": ["Équipe", "Pour les PME qui soumissionnent régulièrement",
+                     ["15 profils de veille", "Jusqu'à 5 utilisateurs", "Contrats québécois, fédéraux et américains",
+                      "Alertes en temps réel", "Résumés FR/EN",
+                      "Avis publiés au cours des 365 derniers jours seulement", "Export CSV", "Soutien prioritaire"]],
+            "enterprise": ["Entreprise", "Plusieurs équipes, besoins sur mesure",
+                           ["Profils et utilisateurs illimités", "Contrats québécois, fédéraux et américains",
+                            "Alertes en temps réel", "Tous les avis ouverts (aucune limite)", "Export CSV",
+                            "Accompagnement à la configuration", "Facturation annuelle sur facture possible"]],
+        },
+        "en": {
+            "solo": ["Solo", "For owner-operators and freelancers",
+                     ["1 monitoring profile", "1 user", "Federal and Quebec contracts",
+                      "Daily or weekly alerts", "FR/EN summaries",
+                      "Only notices published in the last 30 days", "CSV export"]],
+            "team": ["Team", "For SMBs that bid regularly",
+                     ["15 monitoring profiles", "Up to 5 users", "Quebec, federal and US contracts",
+                      "Real-time alerts", "FR/EN summaries",
+                      "Only notices published in the last 365 days", "CSV export", "Priority support"]],
+            "enterprise": ["Enterprise", "Multiple teams, custom needs",
+                           ["Unlimited profiles and users", "Quebec, federal and US contracts",
+                            "Real-time alerts", "All open notices (no limit)", "CSV export",
+                            "Guided onboarding", "Annual invoicing available"]],
+        },
+    }
+    copy = {
+        "fr": dict(
+            title="Avantage membre CCGJ : 25 % de rabais annuel | Veillea",
+            desc="25 % de rabais sur l'abonnement annuel Veillea pour les membres de la CCGJ : Solo 262,50 $, Équipe 517,50 $, Entreprise 1 492,50 $ par an, taxes en sus.",
+            crumb="Avantage membre CCGJ",
+            eye="Avantage membre CCGJ",
+            h1="Avantage membre CCGJ : 25 % de rabais sur l'abonnement annuel Veillea",
+            lead="Les membres de la Chambre de commerce du Grand Joliette profitent de 25 % de rabais sur l'abonnement annuel Veillea, à chaque renouvellement, taxes en sus.",
+            partner='Offert aux membres de la <a href="https://www.ccgj.qc.ca/">Chambre de commerce du Grand Joliette (CCGJ)</a>.',
+            intro_h="Veillea, pour les entreprises de Joliette et de Lanaudière",
+            intro=(
+                "<p>Veillea est un outil de veille d'appels d'offres publics, conçu à Montréal pour les PME. "
+                "Il surveille le SEAO, AchatsCanada et d'autres sources officielles au Canada et aux États-Unis, "
+                "classe chaque avis selon le profil de votre entreprise et vous envoie ceux qui vous concernent.</p>"
+                "<p>Sur les forfaits payants, chaque avis est résumé en français et en anglais, et les dates de clôture "
+                "sont mises en évidence. Vous pouvez commencer par un essai de 14 jours, sans carte de crédit. "
+                "Veillea ne remplace pas l'inscription au SEAO : pour obtenir les documents et déposer une soumission, "
+                "vous utilisez toujours la plateforme officielle.</p>"
+            ),
+            prices_h="Ce que les membres obtiennent",
+            prices_p="Les membres de la CCGJ bénéficient de 25 % de rabais sur l'abonnement annuel, à chaque renouvellement. Voici les prix membres, en dollars canadiens, taxes en sus.",
+            per=" /an",
+            tax="taxes en sus",
+            pop="Le plus choisi",
+            prices_note="Ces prix s'appliquent à l'abonnement annuel seulement, à chaque renouvellement. L'essai de 14 jours des forfaits payants démarre sans carte de crédit.",
+            claim_h="Comment obtenir le tarif membre",
+            claim_p=(
+                "<p>Commencez par l'essai gratuit de 14 jours, sans carte de crédit. Ensuite, "
+                "<strong>mentionnez CCGJ</strong> : écrivez à "
+                '<a href="mailto:bonjour@veillea.ca?subject=Avantage%20membre%20CCGJ">bonjour@veillea.ca</a> '
+                "(objet : « Avantage membre CCGJ ») pour que le prix membre soit appliqué à votre abonnement annuel.</p>"
+            ),
+            trial="Essai gratuit 14 jours, sans carte de crédit",
+            write="Écrire à bonjour@veillea.ca",
+            faq_h="Questions fréquentes",
+            faq=[
+                ("Qui peut bénéficier de cet avantage ?",
+                 "Cet avantage s'adresse aux membres de la Chambre de commerce du Grand Joliette (CCGJ)."),
+                ("Le rabais s'applique-t-il à chaque renouvellement ?",
+                 "Oui. Selon l'offre, le rabais de 25 % sur l'abonnement annuel s'applique à chaque renouvellement, tant que vous êtes membre de la CCGJ."),
+                ("Les taxes sont-elles incluses ?",
+                 "Non. Les prix indiqués sont en dollars canadiens, taxes en sus (TPS et TVQ)."),
+                ("Faut-il une carte de crédit pour l'essai ?",
+                 "Non. L'essai de 14 jours des forfaits payants démarre sans carte. À la fin, vous choisissez un forfait ou revenez au forfait Gratuit."),
+            ],
+        ),
+        "en": dict(
+            title="CCGJ member perk: 25% off the annual plan | Veillea",
+            desc="25% off Veillea's annual plan for CCGJ members: Solo $262.50, Team $517.50, Enterprise $1,492.50 per year, plus taxes.",
+            crumb="CCGJ member perk",
+            eye="CCGJ member perk",
+            h1="CCGJ member perk: 25% off Veillea's annual plan",
+            lead="Members of the Chambre de commerce du Grand Joliette get 25% off Veillea's annual plan, on every renewal, plus taxes.",
+            partner='Offered to members of the <a href="https://www.ccgj.qc.ca/">Chambre de commerce du Grand Joliette (CCGJ)</a>.',
+            intro_h="Veillea, for businesses in Joliette and Lanaudière",
+            intro=(
+                "<p>Veillea is a public-tender monitoring tool, built in Montréal for SMBs. "
+                "It watches SEAO, CanadaBuys and other official sources in Canada and the United States, "
+                "ranks every notice against your company profile, and sends you the ones that match.</p>"
+                "<p>On paid plans, each notice is summarized in English and French, and closing dates are "
+                "easy to spot. You can start with a 14-day trial, with no credit card. "
+                "Veillea does not replace registering on SEAO: to get the documents and submit a bid, "
+                "you still use the official platform.</p>"
+            ),
+            prices_h="What members get",
+            prices_p="CCGJ members get 25% off the annual plan, on every renewal. Here are the member prices, in Canadian dollars, plus taxes.",
+            per=" /yr",
+            tax="plus taxes",
+            pop="Most popular",
+            prices_note="These prices apply to the annual plan only, on every renewal. The 14-day trial on paid plans starts with no credit card.",
+            claim_h="How to get the member price",
+            claim_p=(
+                "<p>Start with the 14-day free trial, with no credit card. Then "
+                "<strong>mention CCGJ</strong>: write to "
+                '<a href="mailto:bonjour@veillea.ca?subject=CCGJ%20member%20perk">bonjour@veillea.ca</a> '
+                '(subject: “CCGJ member perk”) so the member price can be applied to your annual plan.</p>'
+            ),
+            trial="14-day free trial, no credit card",
+            write="Email bonjour@veillea.ca",
+            faq_h="Frequently asked questions",
+            faq=[
+                ("Who can use this perk?",
+                 "This perk is for members of the Chambre de commerce du Grand Joliette (CCGJ)."),
+                ("Does the discount apply at every renewal?",
+                 "Yes. As the offer states, the 25% discount on the annual plan applies at every renewal, for as long as you are a CCGJ member."),
+                ("Are taxes included?",
+                 "No. Prices are in Canadian dollars, plus taxes (GST and QST)."),
+                ("Do I need a credit card for the trial?",
+                 "No. The 14-day trial on paid plans starts without a card. At the end you pick a plan or move to Free."),
+            ],
+        ),
+    }
+    fr_url, en_url = SITE + CCGJ_PATH["fr"], SITE + CCGJ_PATH["en"]
+    alts = hreflang(fr_url, en_url)
+    for lang, url, rel in (("fr", fr_url, "ccgj/index.html"), ("en", en_url, "en/ccgj/index.html")):
+        c = copy[lang]
+        crumbs = [("Veillea" if lang == "fr" else "Veillea", f"{SITE}/{lang}/"), (c["crumb"], url)]
+        faq_schema = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "inLanguage": f"{lang}-CA",
+            "mainEntity": [
+                {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                for q, a in c["faq"]
+            ],
+        }
+        extra = '<meta name="robots" content="noindex,follow">' + ld(crumbs_ld(crumbs)) + ld(faq_schema)
+        cards = []
+        for key in ("solo", "team", "enterprise"):
+            name, tagline, bullets = pl[lang][key]
+            pop = key == "team"
+            items = "".join(f"<li>{html.escape(x)}</li>" for x in bullets)
+            badge = f'<span class="popb">{html.escape(c["pop"])}</span>' if pop else ""
+            cards.append(
+                f'<div class="card price{" pop" if pop else ""}">{badge}'
+                f"<h3>{html.escape(name)}</h3><p class=\"tagl\">{html.escape(tagline)}</p>"
+                f'<div class="amt">{money_cad(CCGJ_PRICES[key], lang)}<span>{html.escape(c["per"])}</span></div>'
+                f'<div class="eq tax">{html.escape(c["tax"])}</div>'
+                f"<ul>{items}</ul></div>"
+            )
+        faq_html = "".join(
+            f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>"
+            for q, a in c["faq"]
+        )
+        trial = html.escape(ccgj_trial_url(lang))
+        mail = (
+            "mailto:bonjour@veillea.ca?subject=Avantage%20membre%20CCGJ"
+            if lang == "fr"
+            else "mailto:bonjour@veillea.ca?subject=CCGJ%20member%20perk"
+        )
+        body = (
+            f'{crumbs_html(lang, crumbs)}'
+            f'<p class="eyebrow">{html.escape(c["eye"])}</p>'
+            f'<h1>{html.escape(c["h1"])}</h1>'
+            f'<p>{html.escape(c["lead"])}</p>'
+            f'<p>{c["partner"]}</p>'
+            f'<p class="ctas"><a class="btn trial-cta" href="{trial}">{html.escape(c["trial"])}</a> '
+            f'<a class="btn ghost" href="{html.escape(mail)}">{html.escape(c["write"])}</a></p>'
+            f'<h2>{html.escape(c["intro_h"])}</h2>{c["intro"]}'
+            f'<h2 id="prix-membres">{html.escape(c["prices_h"])}</h2>'
+            f'<p>{html.escape(c["prices_p"])}</p>'
+            f'<div class="plans grid g3">{"".join(cards)}</div>'
+            f'<p class="note">{html.escape(c["prices_note"])}</p>'
+            f'<h2 id="obtenir">{html.escape(c["claim_h"])}</h2>{c["claim_p"]}'
+            f'<p class="ctas"><a class="btn trial-cta" href="{trial}">{html.escape(c["trial"])}</a> '
+            f'<a class="btn ghost" href="{html.escape(mail)}">{html.escape(c["write"])}</a></p>'
+            f'<h2 id="faq">{html.escape(c["faq_h"])}</h2><div id="faqlist">{faq_html}</div>'
+        )
+        out = head(lang, c["title"], c["desc"], url, extra, alts) + header(lang)
+        out += f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lang) + CF_BEACON + "</body></html>\n"
+        # Pair the FR/EN switcher to this page's counterpart (finalize_pages also rewrites /en/ccgj/; /ccgj/ is at the root).
+        out = out.replace('<a href="/fr/" class', f'<a href="{CCGJ_PATH["fr"]}" class', 1)
+        out = out.replace('<a href="/en/" class', f'<a href="{CCGJ_PATH["en"]}" class', 1)
+        dest = ROOT / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(out, encoding="utf-8")
+        print(lang, dest.relative_to(ROOT).as_posix())
+
+
 if __name__ == "__main__":
     for lg in ("fr", "en"):
         print(lg, landing(lg))
-    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); check_switchers(); print("ok")
+    sectors(); batch2(); batch4(); weekly_links(); hubs(); legal(); page_404(); ccgj(); finalize_pages(); fr_toggle(); sitemap(); prerender_root(); redirect_stubs(); check_switchers(); print("ok")
