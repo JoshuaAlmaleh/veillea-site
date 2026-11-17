@@ -920,7 +920,6 @@ def ccgj():
             cta_primary="Obtenir le tarif membre",
             header_cta="Tarif membre",
             choose="Choisir",
-            trial_fine="Vous pouvez aussi faire un essai de Veillea gratuitement pendant 14 jours, sans carte.",
             faq_h="Questions fréquentes",
             faq=[
                 ("Qui peut bénéficier de cet avantage ?",
@@ -967,7 +966,6 @@ def ccgj():
             cta_primary="Get the member rate",
             header_cta="Member rate",
             choose="Choose",
-            trial_fine="You can also start a 14-day free trial of Veillea, with no credit card.",
             faq_h="Frequently asked questions",
             faq=[
                 ("Who can use this perk?",
@@ -1026,7 +1024,6 @@ def ccgj():
             f'<p class="eyebrow">{html.escape(c["eye"])}</p>'
             f'<h1>{html.escape(c["h1"])}</h1>'
             f'<p>{html.escape(c["lead"])}</p>'
-            f'<p class="small">{html.escape(c["trial_fine"])}</p>'
             f'<p>{c["partner"]}</p>'
             f'{ctas}'
             f'<h2>{html.escape(c["intro_h"])}</h2>{c["intro"]}'
