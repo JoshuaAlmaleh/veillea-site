@@ -843,10 +843,12 @@ CCGJ_PRICES = {"solo": 262.50, "team": 517.50, "enterprise": 1492.50}  # annual 
 CCGJ_PATH = {"fr": "/ccgj/", "en": "/en/ccgj/"}
 
 
-def ccgj_trial_url(lang):
+def ccgj_signup_url(lang, plan="solo"):
     campaign = f"ccgj-member-{lang}"
     assert re.fullmatch(r"[a-z0-9-]{1,80}", campaign), campaign
-    return f"{APP_URL}/signup?plan=solo&lang={lang}&utm_source=ccgj&utm_medium=partner&utm_campaign={campaign}"
+    assert plan in ("solo", "team", "enterprise"), plan
+    return (f"{APP_URL}/signup?plan={plan}&interval=annual&lang={lang}"
+            f"&utm_source=ccgj&utm_medium=partner&utm_campaign={campaign}")
 
 
 def ccgj():
@@ -896,9 +898,8 @@ def ccgj():
                 "Il surveille le SEAO, AchatsCanada et d'autres sources officielles au Canada et aux États-Unis, "
                 "classe chaque avis selon le profil de votre entreprise et vous envoie ceux qui vous concernent.</p>"
                 "<p>Sur les forfaits payants, chaque avis est résumé en français et en anglais, et les dates de clôture "
-                "sont mises en évidence. Vous pouvez commencer par un essai de 14 jours, sans carte de crédit. "
-                "Veillea ne remplace pas l'inscription au SEAO : pour obtenir les documents et déposer une soumission, "
-                "vous utilisez toujours la plateforme officielle.</p>"
+                "sont mises en évidence. Veillea ne remplace pas l'inscription au SEAO : pour obtenir les documents "
+                "et déposer une soumission, vous utilisez toujours la plateforme officielle.</p>"
             ),
             prices_h="Ce que les membres obtiennent",
             prices_p="Les membres de la CCGJ bénéficient de 25 % de rabais sur l'abonnement annuel, à chaque renouvellement. Voici les prix membres, en dollars canadiens, taxes en sus.",
@@ -906,16 +907,20 @@ def ccgj():
             per=" /an",
             tax="taxes en sus",
             pop="Le plus choisi",
-            prices_note="Ces prix s'appliquent à l'abonnement annuel seulement, à chaque renouvellement. L'essai de 14 jours des forfaits payants démarre sans carte de crédit.",
+            prices_note="Ces prix s'appliquent à l'abonnement annuel seulement, à chaque renouvellement.",
             claim_h="Comment obtenir le tarif membre",
             claim_p=(
-                "<p>Commencez par l'essai gratuit de 14 jours, sans carte de crédit. Ensuite, "
-                "<strong>mentionnez CCGJ</strong> : écrivez à "
+                "<ol>"
+                "<li>Écrivez à "
                 '<a href="mailto:bonjour@veillea.ca?subject=Avantage%20membre%20CCGJ">bonjour@veillea.ca</a> '
-                "(objet : « Avantage membre CCGJ ») pour que le prix membre soit appliqué à votre abonnement annuel.</p>"
+                "en mentionnant CCGJ (objet : « Avantage membre CCGJ »), ou créez votre compte.</li>"
+                "<li>Nous appliquerons le tarif membre à votre abonnement annuel.</li>"
+                "</ol>"
             ),
-            trial="Essai gratuit 14 jours, sans carte de crédit",
-            write="Écrire à bonjour@veillea.ca",
+            cta_primary="Obtenir le tarif membre",
+            header_cta="Tarif membre",
+            choose="Choisir",
+            trial_fine="Vous pouvez aussi faire un essai de Veillea gratuitement pendant 14 jours, sans carte.",
             faq_h="Questions fréquentes",
             faq=[
                 ("Qui peut bénéficier de cet avantage ?",
@@ -924,8 +929,6 @@ def ccgj():
                  "Oui. Selon l'offre, le rabais de 25 % sur l'abonnement annuel s'applique à chaque renouvellement, tant que vous êtes membre de la CCGJ."),
                 ("Les taxes sont-elles incluses ?",
                  "Non. Les prix indiqués sont en dollars canadiens, taxes en sus (TPS et TVQ)."),
-                ("Faut-il une carte de crédit pour l'essai ?",
-                 "Non. L'essai de 14 jours des forfaits payants démarre sans carte. À la fin, vous choisissez un forfait ou revenez au forfait Gratuit."),
             ],
         ),
         "en": dict(
@@ -942,8 +945,7 @@ def ccgj():
                 "It watches SEAO, CanadaBuys and other official sources in Canada and the United States, "
                 "ranks every notice against your company profile, and sends you the ones that match.</p>"
                 "<p>On paid plans, each notice is summarized in English and French, and closing dates are "
-                "easy to spot. You can start with a 14-day trial, with no credit card. "
-                "Veillea does not replace registering on SEAO: to get the documents and submit a bid, "
+                "easy to spot. Veillea does not replace registering on SEAO: to get the documents and submit a bid, "
                 "you still use the official platform.</p>"
             ),
             prices_h="What members get",
@@ -952,16 +954,20 @@ def ccgj():
             per=" /yr",
             tax="plus taxes",
             pop="Most popular",
-            prices_note="These prices apply to the annual plan only, on every renewal. The 14-day trial on paid plans starts with no credit card.",
-            claim_h="How to get the member price",
+            prices_note="These prices apply to the annual plan only, on every renewal.",
+            claim_h="How to get the member rate",
             claim_p=(
-                "<p>Start with the 14-day free trial, with no credit card. Then "
-                "<strong>mention CCGJ</strong>: write to "
+                "<ol>"
+                "<li>Write to "
                 '<a href="mailto:bonjour@veillea.ca?subject=CCGJ%20member%20perk">bonjour@veillea.ca</a> '
-                '(subject: “CCGJ member perk”) so the member price can be applied to your annual plan.</p>'
+                "mentioning CCGJ (subject: “CCGJ member perk”), or create your account.</li>"
+                "<li>We will apply the member rate to your annual plan.</li>"
+                "</ol>"
             ),
-            trial="14-day free trial, no credit card",
-            write="Email bonjour@veillea.ca",
+            cta_primary="Get the member rate",
+            header_cta="Member rate",
+            choose="Choose",
+            trial_fine="You can also start a 14-day free trial of Veillea, with no credit card.",
             faq_h="Frequently asked questions",
             faq=[
                 ("Who can use this perk?",
@@ -970,8 +976,6 @@ def ccgj():
                  "Yes. As the offer states, the 25% discount on the annual plan applies at every renewal, for as long as you are a CCGJ member."),
                 ("Are taxes included?",
                  "No. Prices are in Canadian dollars, plus taxes (GST and QST)."),
-                ("Do I need a credit card for the trial?",
-                 "No. The 14-day trial on paid plans starts without a card. At the end you pick a plan or move to Free."),
             ],
         ),
     }
@@ -1001,26 +1005,30 @@ def ccgj():
                 f"<h3>{html.escape(name)}</h3><p class=\"tagl\">{html.escape(tagline)}</p>"
                 f'<div class="amt">{money_cad(CCGJ_PRICES[key], lang)}<span>{html.escape(c["per"])}</span></div>'
                 f'<div class="eq tax">{html.escape(c["tax"])}</div>'
-                f"<ul>{items}</ul></div>"
+                f"<ul>{items}</ul>"
+                f'<a class="btn{"" if pop else " ghost"}" href="{html.escape(ccgj_signup_url(lang, key))}">'
+                f'{html.escape(c["choose"] + " " + name)}</a></div>'
             )
         faq_html = "".join(
             f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>"
             for q, a in c["faq"]
         )
-        trial = html.escape(ccgj_trial_url(lang))
         mail = (
             "mailto:bonjour@veillea.ca?subject=Avantage%20membre%20CCGJ"
             if lang == "fr"
             else "mailto:bonjour@veillea.ca?subject=CCGJ%20member%20perk"
+        )
+        ctas = (
+            f'<p class="ctas"><a class="btn" href="{html.escape(mail)}">{html.escape(c["cta_primary"])}</a></p>'
         )
         body = (
             f'{crumbs_html(lang, crumbs)}'
             f'<p class="eyebrow">{html.escape(c["eye"])}</p>'
             f'<h1>{html.escape(c["h1"])}</h1>'
             f'<p>{html.escape(c["lead"])}</p>'
+            f'<p class="small">{html.escape(c["trial_fine"])}</p>'
             f'<p>{c["partner"]}</p>'
-            f'<p class="ctas"><a class="btn trial-cta" href="{trial}">{html.escape(c["trial"])}</a> '
-            f'<a class="btn ghost" href="{html.escape(mail)}">{html.escape(c["write"])}</a></p>'
+            f'{ctas}'
             f'<h2>{html.escape(c["intro_h"])}</h2>{c["intro"]}'
             f'<h2 id="prix-membres">{html.escape(c["prices_h"])}</h2>'
             f'<p>{html.escape(c["prices_p"])}</p>'
@@ -1028,12 +1036,19 @@ def ccgj():
             f'<div class="plans grid g3">{"".join(cards)}</div>'
             f'<p class="note">{html.escape(c["prices_note"])}</p>'
             f'<h2 id="obtenir">{html.escape(c["claim_h"])}</h2>{c["claim_p"]}'
-            f'<p class="ctas"><a class="btn trial-cta" href="{trial}">{html.escape(c["trial"])}</a> '
-            f'<a class="btn ghost" href="{html.escape(mail)}">{html.escape(c["write"])}</a></p>'
+            f'{ctas}'
             f'<h2 id="faq">{html.escape(c["faq_h"])}</h2><div id="faqlist">{faq_html}</div>'
         )
         out = head(lang, c["title"], c["desc"], url, extra, alts) + header(lang)
         out += f'<main class="landing"><div class="wrap prose">{body}</div></main>' + footer(lang) + CF_BEACON + "</body></html>\n"
+        # On these pages only, replace the shared header trial button with a link to the claim section.
+        header_trial = (
+            f'<a class="btn" href="{signup(lang, "team")}">{L[lang]["trial"]}</a>'
+        )
+        header_member = f'<a class="btn" href="#obtenir">{html.escape(c["header_cta"])}</a>'
+        if header_trial not in out:
+            raise SystemExit(f"header trial button not found for {lang}")
+        out = out.replace(header_trial, header_member, 1)
         # Pair the FR/EN switcher to this page's counterpart (finalize_pages also rewrites /en/ccgj/; /ccgj/ is at the root).
         out = out.replace('<a href="/fr/" class', f'<a href="{CCGJ_PATH["fr"]}" class', 1)
         out = out.replace('<a href="/en/" class', f'<a href="{CCGJ_PATH["en"]}" class', 1)
