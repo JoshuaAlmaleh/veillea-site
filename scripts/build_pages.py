@@ -902,6 +902,7 @@ def ccgj():
             ),
             prices_h="Ce que les membres obtiennent",
             prices_p="Les membres de la CCGJ bénéficient de 25 % de rabais sur l'abonnement annuel, à chaque renouvellement. Voici les prix membres, en dollars canadiens, taxes en sus.",
+            prices_basis="Tarif membre : 10 mois facturés par année, moins 25 % (taxes en sus).",
             per=" /an",
             tax="taxes en sus",
             pop="Le plus choisi",
@@ -947,6 +948,7 @@ def ccgj():
             ),
             prices_h="What members get",
             prices_p="CCGJ members get 25% off the annual plan, on every renewal. Here are the member prices, in Canadian dollars, plus taxes.",
+            prices_basis="Member rate: 10 months billed per year, less 25% (plus taxes).",
             per=" /yr",
             tax="plus taxes",
             pop="Most popular",
@@ -1022,6 +1024,7 @@ def ccgj():
             f'<h2>{html.escape(c["intro_h"])}</h2>{c["intro"]}'
             f'<h2 id="prix-membres">{html.escape(c["prices_h"])}</h2>'
             f'<p>{html.escape(c["prices_p"])}</p>'
+            f'<p>{html.escape(c["prices_basis"])}</p>'
             f'<div class="plans grid g3">{"".join(cards)}</div>'
             f'<p class="note">{html.escape(c["prices_note"])}</p>'
             f'<h2 id="obtenir">{html.escape(c["claim_h"])}</h2>{c["claim_p"]}'
