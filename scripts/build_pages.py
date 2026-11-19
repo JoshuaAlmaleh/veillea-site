@@ -860,13 +860,19 @@ CCGJ_PRICES = {"solo": 262.50, "team": 517.50, "enterprise": 1492.50}  # annual 
 CCGJ_PATH = {"fr": "/ccgj/", "en": "/en/ccgj/"}
 
 
+def ccgj_subject(lang, plan):
+    name = {"fr": {"solo": "Solo", "team": "Équipe", "enterprise": "Entreprise"},
+            "en": {"solo": "Solo", "team": "Team", "enterprise": "Enterprise"}}[lang][plan]
+    return f"Avantage membre CCGJ – {name}" if lang == "fr" else f"CCGJ member offer – {name}"
+
+
 def ccgj_plan_mailto(lang, plan):
     """Mailto so members write in for the member rate; the app has no member price at signup."""
     assert lang in ("fr", "en") and plan in ("solo", "team", "enterprise")
     name = {"fr": {"solo": "Solo", "team": "Équipe", "enterprise": "Entreprise"},
             "en": {"solo": "Solo", "team": "Team", "enterprise": "Enterprise"}}[lang][plan]
+    subject = ccgj_subject(lang, plan)
     if lang == "fr":
-        subject = f"Avantage membre CCGJ – {name}"
         body = (
             f"Bonjour, je souhaite profiter de l'avantage membre CCGJ pour le forfait {name} (annuel).\r\n"
             f"\r\n"
@@ -874,7 +880,6 @@ def ccgj_plan_mailto(lang, plan):
             f"Nom du membre CCGJ :"
         )
     else:
-        subject = f"CCGJ member offer – {name}"
         body = (
             f"Hello, I'd like the CCGJ member offer for the {name} plan (annual).\r\n"
             f"\r\n"
@@ -883,6 +888,16 @@ def ccgj_plan_mailto(lang, plan):
         )
     return (f"mailto:bonjour@veillea.ca?subject={quote(subject, safe='')}"
             f"&body={quote(body, safe='')}")
+
+
+def ccgj_copy_line(lang, subject):
+    """Plain, selectable fallback for visitors whose computer has no default email app (mailto does nothing)."""
+    if lang == "fr":
+        txt = f"Ou écrivez-nous à bonjour@veillea.ca avec l'objet « {subject} »"
+    else:
+        txt = f"Or email us at bonjour@veillea.ca with the subject \"{subject}\""
+    return (f'<p class="mailtxt" style="margin:.5rem 0 0;font-size:.9rem;line-height:1.4;'
+            f'user-select:text;-webkit-user-select:text;overflow-wrap:anywhere">{html.escape(txt)}</p>')
 
 
 def ccgj():
@@ -1043,7 +1058,8 @@ def ccgj():
                 f'<div class="eq tax">{html.escape(c["tax"])}</div>'
                 f"<ul>{items}</ul>"
                 f'<a class="btn{"" if pop else " ghost"}" href="{html.escape(ccgj_plan_mailto(lang, key))}">'
-                f'{html.escape(c["choose"] + " " + name)}</a></div>'
+                f'{html.escape(c["choose"] + " " + name)}</a>'
+                + ccgj_copy_line(lang, ccgj_subject(lang, key)) + '</div>'
             )
         faq_html = "".join(
             f"<details><summary>{html.escape(q)}</summary><p>{html.escape(a)}</p></details>"
@@ -1056,6 +1072,7 @@ def ccgj():
         )
         ctas = (
             f'<p class="ctas"><a class="btn" href="{html.escape(mail)}">{html.escape(c["cta_primary"])}</a></p>'
+            + ccgj_copy_line(lang, "Avantage membre CCGJ" if lang == "fr" else "CCGJ member perk")
         )
         body = (
             f'{crumbs_html(lang, crumbs)}'
